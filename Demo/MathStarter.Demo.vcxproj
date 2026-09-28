@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32"><Configuration>Debug</Configuration><Platform>Win32</Platform></ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64"><Configuration>Debug</Configuration><Platform>x64</Platform></ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32"><Configuration>Release</Configuration><Platform>Win32</Platform></ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AECFBA95-11F4-5C1D-82F4-05923B9B1EB1}</ProjectGuid>
@@ -68,10 +80,6 @@
     <ClCompile Include="..\Platform\CpuFeatures.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Maths\Matrix3x3.h" />
-    <ClInclude Include="..\Maths\Vec3.h" />
-    <ClInclude Include="..\Maths\Vec4.h" />
-    <ClInclude Include="..\Maths\Matrix4x4.h" />
     <ClInclude Include="..\Platform\CpuFeatures.h" />
     <ClInclude Include="..\Benchmark\Benchmark.h" />
   </ItemGroup>

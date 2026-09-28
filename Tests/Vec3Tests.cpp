@@ -1,5 +1,5 @@
 #include "TestHelpers.h"
-#include "Maths/Vec3.h"
+#include "MathLibrary/Vec3.h"
 #include <numbers>
 #include <type_traits>
 

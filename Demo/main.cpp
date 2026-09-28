@@ -1,10 +1,6 @@
 #include "Benchmark/Benchmark.h"
-#include "Maths/Matrix3x3.h"
-#include "Maths/Matrix4x4.h"
-#include "Maths/Vec3.h"
-#include "Maths/Vec4.h"
 #include "Platform/CpuFeatures.h"
-
+#include "MathLibrary/MathLib.h"
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>

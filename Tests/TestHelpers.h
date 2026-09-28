@@ -1,7 +1,7 @@
 #pragma once
 #include "CppUnitTest.h"
-#include "Maths/Vec3.h"
-#include "Maths/Vec4.h"
+#include "MathLibrary/Vec3.h"
+#include "MathLibrary/Vec4.h"
 #include <cmath>
 #include <limits>
 #include <iterator>

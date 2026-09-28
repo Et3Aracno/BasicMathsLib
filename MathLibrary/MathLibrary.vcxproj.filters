@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Headers">
+      <UniqueIdentifier>{343dfcc3-ddbd-4cf7-866b-02fa0da7f649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Inl">
+      <UniqueIdentifier>{c25a89b0-bf7d-4589-8ee6-b0b6f4f75b88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Inl\C++">
+      <UniqueIdentifier>{41ff1bd8-617c-4d4c-b3cb-f4d7bb99671d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Inl\SIMD">
+      <UniqueIdentifier>{ab1dabb8-75ef-4ca2-b141-9472e434d111}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Headers\C++">
+      <UniqueIdentifier>{545ef61b-174e-419f-82a3-88c33cf23eae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Headers\C++\Vec">
+      <UniqueIdentifier>{f21e8bcf-0e29-4e72-b002-2a7cf4d708af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Headers\C++\Matrix">
+      <UniqueIdentifier>{e7ec9bed-2972-4f29-8095-3e0fd496081d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Headers\SIMD">
+      <UniqueIdentifier>{6847b771-8123-4338-9124-62b1d66d42af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Inl\C++\Matrix">
+      <UniqueIdentifier>{0f688c98-6f51-4094-9144-f0f0b32fa855}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Inl\C++\Vec">
+      <UniqueIdentifier>{2cefbafa-7681-4306-b719-7e2f9c089569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Inl\C++\Quat">
+      <UniqueIdentifier>{02a402d8-9832-4453-bb0a-f5d7effb2a7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Headers\C++\Quat">
+      <UniqueIdentifier>{453dafd2-3e5b-441f-bc5a-c71973cf00d1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MathLib.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3x3.h">
+      <Filter>Fichiers d%27en-tête\Headers\C++\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix4x4.h">
+      <Filter>Fichiers d%27en-tête\Headers\C++\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3.h">
+      <Filter>Fichiers d%27en-tête\Headers\C++\Vec</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec4.h">
+      <Filter>Fichiers d%27en-tête\Headers\C++\Vec</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.h">
+      <Filter>Fichiers d%27en-tête\Headers\C++\Vec</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternions.h">
+      <Filter>Fichiers d%27en-tête\Headers\C++\Quat</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Matrix3x3.inl">
+      <Filter>Fichiers d%27en-tête\Inl\C++\Matrix</Filter>
+    </None>
+    <None Include="Matrix4x4.inl">
+      <Filter>Fichiers d%27en-tête\Inl\C++\Matrix</Filter>
+    </None>
+    <None Include="Vec3.inl">
+      <Filter>Fichiers d%27en-tête\Inl\C++\Vec</Filter>
+    </None>
+    <None Include="Vec4.inl">
+      <Filter>Fichiers d%27en-tête\Inl\C++\Vec</Filter>
+    </None>
+    <None Include="Vec2.inl">
+      <Filter>Fichiers d%27en-tête\Inl\C++\Vec</Filter>
+    </None>
+    <None Include="Quaternions.inl">
+      <Filter>Fichiers d%27en-tête\Inl\C++\Quat</Filter>
+    </None>
+  </ItemGroup>
+</Project>

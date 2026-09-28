@@ -2,9 +2,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{BC8A1FFA-BEE3-4634-8014-F334798102B3}") = "MathStarter.Demo", "Demo\MathStarter.Demo.vcxproj", "{AECFBA95-11F4-5C1D-82F4-05923B9B1EB1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathStarter.Demo", "Demo\MathStarter.Demo.vcxproj", "{AECFBA95-11F4-5C1D-82F4-05923B9B1EB1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{474B10F1-7CD5-4314-8A36-F59AB65F722D} = {474B10F1-7CD5-4314-8A36-F59AB65F722D}
+	EndProjectSection
 EndProject
-Project("{BC8A1FFA-BEE3-4634-8014-F334798102B3}") = "MathStarter.Tests", "Tests\MathStarter.Tests.vcxproj", "{4E9F42CA-615C-5157-9ACF-AD889E07B367}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathStarter.Tests", "Tests\MathStarter.Tests.vcxproj", "{4E9F42CA-615C-5157-9ACF-AD889E07B367}"
+	ProjectSection(ProjectDependencies) = postProject
+		{474B10F1-7CD5-4314-8A36-F59AB65F722D} = {474B10F1-7CD5-4314-8A36-F59AB65F722D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathLibrary", "MathLibrary\MathLibrary.vcxproj", "{474B10F1-7CD5-4314-8A36-F59AB65F722D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +38,19 @@ Global
 		{4E9F42CA-615C-5157-9ACF-AD889E07B367}.Release|Win32.Build.0 = Release|Win32
 		{4E9F42CA-615C-5157-9ACF-AD889E07B367}.Release|x64.ActiveCfg = Release|x64
 		{4E9F42CA-615C-5157-9ACF-AD889E07B367}.Release|x64.Build.0 = Release|x64
+		{474B10F1-7CD5-4314-8A36-F59AB65F722D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{474B10F1-7CD5-4314-8A36-F59AB65F722D}.Debug|Win32.Build.0 = Debug|Win32
+		{474B10F1-7CD5-4314-8A36-F59AB65F722D}.Debug|x64.ActiveCfg = Debug|x64
+		{474B10F1-7CD5-4314-8A36-F59AB65F722D}.Debug|x64.Build.0 = Debug|x64
+		{474B10F1-7CD5-4314-8A36-F59AB65F722D}.Release|Win32.ActiveCfg = Release|Win32
+		{474B10F1-7CD5-4314-8A36-F59AB65F722D}.Release|Win32.Build.0 = Release|Win32
+		{474B10F1-7CD5-4314-8A36-F59AB65F722D}.Release|x64.ActiveCfg = Release|x64
+		{474B10F1-7CD5-4314-8A36-F59AB65F722D}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D0191AD-383F-4D91-85F0-B0F25C226ACC}
 	EndGlobalSection
 EndGlobal

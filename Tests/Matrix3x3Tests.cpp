@@ -1,5 +1,5 @@
 #include "TestHelpers.h"
-#include "Maths/Matrix3x3.h"
+#include "MathLibrary/Matrix3x3.h"
 #include <numbers>
 #include <type_traits>
 
