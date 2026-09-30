@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="MathLib.h" />
+    <ClInclude Include="Matrix3x3-SIMD.h" />
     <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="Quaternions.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Vec4S.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Matrix3x3-SIMD.inl" />
     <None Include="Matrix3x3.inl" />
     <None Include="Matrix4x4.inl" />
     <None Include="Quaternions.inl" />
