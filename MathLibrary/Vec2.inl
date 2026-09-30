@@ -1,5 +1,4 @@
 #pragma once 
-#include "Vec2.h"
 
 //change la position en bas
 template<typename T>
@@ -98,7 +97,7 @@ template<typename T>
 void Maths::Vct2D<T>::thisInt(T i, int index)
 {
 	if (index == 0)
-	{
+	{ 
 		SetX(i);
 	}
 	else if (index == 1)

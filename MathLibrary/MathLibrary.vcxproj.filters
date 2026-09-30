@@ -36,14 +36,17 @@
     <Filter Include="Fichiers d%27en-tête\Inl\C++\Matrix">
       <UniqueIdentifier>{0f688c98-6f51-4094-9144-f0f0b32fa855}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\Inl\C++\Vec">
-      <UniqueIdentifier>{2cefbafa-7681-4306-b719-7e2f9c089569}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fichiers d%27en-tête\Inl\C++\Quat">
       <UniqueIdentifier>{02a402d8-9832-4453-bb0a-f5d7effb2a7c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Fichiers d%27en-tête\Headers\C++\Quat">
       <UniqueIdentifier>{453dafd2-3e5b-441f-bc5a-c71973cf00d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Inl\SIMD\Vect">
+      <UniqueIdentifier>{9c7e4bb4-31c9-42b9-8862-2e4905d11983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Inl\C++\Vect">
+      <UniqueIdentifier>{2cefbafa-7681-4306-b719-7e2f9c089569}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +71,15 @@
     <ClInclude Include="Quaternions.h">
       <Filter>Fichiers d%27en-tête\Headers\C++\Quat</Filter>
     </ClInclude>
+    <ClInclude Include="Vec2S.h">
+      <Filter>Fichiers d%27en-tête\Headers\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3S.h">
+      <Filter>Fichiers d%27en-tête\Headers\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec4S.h">
+      <Filter>Fichiers d%27en-tête\Headers\SIMD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Matrix3x3.inl">
@@ -77,16 +89,25 @@
       <Filter>Fichiers d%27en-tête\Inl\C++\Matrix</Filter>
     </None>
     <None Include="Vec3.inl">
-      <Filter>Fichiers d%27en-tête\Inl\C++\Vec</Filter>
+      <Filter>Fichiers d%27en-tête\Inl\C++\Vect</Filter>
     </None>
     <None Include="Vec4.inl">
-      <Filter>Fichiers d%27en-tête\Inl\C++\Vec</Filter>
+      <Filter>Fichiers d%27en-tête\Inl\C++\Vect</Filter>
     </None>
     <None Include="Vec2.inl">
-      <Filter>Fichiers d%27en-tête\Inl\C++\Vec</Filter>
+      <Filter>Fichiers d%27en-tête\Inl\C++\Vect</Filter>
     </None>
     <None Include="Quaternions.inl">
       <Filter>Fichiers d%27en-tête\Inl\C++\Quat</Filter>
+    </None>
+    <None Include="Vec2S.inl">
+      <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect</Filter>
+    </None>
+    <None Include="Vec3S.inl">
+      <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect</Filter>
+    </None>
+    <None Include="Vec4S.inl">
+      <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -2,7 +2,6 @@
 #include<iostream>
 #include <algorithm>
 #include <type_traits>
-#include "Vector3D.h"
 
 
 namespace Maths {//Vct correspond à vecteur 
@@ -15,20 +14,7 @@ namespace Maths {//Vct correspond à vecteur
 		T y;
 
 		static_assert(std::is_arithmetic_v<T>);
-
-	protected:
-
-
-
-		
-
-		
-
 	public:
-
-
-
-
 
 		//Contructeur/ Destructeur de classe
 		Vct2D(T x, T y) : x(x), y(y) {}

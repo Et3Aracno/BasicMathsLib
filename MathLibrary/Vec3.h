@@ -63,3 +63,4 @@ namespace Maths
 }
 
 #include "Vec3.inl"
+#include "Vec3S.inl"

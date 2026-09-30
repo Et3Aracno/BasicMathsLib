@@ -1,26 +1,15 @@
 #pragma once
-#include "Vec3.h"
-
 
 
 template <std::floating_point T>
-Maths::Vec3<T>::Vec3() : x(0), y(0), z(0)
-{
-
-}
+Maths::Vec3<T>::Vec3() : x(0), y(0), z(0){}
 
 template <std::floating_point T>
-Maths::Vec3<T>::Vec3(T _x, T _y, T _z) : x(_x), y(_y), z(_z)
-{
+Maths::Vec3<T>::Vec3(T _x, T _y, T _z) : x(_x), y(_y), z(_z){}
 
-}
-
-template <std::floating_point T>
+template <std::floating_point T> 
 template <std::floating_point U>
-Maths::Vec3<T>::Vec3(const Maths::Vec3<U>& other) : x(static_cast<T>(other.x)), y(static_cast<T>(other.y)), z(static_cast<T>(other.z))
-{
-
-}
+Maths::Vec3<T>::Vec3(const Maths::Vec3<U>& other) : x(static_cast<T>(other.x)), y(static_cast<T>(other.y)), z(static_cast<T>(other.z)){}
 
 template <std::floating_point T>
 Maths::Vec3<T> Maths::Vec3<T>::operator+(const Maths::Vec3<T>& rhs) const
