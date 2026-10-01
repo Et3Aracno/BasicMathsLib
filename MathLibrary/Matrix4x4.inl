@@ -28,13 +28,13 @@ Maths::Matrix4x4<T>::Matrix4x4(const std::array<T, 16>& elements) : values{}
 template <std::floating_point T>
 Maths::Matrix4x4<T> Maths::Matrix4x4<T>::Identity()
 {
-    return Maths::Matrix4x4();
+    return Maths::Matrix4x4<T>();
 }
 
 template <std::floating_point T>
 Maths::Matrix4x4<T> Maths::Matrix4x4<T>::Zero()
 {
-    return Maths::Matrix4x4(std::array<T, 16>{});
+    return Maths::Matrix4x4<T>(std::array<T, 16>{});
 }
 
 template <std::floating_point T>
@@ -74,7 +74,7 @@ Maths::Matrix4x4<T> Maths::Matrix4x4<T>::operator+(const Matrix4x4& rhs) const
 template <std::floating_point T>
 Maths::Matrix4x4<T> Maths::Matrix4x4<T>::operator-(const Matrix4x4& rhs) const
 {
-    Maths::Matrix4x4 result = Zero();
+    Maths::Matrix4x4<T> result = Zero();
     for (std::size_t row = 0; row < 4; ++row)
     {
         for (std::size_t column = 0; column < 4; ++column)
@@ -88,7 +88,7 @@ Maths::Matrix4x4<T> Maths::Matrix4x4<T>::operator-(const Matrix4x4& rhs) const
 template <std::floating_point T>
 Maths::Matrix4x4<T> Maths::Matrix4x4<T>::operator*(const Matrix4x4& rhs) const
 {
-    Maths::Matrix4x4 result = Zero();
+    Maths::Matrix4x4<T> result = Zero();
     for (std::size_t row = 0; row < 4; ++row)
     {
         for (std::size_t column = 0; column < 4; ++column)
@@ -116,7 +116,7 @@ Maths::Vec4<T> Maths::Matrix4x4<T>::operator*(const Vec4<T>& rhs) const
 template <std::floating_point T>
 Maths::Matrix4x4<T> Maths::Matrix4x4<T>::operator*(T scalar) const
 {
-    Maths::Matrix4x4 result = Zero();
+    Maths::Matrix4x4<T> result = Zero();
     for (std::size_t row = 0; row < 4; ++row)
     {
         for (std::size_t column = 0; column < 4; ++column)
@@ -159,7 +159,7 @@ bool Maths::Matrix4x4<T>::operator!=(const Matrix4x4& rhs) const
 template <std::floating_point T>
 Maths::Matrix4x4<T> Maths::Matrix4x4<T>::Transpose() const
 {
-    Maths::Matrix4x4 result = Zero();
+    Maths::Matrix4x4<T> result = Zero();
     for (std::size_t row = 0; row < 4; ++row)
     {
         for (std::size_t column = 0; column < 4; ++column)
@@ -173,7 +173,7 @@ Maths::Matrix4x4<T> Maths::Matrix4x4<T>::Transpose() const
 template <std::floating_point T>
 T Maths::Matrix4x4<T>::Determinant() const
 {
-    Maths::Matrix4x4 working = *this;
+    Maths::Matrix4x4<T> working = *this;
     T determinant = T{ 1 };
     for (std::size_t column = 0; column < 4; ++column)
     {
@@ -218,8 +218,8 @@ Maths::Matrix4x4<T> Maths::Matrix4x4<T>::Inverse(T relativeTolerance) const
     {
         throw std::invalid_argument("Inverse tolerance must be finite and in [0, 1)");
     }
-    Maths::Matrix4x4 left = *this;
-    Maths::Matrix4x4 right;
+    Maths::Matrix4x4<T> left = *this;
+    Maths::Matrix4x4<T> right;
     T scales[4]{};
     for (std::size_t row = 0; row < 4; ++row)
     {
@@ -293,7 +293,7 @@ Maths::Matrix4x4<T> Maths::Matrix4x4<T>::Inverse(T relativeTolerance) const
 template <std::floating_point T>
 Maths::Matrix4x4<T> Maths::Matrix4x4<T>::Scale(const Vec3<T>& scale)
 {
-    Maths::Matrix4x4 result;
+    Maths::Matrix4x4<T> result;
     result.values[0][0] = scale.x;
     result.values[1][1] = scale.y;
     result.values[2][2] = scale.z;
@@ -303,7 +303,7 @@ Maths::Matrix4x4<T> Maths::Matrix4x4<T>::Scale(const Vec3<T>& scale)
 template <std::floating_point T>
 Maths::Matrix4x4<T> Maths::Matrix4x4<T>::RotationX(T radians)
 {
-    Maths::Matrix4x4 result;
+    Maths::Matrix4x4<T> result;
     const T cosine = std::cos(radians);
     const T sine = std::sin(radians);
     result.values[1][1] = cosine;
@@ -316,7 +316,7 @@ Maths::Matrix4x4<T> Maths::Matrix4x4<T>::RotationX(T radians)
 template <std::floating_point T>
 Maths::Matrix4x4<T> Maths::Matrix4x4<T>::RotationY(T radians)
 {
-    Maths::Matrix4x4 result;
+    Maths::Matrix4x4<T> result;
     const T cosine = std::cos(radians);
     const T sine = std::sin(radians);
     result.values[2][2] = cosine;
@@ -329,7 +329,7 @@ Maths::Matrix4x4<T> Maths::Matrix4x4<T>::RotationY(T radians)
 template <std::floating_point T>
 Maths::Matrix4x4<T> Maths::Matrix4x4<T>::RotationZ(T radians)
 {
-    Maths::Matrix4x4 result;
+    Maths::Matrix4x4<T> result;
     const T cosine = std::cos(radians);
     const T sine = std::sin(radians);
     result.values[0][0] = cosine;
@@ -342,7 +342,7 @@ Maths::Matrix4x4<T> Maths::Matrix4x4<T>::RotationZ(T radians)
 template <std::floating_point T>
 Maths::Matrix4x4<T> Maths::Matrix4x4<T>::Translation(const Vec3<T>& offset)
 {
-    Maths::Matrix4x4 result;
+    Maths::Matrix4x4<T> result;
     result.values[0][3] = offset.x;
     result.values[1][3] = offset.y;
     result.values[2][3] = offset.z;

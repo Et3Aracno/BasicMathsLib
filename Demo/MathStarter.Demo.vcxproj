@@ -41,8 +41,6 @@
   <PropertyGroup>
     <OutDir>$(MSBuildProjectDirectory)/../bin/$(Platform)/$(Configuration)/</OutDir>
     <IntDir>$(MSBuildProjectDirectory)/../obj/$(ProjectName)/$(Platform)/$(Configuration)/</IntDir>
-    <UnitTestArch Condition="'$(Platform)'=='Win32'">x86</UnitTestArch>
-    <UnitTestArch Condition="'$(Platform)'=='x64'">x64</UnitTestArch>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
