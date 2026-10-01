@@ -111,13 +111,22 @@ namespace Maths
 		return result;
     }
 
-  //  inline Matrix3x3SIMD Matrix3x3SIMD::operator*(const Matrix3x3SIMD& rhs) const
+  // inline Matrix3x3SIMD Matrix3x3SIMD::operator*(const Matrix3x3SIMD& rhs) const
   //  {
 		//Maths::Matrix3x3SIMD result = Zero();
 
-		////result.values[0] = _mm_shuffle_ps() // En gros il faut utiliser _mm_shuffle_ps pour réorganiser les éléments de la matrice de droite et ensuite faire des multiplications et additions pour obtenir le résultat
-  //      // je sais pas encore comment faire.
-  //  }
+  //      result.values[0] = _mm_mul_ps(result.values[0], _mm_shuffle_ps(rhs.values[2], _mm_shuffle_ps(rhs.values[0], rhs.values[1], 10001000), 00110010));// pas forcément bon ordre mauvais vérif en cour
+
+  //      result.values[1] = _mm_mul_ps(result.values[1], _mm_shuffle_ps(rhs.values[2], _mm_shuffle_ps(rhs.values[0], rhs.values[1], 10001000), 00110010));//à modif 
+
+  //      result.values[2] = _mm_mul_ps(result.values[0], _mm_shuffle_ps(rhs.values[2], _mm_shuffle_ps(rhs.values[0], rhs.values[1], 10001000), 00110010));// à modif
+
+
+
+
+
+  //      return result;
+  //}
 
    /* inline Maths::Vec3<float> Matrix3x3SIMD::operator*(const Maths::Vec3<float>& rhs) const
     {
