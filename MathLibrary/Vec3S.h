@@ -28,14 +28,14 @@ namespace Maths
         Vec3S operator-() const;
         Vec3S operator*(T scalar) const;
         Vec3S operator/(T scalar) const;
-        Vec3S& operator+=(const Vec3& rhs);
-        Vec3S& operator-=(const Vec3& rhs);
-        Vec3S& operator*=(const Vec3& rhs);
-        Vec3S& operator/=(const Vec3& rhs);
+        Vec3S& operator+=(const Vec3S& rhs);
+        Vec3S& operator-=(const Vec3S& rhs);
+        Vec3S& operator*=(const Vec3S& rhs);
+        Vec3S& operator/=(const Vec3S& rhs);
         Vec3S& operator*=(T scalar);
         Vec3S& operator/=(T scalar);
-        bool operator==(const Vec3& rhs) const;
-        bool operator!=(const Vec3& rhs) const;
+        bool operator==(const Vec3S& rhs) const;
+        bool operator!=(const Vec3S& rhs) const;
 
         T Dot(const Vec3S& rhs) const;
         Vec3S Cross(const Vec3S& rhs) const;
