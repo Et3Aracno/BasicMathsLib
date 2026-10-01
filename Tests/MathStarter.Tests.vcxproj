@@ -40,8 +40,6 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)/Microsoft.Cpp.props" />
   <PropertyGroup>
-    <OutDir>$(MSBuildProjectDirectory)/../bin/$(Platform)/$(Configuration)/</OutDir>
-    <IntDir>$(MSBuildProjectDirectory)/../obj/$(ProjectName)/$(Platform)/$(Configuration)/</IntDir>
     <UnitTestArch Condition="'$(Platform)'=='Win32'">x86</UnitTestArch>
     <UnitTestArch Condition="'$(Platform)'=='x64'">x64</UnitTestArch>
   </PropertyGroup>
@@ -79,12 +77,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Tests\BenchmarkTests.cpp" />
-    <ClCompile Include="..\Tests\CpuFeaturesTests.cpp" />
     <ClCompile Include="..\Tests\Matrix3x3Tests.cpp" />
     <ClCompile Include="..\Tests\Matrix4x4Tests.cpp" />
     <ClCompile Include="..\Tests\Vec3Tests.cpp" />
     <ClCompile Include="..\Tests\Vec4Tests.cpp" />
     <ClCompile Include="..\Platform\CpuFeatures.cpp" />
+    <ClCompile Include="CpuFeaturesTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Platform\CpuFeatures.h" />
