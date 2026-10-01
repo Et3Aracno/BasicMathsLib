@@ -9,7 +9,7 @@ inline __m128 Load(const Maths::Vec3S <T>& v)
 template <std::floating_point T>
 inline Maths::Vec3S<T> Store(__m128 val)
 {
-	float component[4];
+	float component[3];
 	_mm_storeu_ps(component, val);
 
 	return {
@@ -38,6 +38,15 @@ Maths::Vec3S<T> Maths::Vec3S<T>::operator+(const Maths::Vec3S<T>& rhs) const
 }
 
 template <std::floating_point T>
+Maths::Vec3S<T> Maths::Vec3S<T>::operator-(const Maths::Vec3S<T>& rhs) const
+{
+	__m128 vp = _mm_setr_ps(x, y, z, 0);
+	__m128 vrhs = Load(rhs);
+	return Store(_mm_
+	sub_ps(vp, vrhs));
+}
+
+template <std::floating_point T>
 Maths::Vec3S<T> Maths::Vec3S<T>::operator*(const Maths::Vec3S<T>& rhs) const
 {
 	__m128 vp = _mm_setr_ps(x, y, z, 0);
@@ -49,10 +58,11 @@ template <std::floating_point T>
 Maths::Vec3S<T> Maths::Vec3S<T>::operator/(const Maths::Vec3S<T>& rhs) const
 {
 	__m128 vrhs = Load(rhs);
-	if (_mm_cmpeq_ps(_mm_set_ps1(0), vrhs)
+	if (rhs.x == T{ 0 } || rhs.y == T{ 0 } || rhs.z == T{ 0 })
 	{
 		throw std::domain_error("Cannot divide by a zero component");
 	}
 	__m128 vp = _mm_setr_ps(x, y, z, 0);
 	return Store(_mm_div_ps(vp, vrhs));
 }
+

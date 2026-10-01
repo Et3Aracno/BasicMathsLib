@@ -1,5 +1,4 @@
 #pragma once 
-#include "Matrix3x3.h"
 
 template <std::floating_point T>
 Maths::Matrix3x3<T>::Matrix3x3() : values{}
@@ -26,7 +25,7 @@ Maths::Matrix3x3<T>::Matrix3x3(const std::array<T, 9>& elements) : values{}
 template <std::floating_point T>
 Maths::Matrix3x3<T> Maths::Matrix3x3<T>::Identity()
 {
-    return Maths::Matrix3x3();
+    return Maths::Matrix3x3<T>();
 }
 
 
