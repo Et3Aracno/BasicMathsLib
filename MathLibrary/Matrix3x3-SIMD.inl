@@ -81,13 +81,13 @@ namespace Maths
 
     }
 
-    inline __m128& Matrix3x3SIMD::operator()(std::size_t row, std::size_t column)
-    {
-    }
+    //inline __m128& Matrix3x3SIMD::operator()(std::size_t row, std::size_t column)
+    //{
+    //}
 
-    inline const __m128& Matrix3x3SIMD::operator()(std::size_t row, std::size_t column) const
-    {
-    }
+    //inline const __m128& Matrix3x3SIMD::operator()(std::size_t row, std::size_t column) const
+    //{
+    //}
 
     inline Matrix3x3SIMD Matrix3x3SIMD::operator+(const Matrix3x3SIMD& rhs) const
     {
@@ -111,16 +111,17 @@ namespace Maths
 		return result;
     }
 
-    inline Matrix3x3SIMD Matrix3x3SIMD::operator*(const Matrix3x3SIMD& rhs) const
-    {
-		Maths::Matrix3x3SIMD result = Zero();
-		//result.values[0] = _mm_shuffle_ps() // En gros il faut utiliser _mm_shuffle_ps pour réorganiser les éléments de la matrice de droite et ensuite faire des multiplications et additions pour obtenir le résultat
-        // je sais pas encore comment faire.
-    }
+  //  inline Matrix3x3SIMD Matrix3x3SIMD::operator*(const Matrix3x3SIMD& rhs) const
+  //  {
+		//Maths::Matrix3x3SIMD result = Zero();
 
-    //inline Maths::Vec3<float> Matrix3x3SIMD::operator*(const Maths::Vec3<float>& rhs) const
-    //{
-    //}
+		////result.values[0] = _mm_shuffle_ps() // En gros il faut utiliser _mm_shuffle_ps pour réorganiser les éléments de la matrice de droite et ensuite faire des multiplications et additions pour obtenir le résultat
+  //      // je sais pas encore comment faire.
+  //  }
+
+   /* inline Maths::Vec3<float> Matrix3x3SIMD::operator*(const Maths::Vec3<float>& rhs) const
+    {
+    }
 
     inline Matrix3x3SIMD Matrix3x3SIMD::operator*(__m128 scalar) const
     {
@@ -136,33 +137,33 @@ namespace Maths
 
     inline bool Matrix3x3SIMD::operator!=(const Matrix3x3SIMD& rhs) const
     {
-    }
+    }*/
 
-    inline Matrix3x3SIMD Matrix3x3SIMD::Transpose() const
-    {
-    }
+    //inline Matrix3x3SIMD Matrix3x3SIMD::Transpose() const
+    //{
+    //}
 
-    inline __m128 Matrix3x3SIMD::Determinant() const
-    {
-    }
+    //inline __m128 Matrix3x3SIMD::Determinant() const
+    //{
+    //}
 
-    inline Matrix3x3SIMD Matrix3x3SIMD::Inverse(float relativeTolerance) const
-    {
-    }
+    //inline Matrix3x3SIMD Matrix3x3SIMD::Inverse(float relativeTolerance) const
+    //{
+    //}
 
     //inline Matrix3x3SIMD Matrix3x3SIMD::Scale(const Maths::Vec3<float>& scale)
     //{
     //}
 
-    inline Matrix3x3SIMD Matrix3x3SIMD::RotationX(__m128 radians)
-    {
-    }
+    //inline Matrix3x3SIMD Matrix3x3SIMD::RotationX(__m128 radians)
+    //{
+    //}
 
-    inline Matrix3x3SIMD Matrix3x3SIMD::RotationY(__m128 radians)
-    {
-    }
+    //inline Matrix3x3SIMD Matrix3x3SIMD::RotationY(__m128 radians)
+    //{
+    //}
 
-    inline Matrix3x3SIMD Matrix3x3SIMD::RotationZ(__m128 radians)
-    {
-    }
+    //inline Matrix3x3SIMD Matrix3x3SIMD::RotationZ(__m128 radians)
+    //{
+    //}
 }

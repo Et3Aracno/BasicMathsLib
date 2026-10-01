@@ -26,7 +26,7 @@ Maths::Matrix3x3<T>::Matrix3x3(const std::array<T, 9>& elements) : values{}
 template <std::floating_point T>
 Maths::Matrix3x3<T> Maths::Matrix3x3<T>::Identity()
 {
-    return Maths::Matrix3x3();
+    return Maths::Matrix3x3<T>();
 }
 
 
@@ -232,8 +232,8 @@ Maths::Matrix3x3<T> Maths::Matrix3x3<T>::Inverse(T relativeTolerance) const
     {
         throw std::invalid_argument("Inverse tolerance must be finite and in [0, 1)");
     }
-    Maths::Matrix3x3 left = *this;
-    Maths::Matrix3x3 right;
+    Maths::Matrix3x3<T> left = *this;
+    Maths::Matrix3x3<T> right;
     T scales[3]{};
     for (std::size_t row = 0; row < 3; ++row)
     {
@@ -307,7 +307,7 @@ Maths::Matrix3x3<T> Maths::Matrix3x3<T>::Inverse(T relativeTolerance) const
 template <std::floating_point T>
 Maths::Matrix3x3<T> Maths::Matrix3x3<T>::Scale(const Vec3<T>& scale)
 {
-    Maths::Matrix3x3 result;
+    Maths::Matrix3x3<T> result;
     result.values[0][0] = scale.x;
     result.values[1][1] = scale.y;
     result.values[2][2] = scale.z;
@@ -317,7 +317,7 @@ Maths::Matrix3x3<T> Maths::Matrix3x3<T>::Scale(const Vec3<T>& scale)
 template <std::floating_point T>
 Maths::Matrix3x3<T> Maths::Matrix3x3<T>::RotationX(T radians)
 {
-    Maths::Matrix3x3 result;
+    Maths::Matrix3x3<T> result;
     const T cosine = std::cos(radians);
     const T sine = std::sin(radians);
     result.values[1][1] = cosine;
@@ -330,7 +330,7 @@ Maths::Matrix3x3<T> Maths::Matrix3x3<T>::RotationX(T radians)
 template <std::floating_point T>
 Maths::Matrix3x3<T> Maths::Matrix3x3<T>::RotationY(T radians)
 {
-    Maths::Matrix3x3 result;
+    Maths::Matrix3x3<T> result;
     const T cosine = std::cos(radians);
     const T sine = std::sin(radians);
     result.values[2][2] = cosine;
@@ -343,7 +343,7 @@ Maths::Matrix3x3<T> Maths::Matrix3x3<T>::RotationY(T radians)
 template <std::floating_point T>
 Maths::Matrix3x3<T> Maths::Matrix3x3<T>::RotationZ(T radians)
 {
-    Maths::Matrix3x3 result;
+    Maths::Matrix3x3<T> result;
     const T cosine = std::cos(radians);
     const T sine = std::sin(radians);
     result.values[0][0] = cosine;
