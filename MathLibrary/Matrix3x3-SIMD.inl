@@ -178,17 +178,24 @@ namespace Maths
 
     inline Matrix3x3SIMD& Matrix3x3SIMD::operator*=(const Matrix3x3SIMD& rhs)
     {
-
+        *this = *this * rhs;
+        return *this;
     }
 
     inline bool Matrix3x3SIMD::operator==(const Matrix3x3SIMD& rhs) const
     {
-
-
+        return _mm_movemask_ps(_mm_cmpeq_ps(values[0], rhs.values[0])) == 0xF &&
+            _mm_movemask_ps(_mm_cmpeq_ps(values[1], rhs.values[1])) == 0xF &&
+            _mm_movemask_ps(_mm_cmpeq_ps(values[2], rhs.values[2])) == 0xF;
     }
 
     inline bool Matrix3x3SIMD::operator!=(const Matrix3x3SIMD& rhs) const
     {
+
+        return _mm_movemask_ps(_mm_cmpeq_ps(values[0], rhs.values[0])) != 0xF &&
+            _mm_movemask_ps(_mm_cmpeq_ps(values[1], rhs.values[1])) != 0xF &&
+            _mm_movemask_ps(_mm_cmpeq_ps(values[2], rhs.values[2])) != 0xF;
+
     }
 
     inline Matrix3x3SIMD Matrix3x3SIMD::Transpose() const
