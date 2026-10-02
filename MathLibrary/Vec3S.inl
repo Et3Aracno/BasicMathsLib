@@ -7,7 +7,7 @@ inline __m128 Load(const Maths::Vec3S <T>& v)
 }
 
 template <std::floating_point T>
-inline Maths::Vec3S<T> Store(__m128 val)
+Maths::Vec3S<T> Maths::Vec3S<T>::Store(__m128 val)
 {
 	float component[3];
 	_mm_storeu_ps(component, val);
@@ -34,14 +34,26 @@ Maths::Vec3S<T> Maths::Vec3S<T>::operator+(const Maths::Vec3S<T>& rhs) const
 {
     __m128 vp = _mm_setr_ps(x, y, z, 0);
 	__m128 vrhs = Load(rhs);
-    return Store(_mm_add_ps(vp, vrhs));
+
+	return Store(_mm_add_ps(vp, vrhs));
+
+	/*__m128 result = _mm_add_ps(vp, vrhs);
+
+	float component[4];
+	_mm_storeu_ps(component, result);
+
+	return {
+		component[0],
+		component[1],
+		component[2]
+	};*/
 }
 
 template <std::floating_point T>
 Maths::Vec3S<T> Maths::Vec3S<T>::operator-(const Maths::Vec3S<T>& rhs) const
 {
-	__m128 vp = _mm_setr_ps(x, y, z, 0);
-	__m128 vrhs = Load(rhs);
+	const __m128 vp = _mm_setr_ps(x, y, z, 0);
+	const __m128 vrhs = Load(rhs);
 	return Store(_mm_sub_ps(vp, vrhs));
 }
 

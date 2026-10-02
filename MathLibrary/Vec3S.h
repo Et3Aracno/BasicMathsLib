@@ -21,6 +21,8 @@ namespace Maths
         template <std::floating_point U>
         explicit Vec3S(const Vec3S<U>& other);
 
+        Vec3S Store(__m128 val);
+
         Vec3S operator+(const Vec3S& rhs) const;
         Vec3S operator-(const Vec3S& rhs) const;
         Vec3S operator*(const Vec3S& rhs) const;
