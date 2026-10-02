@@ -12,9 +12,9 @@ int main(const int _argc, char** _argv)
     using Maths::Vec3;
     using Maths::Vec4;
     using Maths::Matrix4x4;
-    const Vec3<> a{1,2,3};
-    const Vec3<> b{4,5,6};
-    std::cout << "Dot: " << a.Dot(b) << '\n';
+    const Vec3<> a{1.f,2.f,3.f};
+    const Vec3<> b{4.f,5.f,6.f};
+    std::cout << "Hypot: " << std::hypot(8.f, 6.f) << '\n';
     const auto matrix = Matrix4x4<>::Translation({10,20,30}) * Matrix4x4<>::Scale({2,3,4});
     const auto point = matrix.TransformPoint(a);
     std::cout << "Point: " << point.x << ", " << point.y << ", " << point.z << '\n';

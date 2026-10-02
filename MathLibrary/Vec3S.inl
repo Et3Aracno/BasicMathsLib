@@ -42,8 +42,7 @@ Maths::Vec3S<T> Maths::Vec3S<T>::operator-(const Maths::Vec3S<T>& rhs) const
 {
 	__m128 vp = _mm_setr_ps(x, y, z, 0);
 	__m128 vrhs = Load(rhs);
-	return Store(_mm_
-	sub_ps(vp, vrhs));
+	return Store(_mm_sub_ps(vp, vrhs));
 }
 
 template <std::floating_point T>
@@ -78,7 +77,7 @@ Maths::Vec3S<T> Maths::Vec3S<T>::operator*(T scalar) const
 	__m128 vp = _mm_setr_ps(x, y, z, 0);
 	__m128 vs = _mm_set_ps1(scalar);
 
-	return Store(_mm_mul_ps(vp, vs);
+	return Store(_mm_mul_ps(vp, vs));
 }
 
 template <std::floating_point T>
@@ -150,6 +149,14 @@ Maths::Vec3S<T>& Maths::Vec3S<T>::operator/=(T scalar)
 }
 
 template <std::floating_point T>
+Maths::Vec3S<T> operator*(T scalar, const Maths::Vec3S<T>& vector)
+{
+	__m128 vv = Load(vector);
+	__m128 vt = _mm_set_ps1(scalar);
+	return Store(_mm_mul_ps(vv * vt));
+}
+
+template <std::floating_point T>
 bool Maths::Vec3S<T>::operator==(const Maths::Vec3S<T>& rhs) const
 {
 	__m128 vrhs = Load(rhs);
@@ -164,7 +171,7 @@ bool Maths::Vec3S<T>::operator!=(const Maths::Vec3S<T>& rhs) const
 	__m128 vrhs = Load(rhs);
 	__m128 vp = _mm_setr_ps(x, y, z, 0);
 
-	return _mm_not_ps(_mm_movemask_ps(_mm_cmpeq_ps(vrhs, vp))) == 0xF;
+	return _mm_not_ps(_mm_movemask_ps(_mm_cmpeq_ps(vrhs, vp)) == 0xF);
 }
 
 template <std::floating_point T>
@@ -186,13 +193,125 @@ T Maths::Vec3S<T>::Dot(const Maths::Vec3S<T>& rhs) const
 	float yS = _mm_cvtss_f32(ry);
 	float zS = _mm_cvtss_f32(rz);
 
-	return Store(_mm_add_ps(xS, _mm_add_ps(yS, zS));
+	return Store(_mm_add_ps(xS, _mm_add_ps(yS, zS)));
 }
 
 template <std::floating_point T>
 Maths::Vec3S<T> Maths::Vec3S<T>::Cross(const Maths::Vec3S<T>& rhs) const
 {
-	return { y * rhs.z - z * rhs.y,
-			z * rhs.x - x * rhs.z,
-			x * rhs.y - y * rhs.x };
+	__m128 vx = _mm_set_ps1(rhs.x);
+	__m128 vy = _mm_set_ps1(rhs.y);
+	__m128 vz = _mm_set_ps1(rhs.z);
+
+	__m128 va = _mm_set_ps1(x);
+	__m128 vb = _mm_set_ps1(y);
+	__m128 vc = _mm_set_ps1(z);
+
+	__m128 rx = _mm_mul_ps(vx, va);
+	__m128 ry = _mm_mul_ps(vy, vb);
+	__m128 rz = _mm_mul_ps(vz, vc);
+
+	float xS = _mm_cvtss_f32(rx);
+	float yS = _mm_cvtss_f32(ry);
+	float zS = _mm_cvtss_f32(rz);
+	
+	return Store(_mm_sub_ps(xS, _mm_sub_ps(yS, zS)));
 }
+
+template <std::floating_point T>
+T Maths::Vec3S<T>::MagnitudeSquared() const
+{
+	return Dot(*this);
+}
+
+template <std::floating_point T>
+T Maths::Vec3S<T>::Magnitude() const
+{
+	__m128 vp = _mm_set_ps1(x, y, z, 0);
+	return Store(_mm_sqrt_ps(vp));
+}
+
+template <std::floating_point T>
+Maths::Vec3S<T> Maths::Vec3S<T>::Normalize() const // A REVOIR
+{
+	if (!std::isfinite(x) || !std::isfinite(y) || !std::isfinite(z))
+	{
+		throw std::domain_error("Cannot normalize non-finite components");
+	}
+
+	// Scaling avoids overflowing/underflowing the squared magnitude.
+
+	__m128 vx = _mm_set_ps1(std::abs(x));
+	__m128 vy = _mm_set_ps1(std::abs(y));
+	__m128 vz = _mm_set_ps1(std::abs(z));
+
+	const __m128 scale = _mm_max_ps(vx, _mm_max_ps(vy, vz));
+	float scalef = _mm_cvtss_f32(scale);
+	if (scalef == T{ 0 })
+	{
+		throw std::domain_error("Cannot normalize the zero vector");
+	}
+
+	const Maths::Vec3S scaled = Store(Load(*this) / scale);
+	return scaled / scaled.Magnitude();
+}
+
+template <std::floating_point T>
+T Maths::Vec3S<T>::DistanceSquared(const Maths::Vec3S<T>& rhs) const
+{
+	return Srore(Load(*this) - Load(rhs)).MagnitudeSquared();
+}
+
+template <std::floating_point T>
+T Maths::Vec3S<T>::Distance(const Maths::Vec3S<T>& rhs) const
+{
+	return Srore(Load(*this) - Load(rhs)).Magnitude();
+}
+
+template <std::floating_point T>
+T Maths::Vec3S<T>::Angle(const Maths::Vec3S<T>& rhs) const // A VOIR
+{
+	const T cosine = Normalize().Dot(rhs.Normalize());
+	return std::acos(std::clamp(cosine, T{ -1 }, T{ 1 }));
+}
+
+template <std::floating_point T> // A REVOIRE
+Maths::Vec3S<T> Maths::Vec3S<T>::Lerp(const Maths::Vec3S<T>& a, const Maths::Vec3S<T>& b, T t)
+{
+
+	__m128 va = Load(a);
+	__m128 vb = Load(b);
+
+	return Store(_mm_mul_ps(va, _mm_add_ps((T{ 1 } - t), _mm_mul_ps(vb * t))));
+}
+
+template <std::floating_point T>
+Maths::Vec3S<T> Maths::Vec3S<T>::Min(const Maths::Vec3S<T>& a, const Maths::Vec3S<T>& b)
+{	
+	__m128 va = Load(a);
+	__m128 vb = Load(b);
+	return Store(_mm_min_ps(va, vb));
+}
+
+template <std::floating_point T>
+Maths::Vec3S<T> Maths::Vec3S<T>::Max(const Maths::Vec3S<T>& a, const Maths::Vec3S<T>& b)
+{
+	__m128 va = Load(a);
+	__m128 vb = Load(b);
+	return Store(_mm_max_ps(va, vb));
+}
+
+template <std::floating_point T>
+const Maths::Vec3S<T> Maths::Vec3S<T>::Zero{ 0, 0, 0 };
+
+template <std::floating_point T>
+const Maths::Vec3S<T> Maths::Vec3S<T>::One{ 1, 1, 1 };
+
+template <std::floating_point T>
+const Maths::Vec3S<T> Maths::Vec3S<T>::UnitX{ 1, 0, 0 };
+
+template <std::floating_point T>
+const Maths::Vec3S<T> Maths::Vec3S<T>::UnitY{ 0, 1, 0 };
+
+template <std::floating_point T>
+const Maths::Vec3S<T> Maths::Vec3S<T>::UnitZ{ 0, 0, 1 };
