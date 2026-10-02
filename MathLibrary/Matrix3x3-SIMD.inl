@@ -150,12 +150,9 @@ namespace Maths
             rhs.x
         );
 
-       
         const __m128 row0 = _mm_mul_ps(values[0], vector);
 
-        
         const __m128 row1 = _mm_mul_ps(values[1], vector);
-
         
         const __m128 row2 = _mm_mul_ps(values[2], vector);
 
@@ -196,6 +193,7 @@ namespace Maths
 
     inline Matrix3x3SIMD Matrix3x3SIMD::Transpose() const
     {
+
         Maths::Matrix3x3SIMD result = Zero();
 
         __m128 l0 = _mm_shuffle_ps(values[0], values[1], _MM_SHUFFLE(0, 3, 0, 3));
@@ -230,15 +228,36 @@ namespace Maths
         );
     }
 
-    //inline Matrix3x3SIMD Matrix3x3SIMD::RotationX(__m128 radians)
-    //{
-    //}
+    inline Matrix3x3SIMD Matrix3x3SIMD::RotationX(float radians)
+    {
+        const float cosine = std::cos(radians);
+        const float sine = std::sin(radians);
+        
+        return Matrix3x3SIMD(
+            _mm_set_ps(0.0f, 1.0f, 0.0f, 0.0f),
+            _mm_set_ps(0.0f, 0.0f, -sine, cosine),
+            _mm_set_ps(0.0f, 0.0f, cosine, sine));
+    }
 
-    //inline Matrix3x3SIMD Matrix3x3SIMD::RotationY(__m128 radians)
-    //{
-    //}
+    inline Matrix3x3SIMD Matrix3x3SIMD::RotationY(float radians)
+    {
+        const float cosine = std::cos(radians);
+        const float sine = std::sin(radians);
 
-    //inline Matrix3x3SIMD Matrix3x3SIMD::RotationZ(__m128 radians)
-    //{
-    //}
+        return Matrix3x3SIMD(
+            _mm_set_ps(0.0f, sine, 0.0f, cosine),
+            _mm_set_ps(0.0f, 0.0f, 1.0f, 0.0f),
+            _mm_set_ps(0.0f, cosine, 0.0f, -sine));
+    }
+
+    inline Matrix3x3SIMD Matrix3x3SIMD::RotationZ(float radians)
+    {
+        const float cosine = std::cos(radians);
+        const float sine = std::sin(radians);
+
+        return Matrix3x3SIMD(
+            _mm_set_ps(0.0f, 0.0f, -sine, cosine),
+            _mm_set_ps(0.0f, 0.0f, cosine, sine),
+            _mm_set_ps(0.0f, 1.0f, 0.0f, 0.0f));
+    }
 }

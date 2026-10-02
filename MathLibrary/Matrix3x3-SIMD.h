@@ -1,9 +1,9 @@
 #pragma once
 #include <xmmintrin.h>
 #include "Vec3.h"
+#include <array>
 #include <limits>
 #include <utility>
-#include <array>
 
 namespace Maths
 {
@@ -41,9 +41,9 @@ namespace Maths
         //Gauss-Jordan with scaled partial pivoting. Rejects singular/ill-conditioned input.
         Matrix3x3SIMD Inverse(float relativeTolerance = 64.0f * std::numeric_limits<float>::epsilon()) const;
         static Matrix3x3SIMD Scale(const Maths::Vec3<float>& scale);
-        static Matrix3x3SIMD RotationX(__m128 radians);
-        static Matrix3x3SIMD RotationY(__m128 radians);
-        static Matrix3x3SIMD RotationZ(__m128 radians);
+        static Matrix3x3SIMD RotationX(float radians);
+        static Matrix3x3SIMD RotationY(float radians);
+        static Matrix3x3SIMD RotationZ(float radians);
     };
 }
 
