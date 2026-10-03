@@ -81,13 +81,28 @@ namespace Maths
 
     }
 
-    //inline __m128& Matrix3x3SIMD::operator()(std::size_t row, std::size_t column)
-    //{
-    //}
+    inline float& Matrix3x3SIMD::operator()(std::size_t row, std::size_t column)
+    {
+        if (row >= 3 || column >= 3)
+        {
+            throw std::out_of_range("Matrix index is out of range");
+        }
+		return reinterpret_cast<float*>(&values[row])[column]; //permet de convertir notre __128 en "tableau" de type float pour pouvoir accéder à l'élément souhaité , 
+        //donc on fait un reinterpret_cast pour convertir le type de données de __m128 en float* et ensuite on accède à l'élément souhaité en utilisant l'opérateur [] sur le pointeur.
+		//besoin de test performance pour voir si il y a une différence entre cette méthode et l'utilisation de _mm_store_ps pour stocker les valeurs dans un tableau temporaire et ensuite accéder à l'élément souhaité.
 
-    //inline const __m128& Matrix3x3SIMD::operator()(std::size_t row, std::size_t column) const
-    //{
-    //}
+    }
+
+    inline const float& Matrix3x3SIMD::operator()(std::size_t row, std::size_t column) const
+    {
+        if (row >= 3 || column >= 3)
+        {
+            throw std::out_of_range("Matrix index is out of range");
+        }
+
+        return reinterpret_cast<const float*>(&values[row])[column];
+
+    }
 
     inline Matrix3x3SIMD Matrix3x3SIMD::operator+(const Matrix3x3SIMD& rhs) const
     {
@@ -171,9 +186,13 @@ namespace Maths
         );
     }
 
-    inline Matrix3x3SIMD Matrix3x3SIMD::operator*(__m128 scalar) const
+    inline Matrix3x3SIMD Matrix3x3SIMD::operator*(float scalar) const
     {
-
+		__m128 Scalar = _mm_set_ps(0.0f, scalar, scalar, scalar);
+		__m128 ScalarRow0 = _mm_mul_ps(values[0], Scalar);
+		__m128 ScalarRow1 = _mm_mul_ps(values[1], Scalar);
+		__m128 ScalarRow2 = _mm_mul_ps(values[2], Scalar);
+		return Matrix3x3SIMD(ScalarRow0, ScalarRow1, ScalarRow2);
     }
 
     inline Matrix3x3SIMD& Matrix3x3SIMD::operator*=(const Matrix3x3SIMD& rhs)

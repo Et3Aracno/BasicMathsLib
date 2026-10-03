@@ -89,6 +89,9 @@
     <ClInclude Include="Matrix3x3-SIMD.h">
       <Filter>Fichiers d%27en-tête\Headers\SIMD\Matrix</Filter>
     </ClInclude>
+    <ClInclude Include="Matrix4x4-SIMD.h">
+      <Filter>Fichiers d%27en-tête\Headers\SIMD\Matrix</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Matrix3x3.inl">
@@ -120,6 +123,9 @@
     </None>
     <None Include="Matrix3x3-SIMD.inl">
       <Filter>Fichiers d%27en-tête\Inl\SIMD\Matrix</Filter>
+    </None>
+    <None Include="Matrix4x4-SIMD.inl">
+      <Filter>Fichiers d%27en-tête</Filter>
     </None>
   </ItemGroup>
 </Project>

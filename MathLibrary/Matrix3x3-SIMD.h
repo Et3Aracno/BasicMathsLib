@@ -26,13 +26,13 @@ namespace Maths
 
         static Matrix3x3SIMD Identity();
         static Matrix3x3SIMD Zero();
-        __m128& operator()(std::size_t row, std::size_t column);
-        const __m128& operator()(std::size_t row, std::size_t column) const;
+        float& operator()(std::size_t row, std::size_t column);
+        const float& operator()(std::size_t row, std::size_t column) const;
         Matrix3x3SIMD operator+(const Matrix3x3SIMD& rhs) const;
         Matrix3x3SIMD operator-(const Matrix3x3SIMD& rhs) const;
         Matrix3x3SIMD operator*(const Matrix3x3SIMD& rhs) const;
         Maths::Vec3<float> operator*(const Maths::Vec3<float>& rhs) const;
-        Matrix3x3SIMD operator*(__m128 scalar) const;
+        Matrix3x3SIMD operator*(float scalar) const;
         Matrix3x3SIMD& operator*=(const Matrix3x3SIMD& rhs);
         bool operator==(const Matrix3x3SIMD& rhs) const;
         bool operator!=(const Matrix3x3SIMD& rhs) const;
