@@ -37,7 +37,7 @@ namespace Maths
         bool operator==(const Matrix3x3SIMD& rhs) const;
         bool operator!=(const Matrix3x3SIMD& rhs) const;
         Matrix3x3SIMD Transpose() const;
-        __m128 Determinant() const;
+        float Determinant() const;
         //Gauss-Jordan with scaled partial pivoting. Rejects singular/ill-conditioned input.
         Matrix3x3SIMD Inverse(float relativeTolerance = 64.0f * std::numeric_limits<float>::epsilon()) const;
         static Matrix3x3SIMD Scale(const Maths::Vec3<float>& scale);

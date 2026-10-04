@@ -154,6 +154,18 @@ namespace Maths
 
         result.values[2] = _mm_add_ps(_mm_mul_ps(row2_0, rhs.values[0]), _mm_add_ps(_mm_mul_ps(row2_1, rhs.values[1]), _mm_add_ps(_mm_mul_ps(row2_2, rhs.values[2]), _mm_mul_ps(row2_3, rhs.values[3]))));
 
+
+
+        __m128 row3_0 = _mm_shuffle_ps(values[3], values[3], _MM_SHUFFLE(0, 0, 0, 0));
+        __m128 row3_1 = _mm_shuffle_ps(values[3], values[3], _MM_SHUFFLE(1, 1, 1, 1));
+        __m128 row3_2 = _mm_shuffle_ps(values[3], values[3], _MM_SHUFFLE(2, 2, 2, 2));
+		__m128 row3_3 = _mm_shuffle_ps(values[3], values[3], _MM_SHUFFLE(3, 3, 3, 3));      //
+
+        result.values[3] = _mm_add_ps(_mm_mul_ps(row3_0, rhs.values[0]), _mm_add_ps(_mm_mul_ps(row3_1, rhs.values[1]), _mm_add_ps(_mm_mul_ps(row3_2, rhs.values[2]), _mm_mul_ps(row3_3, rhs.values[3]))));
+        
+
+
+
         return result;
     }
 
@@ -245,8 +257,9 @@ namespace Maths
 
     }
 
-    //inline __m128 Matrix3x3SIMD::Determinant() const
+    //inline float Matrix4x4SIMD::Determinant() const
     //{
+
     //}
 
     //inline Matrix3x3SIMD Matrix3x3SIMD::Inverse(float relativeTolerance) const

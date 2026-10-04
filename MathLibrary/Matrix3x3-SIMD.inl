@@ -236,9 +236,37 @@ namespace Maths
 
     }
 
-    //inline __m128 Matrix3x3SIMD::Determinant() const
-    //{
-    //}
+    inline float Matrix3x3SIMD::Determinant() const
+    {
+        __m128 c1_0 = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(1,1,1,1));
+		__m128 c2_0 = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(2, 2, 2, 2));
+		__m128 c3_0 = _mm_shuffle_ps(values[0], values[0], _MM_SHUFFLE(0, 0, 0, 0));
+        __m128 c4_0 = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(1, 1, 1, 1));
+        __m128 c5_0 = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(2, 2, 2, 2));
+
+        __m128 result0 = _mm_mul_ps(c3_0, _mm_sub_ps(_mm_mul_ps(c1_0, c2_0), _mm_mul_ps(c4_0, c5_0)));
+
+        __m128 c1_1 = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(0, 0, 0, 0));
+        __m128 c2_1 = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(2, 2, 2, 2));
+        __m128 c3_1 = _mm_shuffle_ps(values[0], values[0], _MM_SHUFFLE(1, 1, 1, 1));
+        __m128 c4_1 = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(0, 0, 0, 0));
+        __m128 c5_1 = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(2, 2, 2, 2));
+
+        __m128 result1 = _mm_mul_ps(c3_1, _mm_sub_ps(_mm_mul_ps(c1_1, c2_1), _mm_mul_ps(c4_1, c5_1)));
+
+
+        __m128 c1_2 = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(0, 0, 0, 0));
+        __m128 c2_2 = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(1, 1, 1, 1));
+        __m128 c3_2 = _mm_shuffle_ps(values[0], values[0], _MM_SHUFFLE(2, 2, 2, 2));
+        __m128 c4_2 = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(0, 0, 0, 0));
+        __m128 c5_2 = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(1, 1, 1, 1));
+
+        __m128 result2 = _mm_mul_ps(c3_2, _mm_sub_ps(_mm_mul_ps(c1_2, c2_2), _mm_mul_ps(c4_2, c5_2)));
+
+
+
+        return _mm_cvtss_f32(_mm_add_ps(_mm_sub_ps(result0, result1), result2));
+    }
 
     //inline Matrix3x3SIMD Matrix3x3SIMD::Inverse(float relativeTolerance) const
     //{

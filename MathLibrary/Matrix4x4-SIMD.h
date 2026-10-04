@@ -35,7 +35,7 @@ namespace Maths
         bool operator==(const Matrix4x4SIMD& rhs) const;
         bool operator!=(const Matrix4x4SIMD& rhs) const;
         Matrix4x4SIMD Transpose() const;
-        __m128 Determinant() const;
+        float Determinant() const;
         //Gauss-Jordan with scaled partial pivoting. Rejects singular/ill-conditioned input.
         Matrix4x4SIMD Inverse(float relativeTolerance = 64.0f * std::numeric_limits<float>::epsilon()) const;
         static Matrix4x4SIMD Scale(const Maths::Vec4<float>& scale);
