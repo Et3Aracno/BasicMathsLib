@@ -262,9 +262,8 @@ float Maths::Vec3S ::Angle(const Maths::Vec3S & rhs) const // A VOIR
 {
 	const float cosine = Normalize().Dot(rhs.Normalize());
 	return std::acos(std::clamp(cosine, -1.f, 1.f));
-}
+}  // A REVOIRE ??
 
-// A REVOIRE
 Maths::Vec3S Maths::Vec3S::Lerp(const Maths::Vec3S& a, const Maths::Vec3S& b, float t)
 {
 

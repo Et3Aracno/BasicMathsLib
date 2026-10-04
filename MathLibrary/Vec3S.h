@@ -1,6 +1,5 @@
 #pragma once
 
-//#include <immintrin.h>
 #include <algorithm>
 #include <cmath>
 #include <concepts>
@@ -60,4 +59,4 @@ namespace Maths
     };
 }
 
-#include "Vec3S.inl" v
+#include "Vec3S.inl"
