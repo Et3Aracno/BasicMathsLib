@@ -6,6 +6,9 @@
 #include <iostream>
 #include <random>
 #include <vector>
+#define ANKERL_NANOBENCH_IMPLEMENT
+#include "External Lib/nanobench.h"
+
 
 int main(const int _argc, char** _argv)
 {
@@ -66,4 +69,30 @@ int main(const int _argc, char** _argv)
               << " ms, median " << result.medianMs
               << " ms, max " << result.maximumMs << " ms\n"
               << "Observable checksum: " << result.checksum << '\n';
+
+
+
+    Maths::Matrix3x3SIMD Matrix3x3SIMD;
+    Maths::Matrix3x3SIMD Matrix3x3SIMDTest;
+    Maths::Matrix3x3 Matrix3x3;
+    Maths::Matrix3x3 Matrix3x3Test;
+
+    ankerl::nanobench::Bench bench;
+    bench.epochs(2000);
+
+    bench.run("Matrix3x3", [&] {
+       
+        Matrix3x3.operator* (Matrix3x3Test);
+        ankerl::nanobench::doNotOptimizeAway(Matrix3x3.Determinant());
+        });
+
+
+    bench.run("Matrix3x3 Simd", [&] {
+        
+        Matrix3x3SIMD.operator*(Matrix3x3SIMDTest);
+        ankerl::nanobench::doNotOptimizeAway(Matrix3x3SIMD.Determinant());
+        });
+    
+
+
 }

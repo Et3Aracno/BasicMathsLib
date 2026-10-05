@@ -78,6 +78,7 @@
     <ClCompile Include="..\Platform\CpuFeatures.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\External Lib\nanobench.h" />
     <ClInclude Include="..\Platform\CpuFeatures.h" />
     <ClInclude Include="..\Benchmark\Benchmark.h" />
   </ItemGroup>
