@@ -17,7 +17,7 @@ namespace Maths
 
         Vec3S();
         Vec3S(float _x, float _y, float _z);
-        explicit Vec3S(const Vec3S& other);
+        Vec3S(const Vec3S& other);
 
         static __m128 Load(const Maths::Vec3S& v);
         static Vec3S Store(__m128 val);

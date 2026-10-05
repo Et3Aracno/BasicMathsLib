@@ -12,10 +12,10 @@ int main(const int _argc, char** _argv)
     using Maths::Vec3S;
     using Maths::Vec4;
     using Maths::Matrix4x4;
-    const Vec3S<> a{1.f,2.f,3.f};
-    const Vec3S<> b{4.f,5.f,6.f};
-    /*const Vec3S<> c = a + b;
-    std::cout << "idk: " << c.x << '\n';*/
+    Vec3S a{1.f,2.f,3.f};
+    Vec3S b{4.f,5.f,6.f};
+    Vec3S c = a * 2.f;
+    std::cout << "idk: " << a.y << '\n';
     const auto matrix = Matrix4x4<>::Translation({10,20,30}) * Matrix4x4<>::Scale({2,3,4});
     //const auto point = matrix.TransformPoint(a);
     //std::cout << "Point: " << point.x << ", " << point.y << ", " << point.z << '\n';

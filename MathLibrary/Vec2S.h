@@ -16,7 +16,7 @@ namespace Maths
 
         Vec2S();
         Vec2S(float _x, float _y);
-        explicit Vec2S(const Vec2S& other);
+        Vec2S(const Vec2S& other);
 
         static __m128 Load(const Maths::Vec2S& v);
         static Vec2S Store(__m128 val);
@@ -57,4 +57,4 @@ namespace Maths
     };
 }
 
-#include "Vec2S.inl" v
+#include "Vec2S.inl"

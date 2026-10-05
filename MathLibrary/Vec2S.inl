@@ -19,7 +19,7 @@ Maths::Vec2S::Vec2S() : x(0), y(0) {}
 
 Maths::Vec2S::Vec2S(float _x, float _y) : x(_x), y(_y) {}
 
-Maths::Vec2S::Vec2S(const Maths::Vec2S& other) : x(other.x), y(other.y) {}
+Maths::Vec2S::Vec2S(const Maths::Vec2S& other) {x = other.x; y = other.y; }
 
 Maths::Vec2S Maths::Vec2S::operator+(const Maths::Vec2S& rhs) const
 {
@@ -177,9 +177,7 @@ Maths::Vec2S Maths::Vec2S::Cross(const Maths::Vec2S& rhs) const
 	__m128 rz = _mm_mul_ps(va, vy);
 	__m128 rc = _mm_mul_ps(vb, vx);
 
-	float z = _mm_cvtss_f32(_mm_sub_ps(rz, rc));
-
-	return {x, y};
+	return Store(_mm_sub_ps(rz, rc));
 }
 
 float Maths::Vec2S::MagnitudeSquared() const
