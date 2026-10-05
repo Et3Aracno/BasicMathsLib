@@ -244,15 +244,11 @@ namespace Maths
         __m128 c4_0 = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(1, 1, 1, 1));
         __m128 c5_0 = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(2, 2, 2, 2));
 
-        __m128 result0 = _mm_mul_ps(c3_0, _mm_sub_ps(_mm_mul_ps(c1_0, c2_0), _mm_mul_ps(c4_0, c5_0)));
-
         __m128 c1_1 = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(0, 0, 0, 0));
         __m128 c2_1 = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(2, 2, 2, 2));
         __m128 c3_1 = _mm_shuffle_ps(values[0], values[0], _MM_SHUFFLE(1, 1, 1, 1));
         __m128 c4_1 = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(0, 0, 0, 0));
         __m128 c5_1 = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(2, 2, 2, 2));
-
-        __m128 result1 = _mm_mul_ps(c3_1, _mm_sub_ps(_mm_mul_ps(c1_1, c2_1), _mm_mul_ps(c4_1, c5_1)));
 
 
         __m128 c1_2 = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(0, 0, 0, 0));
@@ -261,16 +257,42 @@ namespace Maths
         __m128 c4_2 = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(0, 0, 0, 0));
         __m128 c5_2 = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(1, 1, 1, 1));
 
-        __m128 result2 = _mm_mul_ps(c3_2, _mm_sub_ps(_mm_mul_ps(c1_2, c2_2), _mm_mul_ps(c4_2, c5_2)));
 
 
-
-        return _mm_cvtss_f32(_mm_add_ps(_mm_sub_ps(result0, result1), result2));
+        return _mm_cvtss_f32(_mm_add_ps(_mm_sub_ps(_mm_mul_ps(c3_0, _mm_sub_ps(_mm_mul_ps(c1_0, c2_0), _mm_mul_ps(c4_0, c5_0))),
+                                                    _mm_mul_ps(c3_1, _mm_sub_ps(_mm_mul_ps(c1_1, c2_1), _mm_mul_ps(c4_1, c5_1)))),
+                                                      _mm_mul_ps(c3_2, _mm_sub_ps(_mm_mul_ps(c1_2, c2_2), _mm_mul_ps(c4_2, c5_2)))));
     }
 
-    //inline Matrix3x3SIMD Matrix3x3SIMD::Inverse(float relativeTolerance) const
-    //{
-    //}
+    inline Matrix3x3SIMD Matrix3x3SIMD::Inverse(float relativeTolerance) const
+    {
+        float det = this->Determinant();
+        if (det == 0.0f) {
+            throw std::out_of_range("Det is 0 or lesser , Matrix is impossible to invert");
+        };
+
+
+        // 0 c b a
+        // 0 f e d
+        // 0 i h g
+        __m128 a = _mm_shuffle_ps(values[0], values[0], _MM_SHUFFLE(0, 0, 0, 0));
+        __m128 b = _mm_shuffle_ps(values[0], values[0], _MM_SHUFFLE(1, 1, 1, 1));
+        __m128 c = _mm_shuffle_ps(values[0], values[0], _MM_SHUFFLE(2, 2, 2, 2));
+        __m128 d = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(0, 0, 0, 0));
+        __m128 e = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(1, 1, 1, 1));
+        __m128 f = _mm_shuffle_ps(values[1], values[1], _MM_SHUFFLE(2, 2, 2, 2));
+        __m128 g = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(0, 0, 0, 0));
+        __m128 h = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(1, 1, 1, 1));
+        __m128 i = _mm_shuffle_ps(values[2], values[2], _MM_SHUFFLE(2, 2, 2, 2));
+
+        Matrix3x3SIMD result;
+        result.values[0] = _mm_set_ps(0.f, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(b, f), _mm_mul_ps(c, e))) / det , _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(c, h), _mm_mul_ps(b, i))) / det , _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(e, i), _mm_mul_ps(f, h))) / det);
+        result.values[1] = _mm_set_ps(0.f, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(c, d), _mm_mul_ps(a, g))) / det, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(a, i), _mm_mul_ps(c, g))) / det , _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(f, g), _mm_mul_ps(d, i))) / det);
+        result.values[2] = _mm_set_ps(0.f, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(a, e), _mm_mul_ps(b, d))) / det, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(b, g), _mm_mul_ps(a, h))) / det, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(d, h), _mm_mul_ps(e, g))) / det);
+            
+        return result;
+
+    }
 
 
     inline Matrix3x3SIMD Matrix3x3SIMD::Scale(const Maths::Vec3<float>& scale)
