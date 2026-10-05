@@ -206,7 +206,7 @@ namespace Maths
 
     inline Maths::Matrix4x4SIMD Maths::Matrix4x4SIMD::operator*(float scalar) const
     {
-        __m128 Scalar = _mm_set_ps(0.0f, scalar, scalar, scalar);
+        __m128 Scalar = _mm_set_ps(scalar, scalar, scalar, scalar);
         __m128 ScalarRow0 = _mm_mul_ps(values[0], Scalar);
         __m128 ScalarRow1 = _mm_mul_ps(values[1], Scalar);
         __m128 ScalarRow2 = _mm_mul_ps(values[2], Scalar);
