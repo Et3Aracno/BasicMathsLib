@@ -39,8 +39,7 @@ namespace TestHelpersSIMD
         Near(expected.z, actual.z, L"z");
     }
 
-    /*template <typename T>
-    void VectorNear(const Maths::Vec4S& expected, const Maths::Vec4S& actual)
+    void VectorNear4(const Maths::Vec4S& expected, const Maths::Vec4S& actual)
     {
         Near(expected.x, actual.x, L"x");
         Near(expected.y, actual.y, L"y");
@@ -48,7 +47,7 @@ namespace TestHelpersSIMD
         Near(expected.w, actual.w, L"w");
     }
 
-    template <typename Matrix>
+    /*template <typename Matrix>
     void MatrixNear(const Matrix& expected, const Matrix& actual)
     {
         const std::size_t count = std::size(expected.values);
