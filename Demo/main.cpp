@@ -83,14 +83,14 @@ int main(const int _argc, char** _argv)
     bench.run("Matrix3x3", [&] {
        
         Matrix3x3.operator* (Matrix3x3Test);
-        ankerl::nanobench::doNotOptimizeAway(Matrix3x3.Determinant());
+        ankerl::nanobench::doNotOptimizeAway(Matrix3x3.Inverse());
         });
 
 
     bench.run("Matrix3x3 Simd", [&] {
         
         Matrix3x3SIMD.operator*(Matrix3x3SIMDTest);
-        ankerl::nanobench::doNotOptimizeAway(Matrix3x3SIMD.Determinant());
+        ankerl::nanobench::doNotOptimizeAway(Matrix3x3SIMD.Inverse());
         });
     
 

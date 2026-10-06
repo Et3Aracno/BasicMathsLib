@@ -125,7 +125,7 @@
       <Filter>Fichiers d%27en-tête\Inl\SIMD\Matrix</Filter>
     </None>
     <None Include="Matrix4x4-SIMD.inl">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Inl\SIMD\Matrix</Filter>
     </None>
   </ItemGroup>
 </Project>

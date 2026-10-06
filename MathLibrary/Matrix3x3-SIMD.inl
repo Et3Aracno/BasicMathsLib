@@ -211,8 +211,8 @@ namespace Maths
     inline bool Matrix3x3SIMD::operator!=(const Matrix3x3SIMD& rhs) const
     {
 
-        return _mm_movemask_ps(_mm_cmpeq_ps(values[0], rhs.values[0])) != 0xF &&
-            _mm_movemask_ps(_mm_cmpeq_ps(values[1], rhs.values[1])) != 0xF &&
+        return _mm_movemask_ps(_mm_cmpeq_ps(values[0], rhs.values[0])) != 0xF ||
+            _mm_movemask_ps(_mm_cmpeq_ps(values[1], rhs.values[1])) != 0xF ||
             _mm_movemask_ps(_mm_cmpeq_ps(values[2], rhs.values[2])) != 0xF;
 
     }
@@ -220,16 +220,14 @@ namespace Maths
     inline Matrix3x3SIMD Matrix3x3SIMD::Transpose() const
     {
 
-        Maths::Matrix3x3SIMD result = Zero();
-
-        __m128 l0 = _mm_shuffle_ps(values[0], values[1], _MM_SHUFFLE(0, 3, 0, 3));
+        __m128 l0 = _mm_shuffle_ps(values[0], values[1], _MM_SHUFFLE(0, 0, 0, 0));
         __m128 resultL0 = _mm_shuffle_ps(l0 , values[2], _MM_SHUFFLE(3, 0, 2, 0));
 
-        __m128 l1 = _mm_shuffle_ps(values[0], values[1], _MM_SHUFFLE(0, 1, 0, 1));
-        __m128 resultL1 = _mm_shuffle_ps(l1, values[2],_MM_SHUFFLE(3, 1, 0, 2));
+        __m128 l1 = _mm_shuffle_ps(values[0], values[1], _MM_SHUFFLE(1, 1, 1, 1));
+        __m128 resultL1 = _mm_shuffle_ps(l1, values[2],_MM_SHUFFLE(3, 1, 2, 0));
 
-        __m128 l2 = _mm_shuffle_ps(values[0], values[1], _MM_SHUFFLE(0, 2, 0, 2));
-        __m128 resultL2 = _mm_shuffle_ps(l2, values[2], _MM_SHUFFLE(3, 2, 0, 2));
+        __m128 l2 = _mm_shuffle_ps(values[0], values[1], _MM_SHUFFLE(2, 2, 2, 2));
+        __m128 resultL2 = _mm_shuffle_ps(l2, values[2], _MM_SHUFFLE(3, 2, 2, 0));
 
 
 		return Matrix3x3SIMD(resultL0, resultL1, resultL2);
@@ -266,8 +264,15 @@ namespace Maths
 
     inline Matrix3x3SIMD Matrix3x3SIMD::Inverse(float relativeTolerance) const
     {
+
+        if (!std::isfinite(relativeTolerance) || relativeTolerance < float{ 0 } || relativeTolerance >= float{ 1 })
+        {
+            throw std::invalid_argument("Inverse tolerance must be finite and in [0, 1)");
+        }
+
+
         float det = this->Determinant();
-        if (det == 0.0f) {
+        if (std::abs(det) <= relativeTolerance) {
             throw std::out_of_range("Det is 0 or lesser , Matrix is impossible to invert");
         };
 
@@ -275,6 +280,7 @@ namespace Maths
         // 0 c b a
         // 0 f e d
         // 0 i h g
+
         __m128 a = _mm_shuffle_ps(values[0], values[0], _MM_SHUFFLE(0, 0, 0, 0));
         __m128 b = _mm_shuffle_ps(values[0], values[0], _MM_SHUFFLE(1, 1, 1, 1));
         __m128 c = _mm_shuffle_ps(values[0], values[0], _MM_SHUFFLE(2, 2, 2, 2));
@@ -287,7 +293,7 @@ namespace Maths
 
         Matrix3x3SIMD result;
         result.values[0] = _mm_set_ps(0.f, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(b, f), _mm_mul_ps(c, e))) / det , _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(c, h), _mm_mul_ps(b, i))) / det , _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(e, i), _mm_mul_ps(f, h))) / det);
-        result.values[1] = _mm_set_ps(0.f, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(c, d), _mm_mul_ps(a, g))) / det, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(a, i), _mm_mul_ps(c, g))) / det , _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(f, g), _mm_mul_ps(d, i))) / det);
+        result.values[1] = _mm_set_ps(0.f, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(c, d), _mm_mul_ps(a, f))) / det, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(a, i), _mm_mul_ps(c, g))) / det , _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(f, g), _mm_mul_ps(d, i))) / det);
         result.values[2] = _mm_set_ps(0.f, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(a, e), _mm_mul_ps(b, d))) / det, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(b, g), _mm_mul_ps(a, h))) / det, _mm_cvtss_f32(_mm_sub_ps(_mm_mul_ps(d, h), _mm_mul_ps(e, g))) / det);
             
         return result;
@@ -310,9 +316,9 @@ namespace Maths
         const float sine = std::sin(radians);
         
         return Matrix3x3SIMD(
-            _mm_set_ps(0.0f, 1.0f, 0.0f, 0.0f),
-            _mm_set_ps(0.0f, 0.0f, -sine, cosine),
-            _mm_set_ps(0.0f, 0.0f, cosine, sine));
+            _mm_set_ps(0.0f, 0.0f, 0.0f, 1.0f),
+            _mm_set_ps(0.0f, -sine, cosine, 0.0f),
+			_mm_set_ps(0.0f, cosine, sine, 0.0f));
     }
 
     inline Matrix3x3SIMD Matrix3x3SIMD::RotationY(float radians)
