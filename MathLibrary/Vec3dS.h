@@ -19,8 +19,8 @@ namespace Maths
         Vec3dS(double _x, double _y, double _z);
         Vec3dS(const Vec3dS& other);
 
-        static __m128 Load(const Maths::Vec3dS& v);
-        static Vec3dS Store(__m128 val);
+        static __m128d Load(const Maths::Vec3dS& v);
+        static Vec3dS Store(__m128d val);
 
         Vec3dS operator+(const Vec3dS& rhs) const;
         Vec3dS operator-(const Vec3dS& rhs) const;
