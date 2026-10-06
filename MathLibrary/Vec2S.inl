@@ -77,7 +77,7 @@ Maths::Vec2S Maths::Vec2S::operator/(float scalar) const
 	}
 
 	__m128 vp = _mm_setr_ps(x, y, 0, 0);
-	return Store(_mm_div_ps(vs, vp));
+	return Store(_mm_div_ps(vp, vs));
 }
 
 Maths::Vec2S& Maths::Vec2S::operator+=(const Maths::Vec2S& rhs)
@@ -109,6 +109,11 @@ Maths::Vec2S& Maths::Vec2S::operator*=(const Maths::Vec2S& rhs)
 
 Maths::Vec2S& Maths::Vec2S::operator/=(const Maths::Vec2S& rhs)
 {
+	if(rhs.x == 0.f || rhs.y == 0.f)
+	{
+		throw std::domain_error("Cannot divide by a zero component");
+	}
+
 	__m128 vp = Load(*this);
 	__m128 vrhs = Load(rhs);
 
@@ -127,6 +132,12 @@ Maths::Vec2S& Maths::Vec2S::operator*=(float scalar)
 
 Maths::Vec2S& Maths::Vec2S::operator/=(float scalar)
 {
+	__m128 vs = _mm_set_ps1(scalar);
+	__m128 vzero = _mm_set_ps1(0);
+	if (_mm_movemask_ps(_mm_cmpeq_ps(vs, vzero)))
+	{
+		throw std::domain_error("Cannot divide by zero");
+	}
 	__m128 vp = Load(*this);
 	__m128 vrhs = _mm_set_ps1(scalar);
 
@@ -147,7 +158,7 @@ bool Maths::Vec2S::operator!=(const Maths::Vec2S& rhs) const
 	__m128 vrhs = Load(rhs);
 	__m128 vp = _mm_setr_ps(x, y, 0, 0);
 
-	return _mm_movemask_ps((_mm_cmpeq_ps(vrhs, vp))) == 0xF; // ALLER VOUS FAIRE METTRE Y'A PAS DE NOT
+	return _mm_movemask_ps((_mm_cmpeq_ps(vrhs, vp))) != 0xF; // ALLER VOUS FAIRE METTRE Y'A PAS DE NOT
 }
 
 float Maths::Vec2S::Dot(const Maths::Vec2S& rhs) const
@@ -158,26 +169,12 @@ float Maths::Vec2S::Dot(const Maths::Vec2S& rhs) const
 	__m128 va = _mm_set_ps1(x);
 	__m128 vb = _mm_set_ps1(y);
 
-	__m128 rx = _mm_mul_ps(vx, va);
-	__m128 ry = _mm_mul_ps(vy, vb);
+	__m128 rx = _mm_mul_ps(va, vx);
+	__m128 ry = _mm_mul_ps(vb, vy);
 
 	__m128 result = _mm_add_ps(rx, ry);
 
 	return _mm_cvtss_f32(result);
-}
-
-Maths::Vec2S Maths::Vec2S::Cross(const Maths::Vec2S& rhs) const
-{
-	__m128 vx = _mm_set_ps1(rhs.x);
-	__m128 vy = _mm_set_ps1(rhs.y);
-
-	__m128 va = _mm_set_ps1(x);
-	__m128 vb = _mm_set_ps1(y);
-
-	__m128 rz = _mm_mul_ps(va, vy);
-	__m128 rc = _mm_mul_ps(vb, vx);
-
-	return Store(_mm_sub_ps(rz, rc));
 }
 
 float Maths::Vec2S::MagnitudeSquared() const
@@ -187,8 +184,13 @@ float Maths::Vec2S::MagnitudeSquared() const
 
 float Maths::Vec2S::Magnitude() const
 {
-	__m128 vp = _mm_setr_ps(x, y, 0, 0);
-	return _mm_cvtss_f32(_mm_sqrt_ps(vp));
+	__m128 vx = _mm_set_ps1(x);
+	__m128 vy = _mm_set_ps1(y);
+
+	__m128 rx = _mm_mul_ps(vx, vx);
+	__m128 ry = _mm_mul_ps(vy, vy);
+
+	return _mm_cvtss_f32(_mm_sqrt_ss(_mm_add_ps(rx, ry)));
 }
 
 Maths::Vec2S Maths::Vec2S::Normalize() const // A REVOIR
@@ -213,7 +215,7 @@ Maths::Vec2S Maths::Vec2S::Normalize() const // A REVOIR
 	__m128 vp = _mm_setr_ps(x, y, 0, 0);
 	const Maths::Vec2S scaled = Store(_mm_div_ps(vp, scale));
 	return scaled / scaled.Magnitude();
-}
+} 
 
 float Maths::Vec2S::DistanceSquared(const Maths::Vec2S& rhs) const
 {
@@ -238,7 +240,7 @@ Maths::Vec2S Maths::Vec2S::Lerp(const Maths::Vec2S& a, const Maths::Vec2S& b, fl
 	__m128 vt = _mm_set_ps1(t);
 	__m128 v1 = _mm_set_ps1(1.f);
 
-	return Store(_mm_mul_ps(va, _mm_add_ps(_mm_sub_ps(v1, vt), _mm_mul_ps(vb, vt))));
+	return Store(_mm_add_ps(_mm_mul_ps(va, _mm_sub_ps(v1, vt)), _mm_mul_ps(vb, vt)));
 }
 
 Maths::Vec2S Maths::Vec2S::Min(const Maths::Vec2S& a, const Maths::Vec2S& b)

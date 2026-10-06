@@ -112,10 +112,15 @@ Maths::Vec3S& Maths::Vec3S::operator*=(const Maths::Vec3S& rhs)
 
 Maths::Vec3S& Maths::Vec3S::operator/=(const Maths::Vec3S& rhs)
 {
+	if(rhs.x == 0.f || rhs.y == 0.f || rhs.z == 0.f)
+	{
+		throw std::domain_error("Cannot divide by a zero component");
+	}
+
 	__m128 vp = Load(*this);
 	__m128 vrhs = Load(rhs);
 
-	*this = Store(_mm_div_ps(vrhs, vp));
+	*this = Store(_mm_div_ps(vp, vrhs));
 	return *this;
 }
 

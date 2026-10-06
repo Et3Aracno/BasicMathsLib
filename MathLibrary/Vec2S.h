@@ -38,7 +38,6 @@ namespace Maths
         bool operator!=(const Vec2S& rhs) const;
 
         float Dot(const Vec2S& rhs) const;
-        Vec2S Cross(const Vec2S& rhs) const;
         float MagnitudeSquared() const;
         float Magnitude() const;
         // Returns a new vector. Throws domain_error for zero or non-finite input.

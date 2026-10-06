@@ -26,13 +26,13 @@ namespace TestHelpersSIMD
         Assert::IsTrue(close, message.str().c_str());
     }
 
-    void VectorNear(const Maths::Vec2S& expected, const Maths::Vec2S& actual)
+    void VectorNear2(const Maths::Vec2S& expected, const Maths::Vec2S& actual)
     {
         Near(expected.x, actual.x, L"x");
         Near(expected.y, actual.y, L"y");
     }
 
-    void VectorNear(const Maths::Vec3S& expected, const Maths::Vec3S& actual)
+    void VectorNear3(const Maths::Vec3S& expected, const Maths::Vec3S& actual)
     {
         Near(expected.x, actual.x, L"x");
         Near(expected.y, actual.y, L"y");
