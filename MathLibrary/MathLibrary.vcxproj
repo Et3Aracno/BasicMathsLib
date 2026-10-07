@@ -145,11 +145,14 @@
     <ClInclude Include="Matrix4x4-SIMD.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="Quaternions.h" />
+    <ClInclude Include="Vec2dS.h" />
     <ClInclude Include="Vec2S.h" />
     <ClInclude Include="Vec3.h" />
+    <ClInclude Include="Vec3dS.h" />
     <ClInclude Include="Vec3S.h" />
     <ClInclude Include="Vec4.h" />
     <ClInclude Include="Vec2.h" />
+    <ClInclude Include="Vec4dS.h" />
     <ClInclude Include="Vec4S.h" />
   </ItemGroup>
   <ItemGroup>
@@ -158,11 +161,14 @@
     <None Include="Matrix4x4-SIMD.inl" />
     <None Include="Matrix4x4.inl" />
     <None Include="Quaternions.inl" />
+    <None Include="Vec2dS.inl" />
     <None Include="Vec2S.inl" />
     <None Include="Vec3.inl" />
+    <None Include="Vec3dS.inl" />
     <None Include="Vec3S.inl" />
     <None Include="Vec4.inl" />
     <None Include="Vec2.inl" />
+    <None Include="Vec4dS.inl" />
     <None Include="Vec4S.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
