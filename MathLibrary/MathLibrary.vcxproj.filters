@@ -112,6 +112,8 @@
     </ClInclude>
     <ClInclude Include="Vec4dS.h">
       <Filter>Fichiers d%27en-tête\Headers\SIMD\Vec\double</Filter>
+    <ClInclude Include="Matrix4x4-SIMD.h">
+      <Filter>Fichiers d%27en-tête\Headers\SIMD\Matrix</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +155,8 @@
     </None>
     <None Include="Vec4dS.inl">
       <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect\double</Filter>
+    <None Include="Matrix4x4-SIMD.inl">
+      <Filter>Fichiers d%27en-tête\Inl\SIMD\Matrix</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -1,9 +1,9 @@
 #pragma once
 #include <xmmintrin.h>
 #include "Vec3.h"
+#include <array>
 #include <limits>
 #include <utility>
-#include <array>
 
 namespace Maths
 {
@@ -26,24 +26,24 @@ namespace Maths
 
         static Matrix3x3SIMD Identity();
         static Matrix3x3SIMD Zero();
-        __m128& operator()(std::size_t row, std::size_t column);
-        const __m128& operator()(std::size_t row, std::size_t column) const;
+        float& operator()(std::size_t row, std::size_t column);
+        const float& operator()(std::size_t row, std::size_t column) const;
         Matrix3x3SIMD operator+(const Matrix3x3SIMD& rhs) const;
         Matrix3x3SIMD operator-(const Matrix3x3SIMD& rhs) const;
         Matrix3x3SIMD operator*(const Matrix3x3SIMD& rhs) const;
         Maths::Vec3<float> operator*(const Maths::Vec3<float>& rhs) const;
-        Matrix3x3SIMD operator*(__m128 scalar) const;
+        Matrix3x3SIMD operator*(float scalar) const;
         Matrix3x3SIMD& operator*=(const Matrix3x3SIMD& rhs);
         bool operator==(const Matrix3x3SIMD& rhs) const;
         bool operator!=(const Matrix3x3SIMD& rhs) const;
         Matrix3x3SIMD Transpose() const;
-        __m128 Determinant() const;
+        float Determinant() const;
         //Gauss-Jordan with scaled partial pivoting. Rejects singular/ill-conditioned input.
         Matrix3x3SIMD Inverse(float relativeTolerance = 64.0f * std::numeric_limits<float>::epsilon()) const;
         static Matrix3x3SIMD Scale(const Maths::Vec3<float>& scale);
-        static Matrix3x3SIMD RotationX(__m128 radians);
-        static Matrix3x3SIMD RotationY(__m128 radians);
-        static Matrix3x3SIMD RotationZ(__m128 radians);
+        static Matrix3x3SIMD RotationX(float radians);
+        static Matrix3x3SIMD RotationY(float radians);
+        static Matrix3x3SIMD RotationZ(float radians);
     };
 }
 

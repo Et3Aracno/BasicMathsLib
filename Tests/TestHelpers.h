@@ -15,14 +15,14 @@ namespace TestHelpers
     void Near(T expected, T actual, const wchar_t* context = L"value")
     {
         // A failed NaN/Inf result must never silently pass a tolerance check.
-        const T absoluteTolerance = T{64} * std::numeric_limits<T>::epsilon();
-        const T relativeTolerance = T{128} * std::numeric_limits<T>::epsilon();
+        const T absoluteTolerance = T{ 64 } * std::numeric_limits<T>::epsilon();
+        const T relativeTolerance = T{ 128 } * std::numeric_limits<T>::epsilon();
         const T tolerance = absoluteTolerance + relativeTolerance * std::abs(expected);
         const bool close = std::isfinite(expected) && std::isfinite(actual) &&
             std::abs(expected - actual) <= tolerance;
         std::wostringstream message;
         message << context << L": expected " << expected << L", actual " << actual
-                << L", tolerance " << tolerance;
+            << L", tolerance " << tolerance;
         Assert::IsTrue(close, message.str().c_str());
     }
 
@@ -57,4 +57,28 @@ namespace TestHelpers
             }
         }
     }
+
+    template <typename Matrix>
+    void MatrixNearSIMD(const Matrix& expected, const Matrix& actual)
+    {
+        const std::size_t count = std::size(expected.values);
+
+        for (std::size_t row = 0; row < count; ++row)
+        {
+            for (std::size_t column = 0; column < count; ++column)
+            {
+                std::wostringstream context;
+                context << L"matrix[" << row << L"][" << column << L"]";
+
+                Near(
+                    expected(row, column),
+                    actual(row, column),
+                    context.str().c_str()
+                );
+            }
+        }
+    }
 }
+
+
+
