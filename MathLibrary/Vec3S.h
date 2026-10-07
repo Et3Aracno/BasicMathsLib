@@ -12,16 +12,12 @@ namespace Maths
     class Vec3S
     {
     public:
-        float x;
-        float y;
-        float z;
+        __m128 v;
 
         Vec3S();
         Vec3S(float _x, float _y, float _z);
         Vec3S(const Vec3S& other);
-
-        static __m128 Load(const Maths::Vec3S& v);
-        static Vec3S Store(__m128 val);
+        Vec3S(const __m128& other);
 
         Vec3S operator+(const Vec3S& rhs) const;
         Vec3S operator-(const Vec3S& rhs) const;

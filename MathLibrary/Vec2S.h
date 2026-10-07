@@ -12,17 +12,13 @@ namespace Maths
     class Vec2S
     {
     public:
-        float x;
-        float y;
+        __m128 v;
 
         Vec2S();
         Vec2S(float _x, float _y);
-        Vec2S(const Vec2S& other);
+        Vec2S(const __m128& other);
 
-        static __m128 Load(const Maths::Vec2S& v);
-        static Vec2S Store(__m128 val);
-
-        Vec2S operator+(const Vec2S& rhs) const;
+        Vec2S operator+(const __m128& rhs) const;
         Vec2S operator-(const Vec2S& rhs) const;
         Vec2S operator*(const Vec2S& rhs) const;
         Vec2S operator/(const Vec2S& rhs) const;

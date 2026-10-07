@@ -10,66 +10,66 @@
 #include "External Lib/nanobench.h"
 
 
-int main(const int _argc, char** _argv)
+int main(/*const int _argc, char** _argv*/)
 {
-    using Maths::Vec3S;
-    using Maths::Vec4;
-    using Maths::Matrix4x4;
-    Vec3S a{1.f,2.f,3.f};
-    Vec3S b{4.f,5.f,6.f};
-    Vec3S c = a * 2.f;
-    std::cout << "idk: " << a.y << '\n';
-    const auto matrix = Matrix4x4<>::Translation({10,20,30}) * Matrix4x4<>::Scale({2,3,4});
-    //const auto point = matrix.TransformPoint(a);
-    //std::cout << "Point: " << point.x << ", " << point.y << ", " << point.z << '\n';
-
-#if defined(_MSC_VER) && (defined(_M_IX86) || defined(_M_X64))
-    const auto cpu = Platform::CpuFeatures::Detect();
-    std::cout << "CPU: " << cpu.Vendor() << " / " << cpu.Brand() << '\n';
-    std::cout << std::boolalpha
-              << "SSE usable: " << cpu.CanUse(Platform::CpuFeature::SSE) << '\n'
-              << "AVX2 usable: " << cpu.CanUse(Platform::CpuFeature::AVX2) << '\n'
-              << "FMA usable: " << cpu.CanUse(Platform::CpuFeature::FMA) << '\n';
-#else
-    std::cout << "CPU detection demo is MSVC/Windows-only.\n";
-#endif
-
-    // Runtime inputs. Optional integer seed allows reproducing a run.
-    const auto seed = _argc > 1 ? static_cast<unsigned int>(std::strtoul(_argv[1], nullptr, 10))
-                              : std::random_device{}();
-    std::mt19937 engine(seed);
-    std::uniform_real_distribution<float> distribution(-10.0f, 10.0f);
-    const std::size_t count = 250000;
-    std::vector<Vec4<>> left(count);
-    std::vector<Vec4<>> right(count);
-    std::vector<Vec4<>> output(count);
-    for (std::size_t i = 0; i < count; ++i)
-    {
-        left[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
-        right[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
-    }
-
-    const auto result = Benchmark::Run([&]
-    {
-        for (std::size_t i = 0; i < count; ++i)
-        {
-            output[i] = left[i] + right[i];
-        }
-        // Included in the measured time. Simple and observable, not a magic barrier.
-        double checksum = 0;
-        for (const auto& v : output)
-        {
-            checksum += static_cast<double>(v.x) + v.y + v.z + v.w;
-        }
-        return checksum;
-    });
-
-    std::cout << std::fixed << std::setprecision(3)
-              << "Seed: " << seed << ", vectors per batch: " << count << '\n'
-              << "Batch incl. checksum: min " << result.minimumMs
-              << " ms, median " << result.medianMs
-              << " ms, max " << result.maximumMs << " ms\n"
-              << "Observable checksum: " << result.checksum << '\n';
+//    using Maths::Vec3S;
+//    using Maths::Vec4;
+//    using Maths::Matrix4x4;
+//    Vec3S a{1.f,2.f,3.f};
+//    Vec3S b{4.f,5.f,6.f};
+//    Vec3S c = a * 2.f;
+//    std::cout << "idk: " << a.y << '\n';
+//    const auto matrix = Matrix4x4<>::Translation({10,20,30}) * Matrix4x4<>::Scale({2,3,4});
+//    /*const auto point = matrix.TransformPoint(a);
+//    std::cout << "Point: " << point.x << ", " << point.y << ", " << point.z << '\n';*/
+//
+//#if defined(_MSC_VER) && (defined(_M_IX86) || defined(_M_X64))
+//    const auto cpu = Platform::CpuFeatures::Detect();
+//    std::cout << "CPU: " << cpu.Vendor() << " / " << cpu.Brand() << '\n';
+//    std::cout << std::boolalpha
+//              << "SSE usable: " << cpu.CanUse(Platform::CpuFeature::SSE) << '\n'
+//              << "AVX2 usable: " << cpu.CanUse(Platform::CpuFeature::AVX2) << '\n'
+//              << "FMA usable: " << cpu.CanUse(Platform::CpuFeature::FMA) << '\n';
+//#else
+//    std::cout << "CPU detection demo is MSVC/Windows-only.\n";
+//#endif
+//
+//    // Runtime inputs. Optional integer seed allows reproducing a run.
+//    const auto seed = _argc > 1 ? static_cast<unsigned int>(std::strtoul(_argv[1], nullptr, 10))
+//                              : std::random_device{}();
+//    std::mt19937 engine(seed);
+//    std::uniform_real_distribution<float> distribution(-10.0f, 10.0f);
+//    const std::size_t count = 250000;
+//    std::vector<Vec4<>> left(count);
+//    std::vector<Vec4<>> right(count);
+//    std::vector<Vec4<>> output(count);
+//    for (std::size_t i = 0; i < count; ++i)
+//    {
+//        left[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
+//        right[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
+//    }
+//
+//    const auto result = Benchmark::Run([&]
+//    {
+//        for (std::size_t i = 0; i < count; ++i)
+//        {
+//            output[i] = left[i] + right[i];
+//        }
+//        // Included in the measured time. Simple and observable, not a magic barrier.
+//        double checksum = 0;
+//        for (const auto& v : output)
+//        {
+//            checksum += static_cast<double>(v.x) + v.y + v.z + v.w;
+//        }
+//        return checksum;
+//    });
+//
+//    std::cout << std::fixed << std::setprecision(3)
+//              << "Seed: " << seed << ", vectors per batch: " << count << '\n'
+//              << "Batch incl. checksum: min " << result.minimumMs
+//              << " ms, median " << result.medianMs
+//              << " ms, max " << result.maximumMs << " ms\n"
+//              << "Observable checksum: " << result.checksum << '\n';
 
 
 
@@ -77,23 +77,89 @@ int main(const int _argc, char** _argv)
     Maths::Matrix3x3SIMD Matrix3x3SIMDTest;
     Maths::Matrix3x3 Matrix3x3;
     Maths::Matrix3x3 Matrix3x3Test;
+    Maths::Vec3 Vec3;
+    Maths::Vec3 Vec3Test;
+    Maths::Vec3 Vec3Test1;
+    Maths::Vec3S Vec3S;
+    Maths::Vec3S Vec3STest;
+    Maths::Vec3S Vec3STest1;
 
     ankerl::nanobench::Bench bench;
-    bench.epochs(2000);
+    bench.epochs(3000);
 
-    bench.run("Matrix3x3", [&] {
+    /*bench.run("Matrix3x3", [&] {
        
         Matrix3x3.operator* (Matrix3x3Test);
         ankerl::nanobench::doNotOptimizeAway(Matrix3x3.Inverse());
-        });
+    });
 
 
     bench.run("Matrix3x3 Simd", [&] {
         
         Matrix3x3SIMD.operator*(Matrix3x3SIMDTest);
         ankerl::nanobench::doNotOptimizeAway(Matrix3x3SIMD.Inverse());
-        });
+    });*/
     
+    bench.run("op+", [&] {
+
+        auto Test3 = Vec3 + Vec3Test;
+        ankerl::nanobench::doNotOptimizeAway(Test3);
+    });
 
 
+    bench.run("op+ Simd", [&] {
+
+        auto Test4 = Vec3S.operator+(Vec3STest);
+        ankerl::nanobench::doNotOptimizeAway(Test4);
+    });
+
+    bench.run("op-", [&] {
+
+        auto Test5 = Vec3 - Vec3Test;
+        ankerl::nanobench::doNotOptimizeAway(Test5);
+    });
+
+
+    bench.run("op- Simd", [&] {
+
+        auto Test6 = Vec3S.operator-(Vec3STest);
+        ankerl::nanobench::doNotOptimizeAway(Test6);
+    });
+
+    bench.run("Lerp", [&] {
+
+        auto Test7 = Vec3.Lerp(Vec3Test, Vec3Test1, 5.f);
+        ankerl::nanobench::doNotOptimizeAway(Test7);
+    });
+
+
+    bench.run("Lerp Simd", [&] {
+
+        auto Test8 = Vec3S.Lerp(Vec3STest, Vec3STest1, 5.f);
+        ankerl::nanobench::doNotOptimizeAway(Test8);
+    });
+
+    bench.run("Min", [&] {
+
+        auto Test = Vec3.Min(Vec3Test, Vec3Test1);
+        ankerl::nanobench::doNotOptimizeAway(Test);
+    });
+
+    bench.run("Min Simd", [&] {
+
+        auto Test = Vec3S.Min(Vec3STest, Vec3STest1);
+        ankerl::nanobench::doNotOptimizeAway(Test);
+    });
+
+    bench.run("Max", [&] {
+
+        auto Test = Vec3.Max(Vec3Test, Vec3Test1);
+        ankerl::nanobench::doNotOptimizeAway(Test);
+        });
+
+    bench.run("Max Simd", [&] {
+
+        auto Test = Vec3S.Max(Vec3STest, Vec3STest1);
+        ankerl::nanobench::doNotOptimizeAway(Test);
+        });
 }
