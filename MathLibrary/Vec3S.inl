@@ -1,11 +1,11 @@
 #pragma once
 
-__m128 Maths::Vec3S::Load(const Maths::Vec3S& v)
+inline __m128 Maths::Vec3S::Load(const Maths::Vec3S& v)
 {
 	return _mm_setr_ps(v.x, v.y, v.z, 0.f);
 }
 
-Maths::Vec3S Maths::Vec3S::Store(__m128 val)
+inline Maths::Vec3S Maths::Vec3S::Store(__m128 val)
 {
 	float component[4];
 	_mm_storeu_ps(component, val);
@@ -16,15 +16,15 @@ Maths::Vec3S Maths::Vec3S::Store(__m128 val)
 	};
 }
 
-Maths::Vec3S::Vec3S() : x(0), y(0), z(0) {}
+inline Maths::Vec3S::Vec3S() : x(0), y(0), z(0) {}
 
-Maths::Vec3S::Vec3S(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
+inline Maths::Vec3S::Vec3S(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
 
-Maths::Vec3S::Vec3S(const Maths::Vec3S& other) {
+inline Maths::Vec3S::Vec3S(const Maths::Vec3S& other) {
 	x = other.x; y = other.y; z = other.z;
 }
 
-Maths::Vec3S Maths::Vec3S::operator+(const Maths::Vec3S& rhs) const
+inline Maths::Vec3S Maths::Vec3S::operator+(const Maths::Vec3S& rhs) const
 {
 	__m128 vp = _mm_setr_ps(x, y, z, 0);
 	__m128 vrhs = Load(rhs);
@@ -32,21 +32,21 @@ Maths::Vec3S Maths::Vec3S::operator+(const Maths::Vec3S& rhs) const
 	return Store(_mm_add_ps(vp, vrhs));
 }
 
-Maths::Vec3S Maths::Vec3S::operator-(const Maths::Vec3S& rhs) const
+inline Maths::Vec3S Maths::Vec3S::operator-(const Maths::Vec3S& rhs) const
 {
 	const __m128 vp = _mm_setr_ps(x, y, z, 0);
 	const __m128 vrhs = Load(rhs);
 	return Store(_mm_sub_ps(vp, vrhs));
 }
 
-Maths::Vec3S Maths::Vec3S::operator*(const Maths::Vec3S& rhs) const
+inline Maths::Vec3S Maths::Vec3S::operator*(const Maths::Vec3S& rhs) const
 {
 	__m128 vp = _mm_setr_ps(x, y, z, 0);
 	__m128 vrhs = Load(rhs);
 	return Store(_mm_mul_ps(vp, vrhs));
 }
 
-Maths::Vec3S Maths::Vec3S::operator/(const Maths::Vec3S& rhs) const
+inline Maths::Vec3S Maths::Vec3S::operator/(const Maths::Vec3S& rhs) const
 {
 	__m128 vrhs = Load(rhs);
 	if (rhs.x == 0.f || rhs.y == 0.f || rhs.z == 0.f)
@@ -57,12 +57,12 @@ Maths::Vec3S Maths::Vec3S::operator/(const Maths::Vec3S& rhs) const
 	return Store(_mm_div_ps(vp, vrhs));
 }
 
-Maths::Vec3S Maths::Vec3S::operator-() const
+inline Maths::Vec3S Maths::Vec3S::operator-() const
 {
 	return { -x, -y, -z };
 }
 
-Maths::Vec3S Maths::Vec3S::operator*(float scalar) const
+inline Maths::Vec3S Maths::Vec3S::operator*(float scalar) const
 {
 	__m128 vp = Load(*this);
 	__m128 vs = _mm_set_ps1(scalar);
@@ -70,7 +70,7 @@ Maths::Vec3S Maths::Vec3S::operator*(float scalar) const
 	return Store(_mm_mul_ps(vp, vs));
 }
 
-Maths::Vec3S Maths::Vec3S::operator/(float scalar) const
+inline Maths::Vec3S Maths::Vec3S::operator/(float scalar) const
 {
 	__m128 vs = _mm_set_ps1(scalar);
 	__m128 vzero = _mm_set_ps1(0);
@@ -83,7 +83,7 @@ Maths::Vec3S Maths::Vec3S::operator/(float scalar) const
 	return Store(_mm_div_ps(vp, vs));
 }
 
-Maths::Vec3S& Maths::Vec3S::operator+=(const Maths::Vec3S& rhs)
+inline Maths::Vec3S& Maths::Vec3S::operator+=(const Maths::Vec3S& rhs)
 {
 	__m128 vp = Load(*this);
 	__m128 vrhs = Load(rhs);
@@ -92,7 +92,7 @@ Maths::Vec3S& Maths::Vec3S::operator+=(const Maths::Vec3S& rhs)
 	return *this;
 }
 
-Maths::Vec3S& Maths::Vec3S::operator-=(const Maths::Vec3S& rhs)
+inline Maths::Vec3S& Maths::Vec3S::operator-=(const Maths::Vec3S& rhs)
 {
 	__m128 vp = Load(*this);
 	__m128 vrhs = Load(rhs);
@@ -101,7 +101,7 @@ Maths::Vec3S& Maths::Vec3S::operator-=(const Maths::Vec3S& rhs)
 	return *this;
 }
 
-Maths::Vec3S& Maths::Vec3S::operator*=(const Maths::Vec3S& rhs)
+inline Maths::Vec3S& Maths::Vec3S::operator*=(const Maths::Vec3S& rhs)
 {
 	__m128 vp = Load(*this);
 	__m128 vrhs = Load(rhs);
@@ -110,7 +110,7 @@ Maths::Vec3S& Maths::Vec3S::operator*=(const Maths::Vec3S& rhs)
 	return *this;
 }
 
-Maths::Vec3S& Maths::Vec3S::operator/=(const Maths::Vec3S& rhs)
+inline Maths::Vec3S& Maths::Vec3S::operator/=(const Maths::Vec3S& rhs)
 {
 	if(rhs.x == 0.f || rhs.y == 0.f || rhs.z == 0.f)
 	{
@@ -124,7 +124,7 @@ Maths::Vec3S& Maths::Vec3S::operator/=(const Maths::Vec3S& rhs)
 	return *this;
 }
 
-Maths::Vec3S& Maths::Vec3S::operator*=(float scalar)
+inline Maths::Vec3S& Maths::Vec3S::operator*=(float scalar)
 {
 	__m128 vp = Load(*this);
 	__m128 vrhs = _mm_set_ps1(scalar);
@@ -133,7 +133,7 @@ Maths::Vec3S& Maths::Vec3S::operator*=(float scalar)
 	return *this;
 }
 
-Maths::Vec3S& Maths::Vec3S::operator/=(float scalar)
+inline Maths::Vec3S& Maths::Vec3S::operator/=(float scalar)
 {
 	__m128 vs = _mm_set_ps1(scalar);
 	__m128 vzero = _mm_set_ps1(0);
@@ -148,7 +148,7 @@ Maths::Vec3S& Maths::Vec3S::operator/=(float scalar)
 	return *this;
 }
 
-Maths::Vec3S operator*(float scalar, const Maths::Vec3S& vector)
+inline Maths::Vec3S operator*(float scalar, const Maths::Vec3S& vector)
 {
 	__m128 vv = _mm_setr_ps(vector.x, vector.y, vector.z, 0.f);
 	__m128 vt = _mm_set_ps1(scalar);
@@ -163,7 +163,7 @@ Maths::Vec3S operator*(float scalar, const Maths::Vec3S& vector)
 	};
 }
 
-bool Maths::Vec3S::operator==(const Maths::Vec3S& rhs) const
+inline bool Maths::Vec3S::operator==(const Maths::Vec3S& rhs) const
 {
 	__m128 vrhs = Load(rhs);
 	__m128 vp = _mm_setr_ps(x, y, z, 0);
@@ -171,7 +171,7 @@ bool Maths::Vec3S::operator==(const Maths::Vec3S& rhs) const
 	return _mm_movemask_ps(_mm_cmpeq_ps(vrhs, vp)) == 0xF;
 }
 
-bool Maths::Vec3S::operator!=(const Maths::Vec3S& rhs) const
+inline bool Maths::Vec3S::operator!=(const Maths::Vec3S& rhs) const
 {
 	__m128 vrhs = Load(rhs);
 	__m128 vp = _mm_setr_ps(x, y, z, 0);
@@ -179,7 +179,7 @@ bool Maths::Vec3S::operator!=(const Maths::Vec3S& rhs) const
 	return _mm_movemask_ps((_mm_cmpeq_ps(vrhs, vp))) != 0xF; // ALLER VOUS FAIRE METTRE Y'A PAS DE NOT
 }
 
-float Maths::Vec3S::Dot(const Maths::Vec3S& rhs) const
+inline float Maths::Vec3S::Dot(const Maths::Vec3S& rhs) const
 {
 	__m128 vx = _mm_set_ps1(rhs.x);
 	__m128 vy = _mm_set_ps1(rhs.y);
@@ -198,7 +198,7 @@ float Maths::Vec3S::Dot(const Maths::Vec3S& rhs) const
 	return _mm_cvtss_f32(result);
 }
 
-Maths::Vec3S Maths::Vec3S::Cross(const Maths::Vec3S& rhs) const
+inline Maths::Vec3S Maths::Vec3S::Cross(const Maths::Vec3S& rhs) const
 {
 	__m128 vx = _mm_set_ps1(rhs.x);
 	__m128 vy = _mm_set_ps1(rhs.y);
@@ -222,12 +222,12 @@ Maths::Vec3S Maths::Vec3S::Cross(const Maths::Vec3S& rhs) const
 	return {fx, fy, fz};
 }
 
-float Maths::Vec3S::MagnitudeSquared() const
+inline float Maths::Vec3S::MagnitudeSquared() const
 {
 	return Dot(*this);
 }
 
-float Maths::Vec3S::Magnitude() const
+inline float Maths::Vec3S::Magnitude() const
 {
 	__m128 vx = _mm_set_ps1(x);
 	__m128 vy = _mm_set_ps1(y);
@@ -240,7 +240,7 @@ float Maths::Vec3S::Magnitude() const
 	return _mm_cvtss_f32(_mm_sqrt_ss(_mm_add_ps(rx, _mm_add_ps(ry,rz))));
 }
 
-Maths::Vec3S Maths::Vec3S::Normalize() const // A REVOIR
+inline Maths::Vec3S Maths::Vec3S::Normalize() const // A REVOIR
 {
 	if (!std::isfinite(x) || !std::isfinite(y) || !std::isfinite(z))
 	{
@@ -265,23 +265,23 @@ Maths::Vec3S Maths::Vec3S::Normalize() const // A REVOIR
 	return scaled / scaled.Magnitude();
 }
 
-float Maths::Vec3S::DistanceSquared(const Maths::Vec3S& rhs) const
+inline float Maths::Vec3S::DistanceSquared(const Maths::Vec3S& rhs) const
 {
 	return Store(_mm_sub_ps(Load(*this), Load(rhs))).MagnitudeSquared();
 }
 
-float Maths::Vec3S::Distance(const Maths::Vec3S& rhs) const
+inline float Maths::Vec3S::Distance(const Maths::Vec3S& rhs) const
 {
 	return Store(_mm_sub_ps(Load(*this), Load(rhs))).Magnitude();
 }
 
-float Maths::Vec3S::Angle(const Maths::Vec3S& rhs) const // A VOIR
+inline float Maths::Vec3S::Angle(const Maths::Vec3S& rhs) const // A VOIR
 {
 	const float cosine = Normalize().Dot(rhs.Normalize());
 	return std::acos(std::clamp(cosine, -1.f, 1.f));
 }  // A REVOIRE ??
 
-Maths::Vec3S Maths::Vec3S::Lerp(const Maths::Vec3S& a, const Maths::Vec3S& b, float t)
+inline Maths::Vec3S Maths::Vec3S::Lerp(const Maths::Vec3S& a, const Maths::Vec3S& b, float t)
 {
 
 	__m128 va = Load(a);
@@ -292,26 +292,26 @@ Maths::Vec3S Maths::Vec3S::Lerp(const Maths::Vec3S& a, const Maths::Vec3S& b, fl
 	return Store(_mm_add_ps(_mm_mul_ps(va,_mm_sub_ps(v1, vt)), _mm_mul_ps(vb, vt)));
 }
 
-Maths::Vec3S Maths::Vec3S::Min(const Maths::Vec3S& a, const Maths::Vec3S& b)
+inline Maths::Vec3S Maths::Vec3S::Min(const Maths::Vec3S& a, const Maths::Vec3S& b)
 {
 	__m128 va = Load(a);
 	__m128 vb = Load(b);
 	return Store(_mm_min_ps(va, vb));
 }
 
-Maths::Vec3S Maths::Vec3S::Max(const Maths::Vec3S& a, const Maths::Vec3S& b)
+inline Maths::Vec3S Maths::Vec3S::Max(const Maths::Vec3S& a, const Maths::Vec3S& b)
 {
 	__m128 va = Load(a);
 	__m128 vb = Load(b);
 	return Store(_mm_max_ps(va, vb));
 }
 
-const Maths::Vec3S  Maths::Vec3S::Zero{ 0, 0, 0 };
+inline const Maths::Vec3S  Maths::Vec3S::Zero{ 0, 0, 0 };
 
-const Maths::Vec3S  Maths::Vec3S::One{ 1, 1, 1 };
+inline const Maths::Vec3S  Maths::Vec3S::One{ 1, 1, 1 };
 
-const Maths::Vec3S  Maths::Vec3S::UnitX{ 1, 0, 0 };
+inline const Maths::Vec3S  Maths::Vec3S::UnitX{ 1, 0, 0 };
 
-const Maths::Vec3S  Maths::Vec3S::UnitY{ 0, 1, 0 };
+inline const Maths::Vec3S  Maths::Vec3S::UnitY{ 0, 1, 0 };
 
-const Maths::Vec3S  Maths::Vec3S::UnitZ{ 0, 0, 1 };
+inline const Maths::Vec3S  Maths::Vec3S::UnitZ{ 0, 0, 1 };

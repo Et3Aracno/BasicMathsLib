@@ -1,11 +1,11 @@
 #pragma once
 
-__m128 Maths::Vec2S::Load(const Maths::Vec2S& v)
+inline __m128 Maths::Vec2S::Load(const Maths::Vec2S& v)
 {
 	return _mm_setr_ps(v.x, v.y, 0.f, 0.f);
 }
 
-Maths::Vec2S Maths::Vec2S::Store(__m128 val)
+inline Maths::Vec2S Maths::Vec2S::Store(__m128 val)
 {
 	float component[4];
 	_mm_storeu_ps(component, val);
@@ -15,13 +15,13 @@ Maths::Vec2S Maths::Vec2S::Store(__m128 val)
 	};
 }
 
-Maths::Vec2S::Vec2S() : x(0), y(0) {}
+inline Maths::Vec2S::Vec2S() : x(0), y(0) {}
 
-Maths::Vec2S::Vec2S(float _x, float _y) : x(_x), y(_y) {}
+inline Maths::Vec2S::Vec2S(float _x, float _y) : x(_x), y(_y) {}
 
-Maths::Vec2S::Vec2S(const Maths::Vec2S& other) {x = other.x; y = other.y; }
+inline Maths::Vec2S::Vec2S(const Maths::Vec2S& other) {x = other.x; y = other.y; }
 
-Maths::Vec2S Maths::Vec2S::operator+(const Maths::Vec2S& rhs) const
+inline Maths::Vec2S Maths::Vec2S::operator+(const Maths::Vec2S& rhs) const
 {
 	__m128 vp = _mm_setr_ps(x, y, 0, 0);
 	__m128 vrhs = Load(rhs);
@@ -29,21 +29,21 @@ Maths::Vec2S Maths::Vec2S::operator+(const Maths::Vec2S& rhs) const
 	return Store(_mm_add_ps(vp, vrhs));
 }
 
-Maths::Vec2S Maths::Vec2S::operator-(const Maths::Vec2S& rhs) const
+inline Maths::Vec2S Maths::Vec2S::operator-(const Maths::Vec2S& rhs) const
 {
 	const __m128 vp = _mm_setr_ps(x, y, 0, 0);
 	const __m128 vrhs = Load(rhs);
 	return Store(_mm_sub_ps(vp, vrhs));
 }
 
-Maths::Vec2S Maths::Vec2S::operator*(const Maths::Vec2S& rhs) const
+inline Maths::Vec2S Maths::Vec2S::operator*(const Maths::Vec2S& rhs) const
 {
 	__m128 vp = _mm_setr_ps(x, y, 0, 0);
 	__m128 vrhs = Load(rhs);
 	return Store(_mm_mul_ps(vp, vrhs));
 }
 
-Maths::Vec2S Maths::Vec2S::operator/(const Maths::Vec2S& rhs) const
+inline Maths::Vec2S Maths::Vec2S::operator/(const Maths::Vec2S& rhs) const
 {
 	__m128 vrhs = Load(rhs);
 	if (rhs.x == 0.f || rhs.y == 0.f)
@@ -54,12 +54,12 @@ Maths::Vec2S Maths::Vec2S::operator/(const Maths::Vec2S& rhs) const
 	return Store(_mm_div_ps(vp, vrhs));
 }
 
-Maths::Vec2S Maths::Vec2S::operator-() const
+inline Maths::Vec2S Maths::Vec2S::operator-() const
 {
 	return {-x, -y};
 }
 
-Maths::Vec2S Maths::Vec2S::operator*(float scalar) const
+inline Maths::Vec2S Maths::Vec2S::operator*(float scalar) const
 {
 	__m128 vp = _mm_setr_ps(x, y, 0, 0);
 	__m128 vs = _mm_set_ps1(scalar);
@@ -67,7 +67,7 @@ Maths::Vec2S Maths::Vec2S::operator*(float scalar) const
 	return Store(_mm_mul_ps(vp, vs));
 }
 
-Maths::Vec2S Maths::Vec2S::operator/(float scalar) const
+inline Maths::Vec2S Maths::Vec2S::operator/(float scalar) const
 {
 	__m128 vs = _mm_set_ps1(scalar);
 	__m128 vzero = _mm_set_ps1(0);
@@ -80,7 +80,7 @@ Maths::Vec2S Maths::Vec2S::operator/(float scalar) const
 	return Store(_mm_div_ps(vp, vs));
 }
 
-Maths::Vec2S& Maths::Vec2S::operator+=(const Maths::Vec2S& rhs)
+inline Maths::Vec2S& Maths::Vec2S::operator+=(const Maths::Vec2S& rhs)
 {
 	__m128 vp = Load(*this);
 	__m128 vrhs = Load(rhs);
@@ -89,7 +89,7 @@ Maths::Vec2S& Maths::Vec2S::operator+=(const Maths::Vec2S& rhs)
 	return *this;
 }
 
-Maths::Vec2S& Maths::Vec2S::operator-=(const Maths::Vec2S& rhs)
+inline Maths::Vec2S& Maths::Vec2S::operator-=(const Maths::Vec2S& rhs)
 {
 	__m128 vp = Load(*this);
 	__m128 vrhs = Load(rhs);
@@ -98,7 +98,7 @@ Maths::Vec2S& Maths::Vec2S::operator-=(const Maths::Vec2S& rhs)
 	return *this;
 }
 
-Maths::Vec2S& Maths::Vec2S::operator*=(const Maths::Vec2S& rhs)
+inline Maths::Vec2S& Maths::Vec2S::operator*=(const Maths::Vec2S& rhs)
 {
 	__m128 vp = Load(*this);
 	__m128 vrhs = Load(rhs);
@@ -107,7 +107,7 @@ Maths::Vec2S& Maths::Vec2S::operator*=(const Maths::Vec2S& rhs)
 	return *this;
 }
 
-Maths::Vec2S& Maths::Vec2S::operator/=(const Maths::Vec2S& rhs)
+inline Maths::Vec2S& Maths::Vec2S::operator/=(const Maths::Vec2S& rhs)
 {
 	if(rhs.x == 0.f || rhs.y == 0.f)
 	{
@@ -121,7 +121,7 @@ Maths::Vec2S& Maths::Vec2S::operator/=(const Maths::Vec2S& rhs)
 	return *this;
 }
 
-Maths::Vec2S& Maths::Vec2S::operator*=(float scalar)
+inline Maths::Vec2S& Maths::Vec2S::operator*=(float scalar)
 {
 	__m128 vp = Load(*this);
 	__m128 vrhs = _mm_set_ps1(scalar);
@@ -130,7 +130,7 @@ Maths::Vec2S& Maths::Vec2S::operator*=(float scalar)
 	return *this;
 }
 
-Maths::Vec2S& Maths::Vec2S::operator/=(float scalar)
+inline Maths::Vec2S& Maths::Vec2S::operator/=(float scalar)
 {
 	__m128 vs = _mm_set_ps1(scalar);
 	__m128 vzero = _mm_set_ps1(0);
@@ -145,7 +145,7 @@ Maths::Vec2S& Maths::Vec2S::operator/=(float scalar)
 	return *this;
 }
 
-bool Maths::Vec2S::operator==(const Maths::Vec2S& rhs) const
+inline bool Maths::Vec2S::operator==(const Maths::Vec2S& rhs) const
 {
 	__m128 vrhs = Load(rhs);
 	__m128 vp = _mm_setr_ps(x, y, 0, 0);
@@ -153,7 +153,7 @@ bool Maths::Vec2S::operator==(const Maths::Vec2S& rhs) const
 	return _mm_movemask_ps(_mm_cmpeq_ps(vrhs, vp)) == 0xF;
 }
 
-bool Maths::Vec2S::operator!=(const Maths::Vec2S& rhs) const
+inline bool Maths::Vec2S::operator!=(const Maths::Vec2S& rhs) const
 {
 	__m128 vrhs = Load(rhs);
 	__m128 vp = _mm_setr_ps(x, y, 0, 0);
@@ -161,7 +161,7 @@ bool Maths::Vec2S::operator!=(const Maths::Vec2S& rhs) const
 	return _mm_movemask_ps((_mm_cmpeq_ps(vrhs, vp))) != 0xF; // ALLER VOUS FAIRE METTRE Y'A PAS DE NOT
 }
 
-float Maths::Vec2S::Dot(const Maths::Vec2S& rhs) const
+inline float Maths::Vec2S::Dot(const Maths::Vec2S& rhs) const
 {
 	__m128 vx = _mm_set_ps1(rhs.x);
 	__m128 vy = _mm_set_ps1(rhs.y);
@@ -177,12 +177,12 @@ float Maths::Vec2S::Dot(const Maths::Vec2S& rhs) const
 	return _mm_cvtss_f32(result);
 }
 
-float Maths::Vec2S::MagnitudeSquared() const
+inline float Maths::Vec2S::MagnitudeSquared() const
 {
 	return Dot(*this);
 }
 
-float Maths::Vec2S::Magnitude() const
+inline float Maths::Vec2S::Magnitude() const
 {
 	__m128 vx = _mm_set_ps1(x);
 	__m128 vy = _mm_set_ps1(y);
@@ -193,7 +193,7 @@ float Maths::Vec2S::Magnitude() const
 	return _mm_cvtss_f32(_mm_sqrt_ss(_mm_add_ps(rx, ry)));
 }
 
-Maths::Vec2S Maths::Vec2S::Normalize() const // A REVOIR
+inline Maths::Vec2S Maths::Vec2S::Normalize() const // A REVOIR
 {
 	if (!std::isfinite(x) || !std::isfinite(y))
 	{
@@ -217,23 +217,23 @@ Maths::Vec2S Maths::Vec2S::Normalize() const // A REVOIR
 	return scaled / scaled.Magnitude();
 } 
 
-float Maths::Vec2S::DistanceSquared(const Maths::Vec2S& rhs) const
+inline float Maths::Vec2S::DistanceSquared(const Maths::Vec2S& rhs) const
 {
 	return Store(_mm_sub_ps(Load(*this), Load(rhs))).MagnitudeSquared();
 }
 
-float Maths::Vec2S::Distance(const Maths::Vec2S& rhs) const
+inline float Maths::Vec2S::Distance(const Maths::Vec2S& rhs) const
 {
 	return Store(_mm_sub_ps(Load(*this), Load(rhs))).Magnitude();
 }
 
-float Maths::Vec2S::Angle(const Maths::Vec2S& rhs) const // A VOIR
+inline float Maths::Vec2S::Angle(const Maths::Vec2S& rhs) const // A VOIR
 {
 	const float cosine = Normalize().Dot(rhs.Normalize());
 	return std::acos(std::clamp(cosine, -1.f, 1.f));
 }  // A REVOIRE ??
 
-Maths::Vec2S Maths::Vec2S::Lerp(const Maths::Vec2S& a, const Maths::Vec2S& b, float t)
+inline Maths::Vec2S Maths::Vec2S::Lerp(const Maths::Vec2S& a, const Maths::Vec2S& b, float t)
 {
 	__m128 va = Load(a);
 	__m128 vb = Load(b);
@@ -243,24 +243,24 @@ Maths::Vec2S Maths::Vec2S::Lerp(const Maths::Vec2S& a, const Maths::Vec2S& b, fl
 	return Store(_mm_add_ps(_mm_mul_ps(va, _mm_sub_ps(v1, vt)), _mm_mul_ps(vb, vt)));
 }
 
-Maths::Vec2S Maths::Vec2S::Min(const Maths::Vec2S& a, const Maths::Vec2S& b)
+inline Maths::Vec2S Maths::Vec2S::Min(const Maths::Vec2S& a, const Maths::Vec2S& b)
 {
 	__m128 va = Load(a);
 	__m128 vb = Load(b);
 	return Store(_mm_min_ps(va, vb));
 }
 
-Maths::Vec2S Maths::Vec2S::Max(const Maths::Vec2S& a, const Maths::Vec2S& b)
+inline Maths::Vec2S Maths::Vec2S::Max(const Maths::Vec2S& a, const Maths::Vec2S& b)
 {
 	__m128 va = Load(a);
 	__m128 vb = Load(b);
 	return Store(_mm_max_ps(va, vb));
 }
 
-const Maths::Vec2S  Maths::Vec2S::Zero{0, 0};
+inline const Maths::Vec2S  Maths::Vec2S::Zero{0, 0};
 
-const Maths::Vec2S  Maths::Vec2S::One{1, 1};
+inline const Maths::Vec2S  Maths::Vec2S::One{1, 1};
 
-const Maths::Vec2S  Maths::Vec2S::UnitX{1, 0};
+inline const Maths::Vec2S  Maths::Vec2S::UnitX{1, 0};
 
-const Maths::Vec2S  Maths::Vec2S::UnitY{0, 1};
+inline const Maths::Vec2S  Maths::Vec2S::UnitY{0, 1};

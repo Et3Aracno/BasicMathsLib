@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <xmmintrin.h>
 #include <cmath>
 #include <concepts>
 #include <stdexcept>

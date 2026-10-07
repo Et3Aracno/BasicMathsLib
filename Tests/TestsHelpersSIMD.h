@@ -12,7 +12,7 @@ namespace TestHelpersSIMD
 {
     using Microsoft::VisualStudio::CppUnitTestFramework::Assert;
 
-    void Near(float expected, float actual, const wchar_t* context = L"value")
+    inline void Near(float expected, float actual, const wchar_t* context = L"value")
     {
         // A failed NaN/Inf result must never silently pass a tolerance check.
         const float absoluteTolerance = 64.f *std::numeric_limits<float>::epsilon();
@@ -26,20 +26,20 @@ namespace TestHelpersSIMD
         Assert::IsTrue(close, message.str().c_str());
     }
 
-    void VectorNear2(const Maths::Vec2S& expected, const Maths::Vec2S& actual)
+    inline void VectorNear2(const Maths::Vec2S& expected, const Maths::Vec2S& actual)
     {
         Near(expected.x, actual.x, L"x");
         Near(expected.y, actual.y, L"y");
     }
 
-    void VectorNear3(const Maths::Vec3S& expected, const Maths::Vec3S& actual)
+    inline void VectorNear3(const Maths::Vec3S& expected, const Maths::Vec3S& actual)
     {
         Near(expected.x, actual.x, L"x");
         Near(expected.y, actual.y, L"y");
         Near(expected.z, actual.z, L"z");
     }
 
-    void VectorNear4(const Maths::Vec4S& expected, const Maths::Vec4S& actual)
+    inline void VectorNear4(const Maths::Vec4S& expected, const Maths::Vec4S& actual)
     {
         Near(expected.x, actual.x, L"x");
         Near(expected.y, actual.y, L"y");
