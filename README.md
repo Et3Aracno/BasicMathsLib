@@ -16,23 +16,29 @@
 
 ### Matrix 4x4
 
-CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
-SSE usable: true
-AVX2 usable: true
-FMA usable: true
-Seed: 3087803272, vectors per batch: 250000
-Batch incl. checksum: min 0.545 ms, median 0.559 ms, max 0.600 ms
-Observable checksum: 86413.074
-Epochs : 2000
-Matrix Value : Default  
+CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
+SSE usable: true  
+AVX2 usable: true  
+FMA usable: true  
+Batch incl. checksum: min 0.574 ms, median 0.599 ms, max 0.659 ms  
+Observable checksum: -37821.203  
+Epochs : 16  
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
-|                1.52 |      659,572,854.36 |    0.2% |      2.21 | `Matrix4x4 * Vec4`
-|                2.27 |      440,033,378.97 |    0.2% |      2.21 | `Matrix4x4 SIMD * Vec4 SIMD`
+|                1.90 |      525,064,499.62 |    0.3% |      0.02 | `Matrix4x4 * Vec4`
+|                2.27 |      439,956,458.69 |    0.2% |      0.02 | `Matrix4x4 SIMD * Vec4SIMD`
+  
+  
+Seed: 4199792540, vectors per batch: 250000  
+Batch incl. checksum: min 0.553 ms, median 0.572 ms, max 0.612 ms  
+Observable checksum: 11168.087  
+Epochs : 250 000  
 
-
-
+|               ns/op |                op/s |    err% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------:|:----------
+|                1.90 |      524,936,570.55 |    0.4% |    264.85 | `Matrix4x4 * Vec4`
+|                2.27 |      439,812,020.29 |    0.2% |    275.24 | `Matrix4x4 SIMD * Vec4SIMD`
 
 
 
@@ -131,8 +137,5 @@ Vector values : {1.0f, 2.0f, 3.0f, 4.0f};
 |               34.77 |       28,756,729.20 |    0.1% |      2.20 | `Normalize Vec4`
 |                8.34 |      119,933,805.50 |    1.1% |      2.21 | `Normalize Vec4SIMD`
   
-|               ns/op |                op/s |    err% |     total | benchmark
-|--------------------:|--------------------:|--------:|----------:|:----------
-|               34.77 |       28,756,729.20 |    0.1% |      2.20 | `Normalize Vec4`
-|                8.34 |      119,933,805.50 |    1.1% |      2.21 | `Normalize Vec4SIMD`
+
 
