@@ -3,4 +3,5 @@
 #include "Matrix3x3-SIMD.h"
 #include "Matrix4x4.h"
 #include "Vec3.h"
+#include "Vec3S.h"
 #include "Vec4.h"

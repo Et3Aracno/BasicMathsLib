@@ -54,6 +54,21 @@
     <Filter Include="Fichiers d%27en-tête\Inl\SIMD\Matrix">
       <UniqueIdentifier>{7897cd3c-d361-40ff-8142-6d96a518f4dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Inl\SIMD\Vect\float">
+      <UniqueIdentifier>{fbfb5d90-d027-4e62-a35e-189aeec750af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Inl\SIMD\Vect\double">
+      <UniqueIdentifier>{c06a19fc-4550-46b5-b545-7c68e67c33d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Headers\SIMD\Vec">
+      <UniqueIdentifier>{b18bed57-0613-4221-a6a3-d2ce52159284}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Headers\SIMD\Vec\float">
+      <UniqueIdentifier>{ce23f7a1-98be-4912-8164-3a007add2e43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Headers\SIMD\Vec\double">
+      <UniqueIdentifier>{23457fe6-6ed8-488a-88c1-3950f968c4f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MathLib.h">
@@ -77,17 +92,26 @@
     <ClInclude Include="Quaternions.h">
       <Filter>Fichiers d%27en-tête\Headers\C++\Quat</Filter>
     </ClInclude>
-    <ClInclude Include="Vec2S.h">
-      <Filter>Fichiers d%27en-tête\Headers\SIMD</Filter>
-    </ClInclude>
-    <ClInclude Include="Vec3S.h">
-      <Filter>Fichiers d%27en-tête\Headers\SIMD</Filter>
-    </ClInclude>
-    <ClInclude Include="Vec4S.h">
-      <Filter>Fichiers d%27en-tête\Headers\SIMD</Filter>
-    </ClInclude>
     <ClInclude Include="Matrix3x3-SIMD.h">
       <Filter>Fichiers d%27en-tête\Headers\SIMD\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2S.h">
+      <Filter>Fichiers d%27en-tête\Headers\SIMD\Vec\float</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3S.h">
+      <Filter>Fichiers d%27en-tête\Headers\SIMD\Vec\float</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec4S.h">
+      <Filter>Fichiers d%27en-tête\Headers\SIMD\Vec\float</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2dS.h">
+      <Filter>Fichiers d%27en-tête\Headers\SIMD\Vec\double</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3dS.h">
+      <Filter>Fichiers d%27en-tête\Headers\SIMD\Vec\double</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec4dS.h">
+      <Filter>Fichiers d%27en-tête\Headers\SIMD\Vec\double</Filter>
     </ClInclude>
     <ClInclude Include="Matrix4x4-SIMD.h">
       <Filter>Fichiers d%27en-tête\Headers\SIMD\Matrix</Filter>
@@ -112,17 +136,26 @@
     <None Include="Quaternions.inl">
       <Filter>Fichiers d%27en-tête\Inl\C++\Quat</Filter>
     </None>
-    <None Include="Vec2S.inl">
-      <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect</Filter>
-    </None>
-    <None Include="Vec3S.inl">
-      <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect</Filter>
-    </None>
-    <None Include="Vec4S.inl">
-      <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect</Filter>
-    </None>
     <None Include="Matrix3x3-SIMD.inl">
       <Filter>Fichiers d%27en-tête\Inl\SIMD\Matrix</Filter>
+    </None>
+    <None Include="Vec2S.inl">
+      <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect\float</Filter>
+    </None>
+    <None Include="Vec3S.inl">
+      <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect\float</Filter>
+    </None>
+    <None Include="Vec4S.inl">
+      <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect\float</Filter>
+    </None>
+    <None Include="Vec3dS.inl">
+      <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect\double</Filter>
+    </None>
+    <None Include="Vec2dS.inl">
+      <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect\double</Filter>
+    </None>
+    <None Include="Vec4dS.inl">
+      <Filter>Fichiers d%27en-tête\Inl\SIMD\Vect\double</Filter>
     </None>
     <None Include="Matrix4x4-SIMD.inl">
       <Filter>Fichiers d%27en-tête\Inl\SIMD\Matrix</Filter>

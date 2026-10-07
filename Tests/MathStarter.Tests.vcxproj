@@ -83,12 +83,16 @@
     <ClCompile Include="..\Tests\Vec4Tests.cpp" />
     <ClCompile Include="..\Platform\CpuFeatures.cpp" />
     <ClCompile Include="CpuFeaturesTests.cpp" />
+    <ClCompile Include="Vec2SIMDTests.cpp" />
+    <ClCompile Include="Vec3SIMDTests.cpp" />
+    <ClCompile Include="Vec4SIMDTests.cpp" />
     <ClCompile Include="Matrix3x3SIMDTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Platform\CpuFeatures.h" />
     <ClInclude Include="..\Benchmark\Benchmark.h" />
     <ClInclude Include="..\Tests\TestHelpers.h" />
+    <ClInclude Include="TestsHelpersSIMD.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)/Microsoft.Cpp.targets" />
 </Project>

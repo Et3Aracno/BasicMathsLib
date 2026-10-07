@@ -1,5 +1,4 @@
 #pragma once 
-#include "Matrix3x3.h"
 
 template <std::floating_point T>
 Maths::Matrix3x3<T>::Matrix3x3() : values{}
