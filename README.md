@@ -23,6 +23,7 @@ FMA usable: true
 Seed: 3087803272, vectors per batch: 250000
 Batch incl. checksum: min 0.545 ms, median 0.559 ms, max 0.600 ms
 Observable checksum: 86413.074
+Epochs : 2000
 Matrix Value : Default  
 
 |               ns/op |                op/s |    err% |     total | benchmark
@@ -45,6 +46,7 @@ FMA usable: true
 Seed: 4105796076, vectors per batch: 250000
 Batch incl. checksum: min 0.580 ms, median 0.596 ms, max 0.821 ms
 Observable checksum: -6347.378
+Epochs : 2000
 Matrix Values :   
 
 
@@ -104,6 +106,7 @@ FMA usable: true
 Seed: 1429762907, vectors per batch: 250000
 Batch incl. checksum: min 0.544 ms, median 0.563 ms, max 0.599 ms
 Observable checksum: 41821.994
+Epochs : 2000
 Vector values : {1.0f, 2.0f, 3.0f, 4.0f};
 
 |               ns/op |                op/s |    err% |     total | benchmark
@@ -120,6 +123,7 @@ FMA usable: true
 Seed: 1310429572, vectors per batch: 250000
 Batch incl. checksum: min 0.663 ms, median 0.732 ms, max 0.856 ms
 Observable checksum: 3859.420
+Epochs : 2000
 Vector values : {1.0f, 2.0f, 3.0f, 4.0f};
 
 |               ns/op |                op/s |    err% |     total | benchmark
