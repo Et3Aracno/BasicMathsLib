@@ -22,7 +22,7 @@ AVX2 usable: true
 FMA usable: true  
 Batch incl. checksum: min 0.574 ms, median 0.599 ms, max 0.659 ms  
 Observable checksum: -37821.203  
-Epochs : 16  
+Epochs : 20  
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
@@ -105,20 +105,34 @@ La version C++ utilise les matrices `Matrix3x3<float>` tandis que la version SIM
 
 ### Vector 4
 
-CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
-SSE usable: true
-AVX2 usable: true
-FMA usable: true
-Seed: 1429762907, vectors per batch: 250000
-Batch incl. checksum: min 0.544 ms, median 0.563 ms, max 0.599 ms
-Observable checksum: 41821.994
-Epochs : 2000
-Vector values : {1.0f, 2.0f, 3.0f, 4.0f};
+CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
+SSE usable: true  
+AVX2 usable: true  
+FMA usable: true  
+Seed: 3528253797, vectors per batch: 250000  
+Batch incl. checksum: min 0.572 ms, median 0.603 ms, max 0.632 ms  
+Observable checksum: -70450.920  
+Epochs : 2000  
+Vector values : {1.0f, 2.0f, 3.0f, 4.0f};  
+  
+|               ns/op |                op/s |    err% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------:|:----------
+|                0.70 |    1,437,463,215.13 |    0.3% |    274.80 | ```Dot Vec4<float> `
+|                0.76 |    1,309,038,734.29 |    1.0% |    298.46 | ```Dot Vec4 SIMD`  
+
+
+
+Seed: 4044217307, vectors per batch: 250000  
+Batch incl. checksum: min 0.637 ms, median 1.155 ms, max 1.709 ms  
+Observable checksum: 10433.258  
+Epochs : 20  
+Vector values : {1.0f, 2.0f, 3.0f, 4.0f};  
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
-|                0.69 |    1,440,618,017.11 |    0.1% |      2.20 | `Dot Vec4`
-|                0.76 |    1,320,577,446.69 |    0.1% |      2.19 | `Dot Vec4S`  
+|                1.24 |      803,391,813.72 |   12.2% |      0.03 | :wavy_dash: ```Dot Vec4<float> ` (Unstable with ~1,128,720.1 iters. Increase `minEpochIterations` to e.g. 11287201)
+|                1.28 |      781,966,427.06 |   17.1% |      0.02 | :wavy_dash: ```Dot Vec4 SIMD` (Unstable with ~721,267.2 iters. Increase `minEpochIterations` to e.g. 7212672)
+  
 Text  
 
 
@@ -126,16 +140,33 @@ CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
 SSE usable: true
 AVX2 usable: true
 FMA usable: true
-Seed: 1310429572, vectors per batch: 250000
-Batch incl. checksum: min 0.663 ms, median 0.732 ms, max 0.856 ms
-Observable checksum: 3859.420
-Epochs : 2000
+
+
+Seed: 345291603, vectors per batch: 250000
+Batch incl. checksum: min 0.665 ms, median 0.713 ms, max 1.040 ms
+Observable checksum: -19234.624
 Vector values : {1.0f, 2.0f, 3.0f, 4.0f};
+Epochs : 250000
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
-|               34.77 |       28,756,729.20 |    0.1% |      2.20 | `Normalize Vec4`
-|                8.34 |      119,933,805.50 |    1.1% |      2.21 | `Normalize Vec4SIMD`
+|               49.84 |       20,063,026.07 |   11.1% |    284.65 | :wavy_dash: ```Normalize Vec4<float> ` (Unstable with ~23,426.9 iters. Increase `minEpochIterations` to e.g. 234269)
+|               19.63 |       50,936,974.49 |    5.4% |    319.40 | :wavy_dash: ```Normalize Vec4 SIMD` (Unstable with ~70,090.9 iters. Increase `minEpochIterations` to e.g. 700909)
+
+
+
+
+
+Seed: 109568798, vectors per batch: 250000
+Batch incl. checksum: min 0.747 ms, median 0.816 ms, max 1.029 ms
+Observable checksum: -159453.508
+Vector values : {1.0f, 2.0f, 3.0f, 4.0f};
+Epochs : 20
+
+|               ns/op |                op/s |    err% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------:|:----------
+|               37.15 |       26,917,102.23 |    2.8% |      0.02 | ```Normalize Vec4<float> `
+|                8.89 |      112,546,450.55 |    4.3% |      0.02 | ```Normalize Vec4 SIMD`
   
 
 
