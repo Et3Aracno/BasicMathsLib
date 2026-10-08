@@ -7,182 +7,81 @@
 ## Context
 
 
-
-
-
-
-
-## Matrix
-
-### Matrix 4x4
-
-CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
-SSE usable: true  
-AVX2 usable: true  
-FMA usable: true 
-Compiler : Visual Studio 2022
-Configuration : Release x64
-Architecture : x64
-Instruction set : SSE
-Batch incl. checksum: min 0.574 ms, median 0.599 ms, max 0.659 ms  
-Observable checksum: -37821.203  
-Epochs : 20  
-
-|               ns/op |                op/s |    err% |     total | benchmark
-|--------------------:|--------------------:|--------:|----------:|:----------
-|                1.90 |      525,064,499.62 |    0.3% |      0.02 | `Matrix4x4 * Vec4`
-|                2.27 |      439,956,458.69 |    0.2% |      0.02 | `Matrix4x4 SIMD * Vec4SIMD`
+## Benchmark
+lot : 250 000  
   
-  
-Seed: 4199792540, vectors per batch: 250000  
-Batch incl. checksum: min 0.553 ms, median 0.572 ms, max 0.612 ms  
-Observable checksum: 11168.087  
-Epochs : 250 000  
-
-|               ns/op |                op/s |    err% |     total | benchmark
-|--------------------:|--------------------:|--------:|----------:|:----------
-|                1.90 |      524,936,570.55 |    0.4% |    264.85 | `Matrix4x4 * Vec4`
-|                2.27 |      439,812,020.29 |    0.2% |    275.24 | `Matrix4x4 SIMD * Vec4SIMD`
-
-
-
-
-### Matrix 3x3  
-Les mêmes valeurs et le meme matériel sont utilisées pour les versions C++ et SIMD afin de garantir des conditions de comparaison identiques.
+idk: 2
 CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
 SSE usable: true
 AVX2 usable: true
 FMA usable: true
-Compiler : Visual Studio 2022
-Configuration : Release x64
-Architecture : x64
-Instruction set : SSE
-Seed: 4105796076, vectors per batch: 250000
-Batch incl. checksum: min 0.580 ms, median 0.596 ms, max 0.821 ms
-Observable checksum: -6347.378
-Epochs : 2000
-Matrix Values :   
-
-
-#### Matrice A
-
-|   | Colonne 1 | Colonne 2 | Colonne 3 |
-|---|---:|---:|---:|
-| **Ligne 1** | 1 | 2 | 3 |
-| **Ligne 2** | 4 | 5 | 6 |
-| **Ligne 3** | 7 | 8 | 10 |
-
-#### Matrice B
-
-|   | Colonne 1 | Colonne 2 | Colonne 3 |
-|---|---:|---:|---:|
-| **Ligne 1** | 2 | 4 | 1 |
-| **Ligne 2** | 3 | 1 | 5 |
-| **Ligne 3** | 6 | 2 | 4 |
-
-La version C++ utilise les matrices `Matrix3x3<float>` tandis que la version SIMD utilise les mêmes valeurs avec `Matrix3x3SIMD`.
-
+Seed: 2629990972, vectors per batch: 250000
+Batch incl. checksum: min 0.225 ms, median 0.227 ms, max 0.233 ms
+Observable checksum: 0.000
+Build: Release x640.000
+Batch Size: 2500000.000
+Warmup Size: 100.000
+Epochs Size: 1000.000
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
-|                1.21 |      823,276,157.18 |    0.2% |      2.18 | `Matrix3x3 Add`
-|                0.57 |    1,758,139,712.36 |    0.3% |      2.19 | `Matrix3x3 SIMD Add`
-|                1.21 |      823,623,590.44 |    0.1% |      2.20 | `Matrix3x3 Subtract`
-|                0.57 |    1,760,653,520.28 |    0.1% |      2.20 | `Matrix3x3 SIMD Subtract`
-|                3.79 |      264,106,048.03 |    0.1% |      2.20 | `Matrix3x3 Multiply`
-|                1.57 |      638,567,123.78 |    0.5% |      2.20 | `Matrix3x3 SIMD Multiply`
-|                0.57 |    1,760,788,352.47 |    0.1% |      2.20 | `Matrix3x3 Scalar Multiply`
-|                0.63 |    1,583,995,496.02 |    0.2% |      2.20 | `Matrix3x3 SIMD Scalar Multiply`
-|                1.14 |      880,355,581.15 |    0.1% |      2.19 | `Matrix3x3 Transpose`
-|                0.66 |    1,508,128,109.08 |    0.2% |      2.20 | `Matrix3x3 SIMD Transpose`
-|               11.66 |       85,728,069.86 |    0.8% |      2.20 | `Matrix3x3 Determinant`
-|                1.54 |      649,998,126.85 |    0.1% |      2.20 | `Matrix3x3 SIMD Determinant`
-|               59.56 |       16,790,216.58 |    0.4% |      2.20 | `Matrix3x3 Inverse`
-|                5.69 |      175,655,701.09 |    0.1% |      2.20 | `Matrix3x3 SIMD Inverse`
-  
-  
-## Vector
+|        9,627,150.00 |              103.87 |    0.8% |      0.97 | `Normalize C++`
+|        1,757,850.00 |              568.88 |    1.6% |      0.18 | `Normalize SIMD`
+|          221,695.00 |            4,510.70 |    3.0% |      0.11 | `Dot C++`
+|          315,812.50 |            3,166.44 |    0.6% |      0.11 | `Dot SIMD`
+|        1,502,600.00 |              665.51 |    5.4% |      0.14 | :wavy_dash: `Matrix4x4 * Vec4 C++` (Unstable with ~1.0 iters. Increase `minEpochIterations` to e.g. 10)
+|        1,334,600.00 |              749.29 |   11.2% |      0.13 | :wavy_dash: `Matrix4x4 * Vec4 SIMD` (Unstable with ~1.0 iters. Increase `minEpochIterations` to e.g. 10)
 
 
-
-### Vector 3
-
-
-
-
-
-### Vector 4
-
-CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
-SSE usable: true  
-AVX2 usable: true  
-FMA usable: true  
-Compiler : Visual Studio 2022
-Configuration : Release x64
-Architecture : x64
-Instruction set : SSE
-Seed: 3528253797, vectors per batch: 250000  
-Batch incl. checksum: min 0.572 ms, median 0.603 ms, max 0.632 ms  
-Observable checksum: -70450.920  
-Epochs : 2000  
-Vector values : {1.0f, 2.0f, 3.0f, 4.0f};  
-  
-|               ns/op |                op/s |    err% |     total | benchmark
-|--------------------:|--------------------:|--------:|----------:|:----------
-|                0.70 |    1,437,463,215.13 |    0.3% |    274.80 | ```Dot Vec4<float> `
-|                0.76 |    1,309,038,734.29 |    1.0% |    298.46 | ```Dot Vec4 SIMD`  
-
-
-
-Seed: 4044217307, vectors per batch: 250000  
-Batch incl. checksum: min 0.637 ms, median 1.155 ms, max 1.709 ms  
-Observable checksum: 10433.258  
-Epochs : 20  
-Vector values : {1.0f, 2.0f, 3.0f, 4.0f};  
-
-|               ns/op |                op/s |    err% |     total | benchmark
-|--------------------:|--------------------:|--------:|----------:|:----------
-|                1.24 |      803,391,813.72 |   12.2% |      0.03 | :wavy_dash: ```Dot Vec4<float> ` (Unstable with ~1,128,720.1 iters. Increase `minEpochIterations` to e.g. 11287201)
-|                1.28 |      781,966,427.06 |   17.1% |      0.02 | :wavy_dash: ```Dot Vec4 SIMD` (Unstable with ~721,267.2 iters. Increase `minEpochIterations` to e.g. 7212672)
-  
-Text  
-
-
+  Lot : 2000  
+idk: 2
 CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
 SSE usable: true
 AVX2 usable: true
 FMA usable: true
-Compiler : Visual Studio 2022
-Configuration : Release x64
-Architecture : x64
-Instruction set : SSE
-
-Seed: 345291603, vectors per batch: 250000
-Batch incl. checksum: min 0.665 ms, median 0.713 ms, max 1.040 ms
-Observable checksum: -19234.624
-Vector values : {1.0f, 2.0f, 3.0f, 4.0f};
-Epochs : 250000
+Seed: 1487105735, vectors per batch: 2000
+Batch incl. checksum: min 0.002 ms, median 0.002 ms, max 0.002 ms
+Observable checksum: 0.000
+Build: Release x640.000
+Batch Size: 2500000.000
+Warmup Size: 100.000
+Epochs Size: 1000.000
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
-|               49.84 |       20,063,026.07 |   11.1% |    284.65 | :wavy_dash: ```Normalize Vec4<float> ` (Unstable with ~23,426.9 iters. Increase `minEpochIterations` to e.g. 234269)
-|               19.63 |       50,936,974.49 |    5.4% |    319.40 | :wavy_dash: ```Normalize Vec4 SIMD` (Unstable with ~70,090.9 iters. Increase `minEpochIterations` to e.g. 700909)
+|           76,299.45 |           13,106.25 |    1.0% |      0.11 | `Normalize C++`
+|           40,535.86 |           24,669.52 |    0.4% |      0.11 | `Normalize SIMD`
+|            1,701.42 |          587,745.50 |    0.9% |      0.11 | `Dot C++`
+|            2,529.32 |          395,363.01 |    0.8% |      0.11 | `Dot SIMD`
+|            8,031.86 |          124,504.09 |    1.1% |      0.11 | `Matrix4x4 * Vec4 C++`
+|            7,643.90 |          130,823.24 |    1.0% |      0.11 | `Matrix4x4 * Vec4 SIMD`
 
 
-
-
-
-Seed: 109568798, vectors per batch: 250000
-Batch incl. checksum: min 0.747 ms, median 0.816 ms, max 1.029 ms
-Observable checksum: -159453.508
-Vector values : {1.0f, 2.0f, 3.0f, 4.0f};
-Epochs : 20
-
-|               ns/op |                op/s |    err% |     total | benchmark
-|--------------------:|--------------------:|--------:|----------:|:----------
-|               37.15 |       26,917,102.23 |    2.8% |      0.02 | ```Normalize Vec4<float> `
-|                8.89 |      112,546,450.55 |    4.3% |      0.02 | ```Normalize Vec4 SIMD`
   
+  Lot : 20  
+idk: 2
+CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
+SSE usable: true
+AVX2 usable: true
+FMA usable: true
+Seed: 4027332694, vectors per batch: 20
+Batch incl. checksum: min 0.000 ms, median 0.000 ms, max 0.000 ms
+Observable checksum: 0.000
+Build: Release x640.000
+Batch Size: 2500000.000
+Warmup Size: 100.000
+Epochs Size: 1000.000
+
+|               ns/op |                op/s |    err% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------:|:----------
+|              762.65 |        1,311,212.12 |    0.8% |      0.11 | `Normalize C++`
+|              150.50 |        6,644,507.17 |    0.7% |      0.11 | `Normalize SIMD`
+|               16.28 |       61,420,641.83 |    0.2% |      0.11 | `Dot C++`
+|               25.29 |       39,545,371.72 |    1.6% |      0.11 | `Dot SIMD`
+|               78.39 |       12,757,028.08 |    1.5% |      0.11 | `Matrix4x4 * Vec4 C++`
+|               73.98 |       13,517,474.51 |    0.3% |      0.11 | `Matrix4x4 * Vec4 SIMD`
+
+
 ## Analysis
 
 
