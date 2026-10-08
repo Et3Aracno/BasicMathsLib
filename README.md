@@ -130,7 +130,7 @@ Speedup: 2,25
 
 Cependant , SIMD ne veux pas dire meilleure , en effet si on regarde les résultats de l'implémentation SIMD de Dot , ces derniers sont inférieure en terme de performance à ceux de l'implémentation C++ sur 250 000 éléments . L'implémentation SIMD obtient un speed-up de seulement 0,70× par rapport à la version C++, ce qui signifie qu'elle est environ 1,43 fois plus lente.  
   
-###Dot    
+### Dot    
 Comme on peut le voir dans le benchmark, avec nos 250 000 vecteurs, l'implémentation SIMD de Dot est moins rapide que l'implémentation C++. En effet, l'implémentation SIMD est 1,42 fois plus lente que l'implémentation C++. Le produit scalaire de vecteurs est une opération simple. En C++, cette dernière nécessite seulement les opérateurs * et peut être effectuée en une ligne. De plus, en Release x64, avec l'auto-vectorisation activée, le compilateur s'occupe déjà de transformer certaines parties du code en SIMD.  
 
 Quant à l'implémentation SIMD, cette dernière ne bénéficie pas de la linéarité de ses valeurs. En effet, le produit scalaire produit un seul résultat flottant à partir des quatre composantes des deux vecteurs. Dans notre implémentation, chaque composante est d'abord dupliquée dans les quatre lanes d'un registre __m128 à l'aide de _mm_set_ps1. Quatre multiplications SIMD sont ensuite effectuées. Par exemple, la valeur x est transformée en [x, x, x, x]. La multiplication avec rhs.x nous donne alors [x·rhs.x, x·rhs.x, x·rhs.x, x·rhs.x]. Les quatre lanes contiennent donc le même résultat, alors qu'une seule valeur sera finalement utilisée.  
