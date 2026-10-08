@@ -159,7 +159,7 @@ namespace Maths
         __m128 row3_0 = _mm_shuffle_ps(values[3], values[3], _MM_SHUFFLE(0, 0, 0, 0));
         __m128 row3_1 = _mm_shuffle_ps(values[3], values[3], _MM_SHUFFLE(1, 1, 1, 1));
         __m128 row3_2 = _mm_shuffle_ps(values[3], values[3], _MM_SHUFFLE(2, 2, 2, 2));
-		__m128 row3_3 = _mm_shuffle_ps(values[3], values[3], _MM_SHUFFLE(3, 3, 3, 3));      //
+		__m128 row3_3 = _mm_shuffle_ps(values[3], values[3], _MM_SHUFFLE(3, 3, 3, 3));      
 
         result.values[3] = _mm_add_ps(_mm_mul_ps(row3_0, rhs.values[0]), _mm_add_ps(_mm_mul_ps(row3_1, rhs.values[1]), _mm_add_ps(_mm_mul_ps(row3_2, rhs.values[2]), _mm_mul_ps(row3_3, rhs.values[3]))));
         
@@ -169,7 +169,7 @@ namespace Maths
         return result;
     }
 
-    inline Maths::Vec4<float> Maths::Matrix4x4SIMD::operator*(const Maths::Vec4<float>& rhs) const
+    inline Maths::Vec4S Maths::Matrix4x4SIMD::operator*(const Maths::Vec4S& rhs) const
     {
         const __m128 vector = _mm_set_ps(
             rhs.w,
@@ -196,7 +196,7 @@ namespace Maths
         _mm_store_ps(temp2, row2);
         _mm_store_ps(temp3, row3);
 
-        return Maths::Vec4<float>(
+        return Maths::Vec4S(
             temp0[0] + temp0[1] + temp0[2] + temp0[3],
             temp1[0] + temp1[1] + temp1[2] + temp1[3],
             temp2[0] + temp2[1] + temp2[2] + temp2[3],
@@ -267,7 +267,7 @@ namespace Maths
     //}
 
 
-    inline Maths::Matrix4x4SIMD Maths::Matrix4x4SIMD::Scale(const Maths::Vec4<float>& scale)
+    inline Maths::Matrix4x4SIMD Maths::Matrix4x4SIMD::Scale(const Maths::Vec4S& scale)
     {
         return Matrix4x4SIMD(
             _mm_set_ps(0.0f, 0.0f, 0.0f, scale.x),

@@ -9,6 +9,31 @@
 #define ANKERL_NANOBENCH_IMPLEMENT
 #include "External Lib/nanobench.h"
 
+Maths::Matrix3x3<float> Matrix3x3A({
+1.0f, 2.0f, 3.0f,
+4.0f, 5.0f, 6.0f,
+7.0f, 8.0f, 10.0f
+    });
+
+Maths::Matrix3x3<float> Matrix3x3B({
+    2.0f, 4.0f, 1.0f,
+    3.0f, 1.0f, 5.0f,
+    6.0f, 2.0f, 4.0f
+    });
+
+Maths::Matrix3x3SIMD Matrix3x3SIMDA({
+    1.0f, 2.0f, 3.0f,
+    4.0f, 5.0f, 6.0f,
+    7.0f, 8.0f, 10.0f
+    });
+
+Maths::Matrix3x3SIMD Matrix3x3SIMDB({
+    2.0f, 4.0f, 1.0f,
+    3.0f, 1.0f, 5.0f,
+    6.0f, 2.0f, 4.0f
+    });
+
+float scalarValue = 2.5f;
 
 extern "C" void Vec3_Add(const Maths::Vec3S* a, const Maths::Vec3S* b, Maths::Vec3S* out);
 
@@ -79,24 +104,97 @@ int main(const int _argc, char** _argv)
     Maths::Matrix3x3SIMD Matrix3x3SIMDTest;
     Maths::Matrix3x3 Matrix3x3;
     Maths::Matrix3x3 Matrix3x3Test;
+   
 
     ankerl::nanobench::Bench bench;
     bench.epochs(2000);
 
-    bench.run("Matrix3x3", [&] {
-       
-        Matrix3x3.operator* (Matrix3x3Test);
-        ankerl::nanobench::doNotOptimizeAway(Matrix3x3.Inverse());
+
+    bench.run("Matrix4x4 ", [&] {
+        auto result = Matrix3x3A + Matrix3x3B;
+        ankerl::nanobench::doNotOptimizeAway(result);
         });
 
-
-    bench.run("Matrix3x3 Simd", [&] {
-        
-        Matrix3x3SIMD.operator*(Matrix3x3SIMDTest);
-        ankerl::nanobench::doNotOptimizeAway(Matrix3x3SIMD.Inverse());
+    bench.run("Matrix3x3 SIMD Add", [&] {
+        auto result = Matrix3x3SIMDA + Matrix3x3SIMDB;
+        ankerl::nanobench::doNotOptimizeAway(result);
         });
-    */
 
+}
+
+/*
+bench.run("Matrix3x3 Add", [&] {
+    auto result = Matrix3x3A + Matrix3x3B;
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+bench.run("Matrix3x3 SIMD Add", [&] {
+    auto result = Matrix3x3SIMDA + Matrix3x3SIMDB;
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+
+bench.run("Matrix3x3 Subtract", [&] {
+    auto result = Matrix3x3A - Matrix3x3B;
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+bench.run("Matrix3x3 SIMD Subtract", [&] {
+    auto result = Matrix3x3SIMDA - Matrix3x3SIMDB;
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+
+bench.run("Matrix3x3 Multiply", [&] {
+    auto result = Matrix3x3A * Matrix3x3B;
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+bench.run("Matrix3x3 SIMD Multiply", [&] {
+    auto result = Matrix3x3SIMDA * Matrix3x3SIMDB;
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+bench.run("Matrix3x3 Scalar Multiply", [&] {
+    auto result = Matrix3x3A * scalarValue;
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+bench.run("Matrix3x3 SIMD Scalar Multiply", [&] {
+    auto result = Matrix3x3SIMDA * scalarValue;
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+bench.run("Matrix3x3 Transpose", [&] {
+    auto result = Matrix3x3A.Transpose();
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+bench.run("Matrix3x3 SIMD Transpose", [&] {
+    auto result = Matrix3x3SIMDA.Transpose();
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+bench.run("Matrix3x3 Determinant", [&] {
+    auto result = Matrix3x3A.Determinant();
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+bench.run("Matrix3x3 SIMD Determinant", [&] {
+    auto result = Matrix3x3SIMDA.Determinant();
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+
+bench.run("Matrix3x3 Inverse", [&] {
+    auto result = Matrix3x3A.Inverse();
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });
+
+bench.run("Matrix3x3 SIMD Inverse", [&] {
+    auto result = Matrix3x3SIMDA.Inverse();
+    ankerl::nanobench::doNotOptimizeAway(result);
+    });*/
    
     Maths::Vec3S g(1, 2, 3), s(4, 5, 6), r;
     Vec3_Add(&g, &s, &r);

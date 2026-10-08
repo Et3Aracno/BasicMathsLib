@@ -7,62 +7,95 @@
 ## Context
 
 
+## Benchmark  
 
-
-
-
-
-## Matrix
-
-### Matrix 4x4
-
-
-
-
-
-
-
-
-
-### Matrix 3x3
-
-CPU: AuthenticAMD / AMD Ryzen 7 5700G with Radeon Graphics
-SSE usable: true
-AVX2 usable: true
-FMA usable: true
-Seed: 739805003, vectors per batch: 250000
-Batch incl. checksum: min 0.719 ms, median 0.958 ms, max 1.299 ms
-Observable checksum: -83346.152
+Lot : 250 000   
+idk: 2  
+CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
+SSE usable: true  
+AVX2 usable: true  
+FMA usable: true  
+Seed: 2629990972  
+Batch incl. checksum: min 0.225 ms, median 0.227 ms, max 0.233 ms  
+Observable checksum: 0.000  
+Build: Release x64  
+Batch Size: 250 000  
+Warmup: 100.000  
+Epochs: 1000.000  
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
-|                5.82 |      171,719,680.50 |    0.0% |      2.14 | `Matrix3x3 Add`
-|                1.51 |      662,325,923.20 |    0.0% |      2.19 | `Matrix3x3 SIMD Add`
-|                5.82 |      171,722,099.66 |    0.0% |      2.20 | `Matrix3x3 Subtract`
-|                1.51 |      662,325,402.01 |    0.0% |      2.20 | `Matrix3x3 SIMD Subtract`
-|                8.42 |      118,694,372.42 |    0.1% |      2.21 | `Matrix3x3 Multiply`
-|                2.16 |      463,529,547.56 |    0.0% |      2.19 | `Matrix3x3 SIMD Multiply`
-|                5.82 |      171,735,522.50 |    0.0% |      2.20 | `Matrix3x3 Scalar Multiply`
-|                1.51 |      662,324,743.72 |    0.0% |      2.20 | `Matrix3x3 SIMD Scalar Multiply`
-|                5.82 |      171,758,236.88 |    0.0% |      2.20 | `Matrix3x3 Transpose`
-|                1.51 |      662,331,844.12 |    0.0% |      2.20 | `Matrix3x3 SIMD Transpose`
-|               23.79 |       42,027,726.38 |    0.1% |      2.20 | `Matrix3x3 Determinant`
-|                1.94 |      515,022,382.28 |    0.0% |      2.20 | `Matrix3x3 SIMD Determinant`
-|              104.10 |        9,606,389.17 |    0.3% |      2.27 | `Matrix3x3 Inverse`
-|                9.46 |      105,719,963.87 |    0.1% |      2.20 | `Matrix3x3 SIMD Inverse`
+|        9,627,150.00 |              103.87 |    0.8% |      0.97 | `Normalize C++`
+|        1,757,850.00 |              568.88 |    1.6% |      0.18 | `Normalize SIMD`
+|          221,695.00 |            4,510.70 |    3.0% |      0.11 | `Dot C++`
+|          315,812.50 |            3,166.44 |    0.6% |      0.11 | `Dot SIMD`
+|        1,502,600.00 |              665.51 |    5.4% |      0.14 | `Matrix4x4 * Vec4 C++` (Unstable with ~1.0 iters. Increase `minEpochIterations` to e.g. 10)
+|        1,334,600.00 |              749.29 |   11.2% |      0.13 | `Matrix4x4 * Vec4 SIMD` (Unstable with ~1.0 iters. Increase `minEpochIterations` to e.g. 10)  
+
+Speedup Normalize : 5.48x  
+Speedup Dot : ≈ 0.70x  
+Speedup Matrix4x4 * Vec4 : ≈ 1.13x  
+
+
+Lot : 2000  
+idk: 2  
+CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
+SSE usable: true  
+AVX2 usable: true  
+FMA usable: true  
+Seed: 1487105735  
+Batch incl. checksum: min 0.002 ms, median 0.002 ms, max 0.002 ms  
+Observable checksum: 0.000  
+Build: Release x64  
+Batch Size: 2000  
+Warmup: 100  
+Epochs: 1000  
+
+|               ns/op |                op/s |    err% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------:|:----------
+|           76,299.45 |           13,106.25 |    1.0% |      0.11 | `Normalize C++`
+|           40,535.86 |           24,669.52 |    0.4% |      0.11 | `Normalize SIMD`
+|            1,701.42 |          587,745.50 |    0.9% |      0.11 | `Dot C++`
+|            2,529.32 |          395,363.01 |    0.8% |      0.11 | `Dot SIMD`
+|            8,031.86 |          124,504.09 |    1.1% |      0.11 | `Matrix4x4 * Vec4 C++`
+|            7,643.90 |          130,823.24 |    1.0% |      0.11 | `Matrix4x4 * Vec4 SIMD`   
+
+Speedup Normalize : 5.32x  
+Speedup Dot : 0.67x  
+Speedup Matrix4x4 * Vec4 : 1.05x  
+
+
+
   
+Lot : 20  
+idk: 2  
+CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
+SSE usable: true  
+AVX2 usable: true  
+FMA usable: true  
+Seed: 4027332694  
+Batch incl. checksum: min 0.000 ms, median 0.000 ms, max 0.000 ms  
+Observable checksum: 0.000  
+Build: Release x64  
+Batch Size: 20.000  
+Warmup Size: 100.000  
+Epochs Size: 1000.000  
+
+|               ns/op |                op/s |    err% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------:|:----------
+|              762.65 |        1,311,212.12 |    0.8% |      0.11 | `Normalize C++`
+|              150.50 |        6,644,507.17 |    0.7% |      0.11 | `Normalize SIMD`
+|               16.28 |       61,420,641.83 |    0.2% |      0.11 | `Dot C++`
+|               25.29 |       39,545,371.72 |    1.6% |      0.11 | `Dot SIMD`
+|               78.39 |       12,757,028.08 |    1.5% |      0.11 | `Matrix4x4 * Vec4 C++`
+|               73.98 |       13,517,474.51 |    0.3% |      0.11 | `Matrix4x4 * Vec4 SIMD`
   
-## Vector
+Speedup Normalize : 5.07x  
+Speedup Dot : 0.64x  
+Speedup Matrix4x4 * Vec4 : 1.06x  
 
 
 
-### Vector 3
-
-
-
-
-
-### Vector 4
-
+## Analysis
 
 

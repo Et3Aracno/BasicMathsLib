@@ -1,9 +1,9 @@
 #pragma once
 #include <xmmintrin.h>
-#include "Vec4.h"
 #include <array>
 #include <limits>
 #include <utility>
+#include "Vec4S.h"
 
 namespace Maths
 {
@@ -29,7 +29,7 @@ namespace Maths
         Matrix4x4SIMD operator+(const Matrix4x4SIMD& rhs) const;
         Matrix4x4SIMD operator-(const Matrix4x4SIMD& rhs) const;
         Matrix4x4SIMD operator*(const Matrix4x4SIMD& rhs) const;
-        Maths::Vec4<float> operator*(const Maths::Vec4<float>& rhs) const;
+        Maths::Vec4S operator*(const Maths::Vec4S& rhs) const;
         Matrix4x4SIMD operator*(float scalar) const;
         Matrix4x4SIMD& operator*=(const Matrix4x4SIMD& rhs);
         bool operator==(const Matrix4x4SIMD& rhs) const;
@@ -38,7 +38,7 @@ namespace Maths
         float Determinant() const;
         //Gauss-Jordan with scaled partial pivoting. Rejects singular/ill-conditioned input.
         Matrix4x4SIMD Inverse(float relativeTolerance = 64.0f * std::numeric_limits<float>::epsilon()) const;
-        static Matrix4x4SIMD Scale(const Maths::Vec4<float>& scale);
+        static Matrix4x4SIMD Scale(const Maths::Vec4S& scale);
         static Matrix4x4SIMD RotationX(float radians);
         static Matrix4x4SIMD RotationY(float radians);
         static Matrix4x4SIMD RotationZ(float radians);
