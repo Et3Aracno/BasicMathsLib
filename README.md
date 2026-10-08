@@ -10,18 +10,18 @@
 ## Benchmark
 lot : 250 000  
   
-idk: 2
-CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
-SSE usable: true
-AVX2 usable: true
-FMA usable: true
-Seed: 2629990972, vectors per batch: 250000
-Batch incl. checksum: min 0.225 ms, median 0.227 ms, max 0.233 ms
-Observable checksum: 0.000
-Build: Release x640.000
-Batch Size: 2500000.000
-Warmup Size: 100.000
-Epochs Size: 1000.000
+idk: 2  
+CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
+SSE usable: true  
+AVX2 usable: true  
+FMA usable: true  
+Seed: 2629990972, vectors per batch: 250000  
+Batch incl. checksum: min 0.225 ms, median 0.227 ms, max 0.233 ms  
+Observable checksum: 0.000  
+Build: Release x640.000  
+Batch Size: 2500000.000  
+Warmup Size: 100.000  
+Epochs Size: 1000.000  
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
@@ -34,18 +34,18 @@ Epochs Size: 1000.000
 
 
   Lot : 2000  
-idk: 2
-CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
-SSE usable: true
-AVX2 usable: true
-FMA usable: true
-Seed: 1487105735, vectors per batch: 2000
-Batch incl. checksum: min 0.002 ms, median 0.002 ms, max 0.002 ms
-Observable checksum: 0.000
-Build: Release x640.000
-Batch Size: 2500000.000
-Warmup Size: 100.000
-Epochs Size: 1000.000
+idk: 2  
+CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
+SSE usable: true  
+AVX2 usable: true  
+FMA usable: true  
+Seed: 1487105735, vectors per batch: 2000  
+Batch incl. checksum: min 0.002 ms, median 0.002 ms, max 0.002 ms  
+Observable checksum: 0.000  
+Build: Release x640.000  
+Batch Size: 2500000.000  
+Warmup Size: 100.000  
+Epochs Size: 1000.000  
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
@@ -59,18 +59,18 @@ Epochs Size: 1000.000
 
   
   Lot : 20  
-idk: 2
-CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
-SSE usable: true
-AVX2 usable: true
-FMA usable: true
-Seed: 4027332694, vectors per batch: 20
-Batch incl. checksum: min 0.000 ms, median 0.000 ms, max 0.000 ms
-Observable checksum: 0.000
-Build: Release x640.000
-Batch Size: 2500000.000
-Warmup Size: 100.000
-Epochs Size: 1000.000
+idk: 2  
+CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
+SSE usable: true  
+AVX2 usable: true  
+FMA usable: true  
+Seed: 4027332694, vectors per batch: 20  
+Batch incl. checksum: min 0.000 ms, median 0.000 ms, max 0.000 ms  
+Observable checksum: 0.000  
+Build: Release x640.000  
+Batch Size: 2500000.000  
+Warmup Size: 100.000  
+Epochs Size: 1000.000  
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
