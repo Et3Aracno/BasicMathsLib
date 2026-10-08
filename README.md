@@ -7,9 +7,9 @@
 ## Context
 
 
-## Benchmark
-lot : 250 000  
-  
+## Benchmark  
+
+Lot : 250 000   
 idk: 2  
 CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
 SSE usable: true  
@@ -33,7 +33,7 @@ Epochs: 1000.000
 |        1,334,600.00 |              749.29 |   11.2% |      0.13 | `Matrix4x4 * Vec4 SIMD` (Unstable with ~1.0 iters. Increase `minEpochIterations` to e.g. 10)  
 
 Speedup Normalize : 5.48x  
-Speedup Dot : ≈ 0.70x
+Speedup Dot : ≈ 0.70x  
 Speedup Matrix4x4 * Vec4 : ≈ 1.13x  
 
 
@@ -43,13 +43,13 @@ CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
 SSE usable: true  
 AVX2 usable: true  
 FMA usable: true  
-Seed: 1487105735
+Seed: 1487105735  
 Batch incl. checksum: min 0.002 ms, median 0.002 ms, max 0.002 ms  
 Observable checksum: 0.000  
 Build: Release x64  
-Batch Size: 2000
-Warmup: 100
-Epochs: 1000 
+Batch Size: 2000  
+Warmup: 100  
+Epochs: 1000  
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
@@ -67,13 +67,13 @@ Speedup Matrix4x4 * Vec4 : 1.05x
 
 
   
-  Lot : 20  
+Lot : 20  
 idk: 2  
 CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
 SSE usable: true  
 AVX2 usable: true  
 FMA usable: true  
-Seed: 4027332694
+Seed: 4027332694  
 Batch incl. checksum: min 0.000 ms, median 0.000 ms, max 0.000 ms  
 Observable checksum: 0.000  
 Build: Release x64  
@@ -91,7 +91,7 @@ Epochs Size: 1000.000
 |               73.98 |       13,517,474.51 |    0.3% |      0.11 | `Matrix4x4 * Vec4 SIMD`
   
 Speedup Normalize : 5.07x  
-Speedup Dot : 0.64x 
+Speedup Dot : 0.64x  
 Speedup Matrix4x4 * Vec4 : 1.06x  
 
 
