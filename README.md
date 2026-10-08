@@ -14,7 +14,6 @@ AVX2 usable: true
 FMA usable: true  
 Seed: 2629990972  
 Batch incl. checksum: min 0.225 ms, median 0.227 ms, max 0.233 ms  
-Observable checksum: 0.000  
 Build: Release x64  
 Batch Size: 250 000  
 Warmup: 100.000  
@@ -42,7 +41,6 @@ AVX2 usable: true
 FMA usable: true  
 Seed: 1487105735  
 Batch incl. checksum: min 0.002 ms, median 0.002 ms, max 0.002 ms  
-Observable checksum: 0.000  
 Build: Release x64  
 Batch Size: 2000  
 Warmup: 100  
@@ -72,7 +70,6 @@ AVX2 usable: true
 FMA usable: true  
 Seed: 4027332694  
 Batch incl. checksum: min 0.000 ms, median 0.000 ms, max 0.000 ms  
-Observable checksum: 0.000  
 Build: Release x64  
 Batch Size: 20.000  
 Warmup Size: 100.000  
