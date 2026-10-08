@@ -42,11 +42,11 @@ int main(const int _argc, char** _argv)
     using Maths::Vec3S;
     using Maths::Vec4;
     using Maths::Matrix4x4;
-    Vec3S a{1.f,2.f,3.f};
-    Vec3S b{4.f,5.f,6.f};
+    Vec3S a{ 1.f,2.f,3.f };
+    Vec3S b{ 4.f,5.f,6.f };
     Vec3S c = a * 2.f;
     std::cout << "idk: " << a.y << '\n';
-    const auto matrix = Matrix4x4<>::Translation({10,20,30}) * Matrix4x4<>::Scale({2,3,4});
+    const auto matrix = Matrix4x4<>::Translation({ 10,20,30 }) * Matrix4x4<>::Scale({ 2,3,4 });
     //const auto point = matrix.TransformPoint(a);
     //std::cout << "Point: " << point.x << ", " << point.y << ", " << point.z << '\n';
 
@@ -54,16 +54,16 @@ int main(const int _argc, char** _argv)
     const auto cpu = Platform::CpuFeatures::Detect();
     std::cout << "CPU: " << cpu.Vendor() << " / " << cpu.Brand() << '\n';
     std::cout << std::boolalpha
-              << "SSE usable: " << cpu.CanUse(Platform::CpuFeature::SSE) << '\n'
-              << "AVX2 usable: " << cpu.CanUse(Platform::CpuFeature::AVX2) << '\n'
-              << "FMA usable: " << cpu.CanUse(Platform::CpuFeature::FMA) << '\n';
+        << "SSE usable: " << cpu.CanUse(Platform::CpuFeature::SSE) << '\n'
+        << "AVX2 usable: " << cpu.CanUse(Platform::CpuFeature::AVX2) << '\n'
+        << "FMA usable: " << cpu.CanUse(Platform::CpuFeature::FMA) << '\n';
 #else
     std::cout << "CPU detection demo is MSVC/Windows-only.\n";
 #endif
 
     // Runtime inputs. Optional integer seed allows reproducing a run.
     const auto seed = _argc > 1 ? static_cast<unsigned int>(std::strtoul(_argv[1], nullptr, 10))
-                              : std::random_device{}();
+        : std::random_device{}();
     std::mt19937 engine(seed);
     std::uniform_real_distribution<float> distribution(-10.0f, 10.0f);
     const std::size_t count = 250000;
@@ -72,31 +72,31 @@ int main(const int _argc, char** _argv)
     std::vector<Vec4<>> output(count);
     for (std::size_t i = 0; i < count; ++i)
     {
-        left[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
-        right[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
+        left[i] = { distribution(engine), distribution(engine), distribution(engine), distribution(engine) };
+        right[i] = { distribution(engine), distribution(engine), distribution(engine), distribution(engine) };
     }
 
     const auto result = Benchmark::Run([&]
-    {
-        for (std::size_t i = 0; i < count; ++i)
         {
-            output[i] = left[i] + right[i];
-        }
-        // Included in the measured time. Simple and observable, not a magic barrier.
-        double checksum = 0;
-        for (const auto& v : output)
-        {
-            checksum += static_cast<double>(v.x) + v.y + v.z + v.w;
-        }
-        return checksum;
-    });
+            for (std::size_t i = 0; i < count; ++i)
+            {
+                output[i] = left[i] + right[i];
+            }
+            // Included in the measured time. Simple and observable, not a magic barrier.
+            double checksum = 0;
+            for (const auto& v : output)
+            {
+                checksum += static_cast<double>(v.x) + v.y + v.z + v.w;
+            }
+            return checksum;
+        });
 
     std::cout << std::fixed << std::setprecision(3)
-              << "Seed: " << seed << ", vectors per batch: " << count << '\n'
-              << "Batch incl. checksum: min " << result.minimumMs
-              << " ms, median " << result.medianMs
-              << " ms, max " << result.maximumMs << " ms\n"
-              << "Observable checksum: " << result.checksum << '\n';
+        << "Seed: " << seed << ", vectors per batch: " << count << '\n'
+        << "Batch incl. checksum: min " << result.minimumMs
+        << " ms, median " << result.medianMs
+        << " ms, max " << result.maximumMs << " ms\n"
+        << "Observable checksum: " << result.checksum << '\n';
 
 
 
@@ -104,7 +104,7 @@ int main(const int _argc, char** _argv)
     Maths::Matrix3x3SIMD Matrix3x3SIMDTest;
     Maths::Matrix3x3 Matrix3x3;
     Maths::Matrix3x3 Matrix3x3Test;
-   
+
 
     ankerl::nanobench::Bench bench;
     bench.epochs(2000);
@@ -195,8 +195,26 @@ bench.run("Matrix3x3 SIMD Inverse", [&] {
     auto result = Matrix3x3SIMDA.Inverse();
     ankerl::nanobench::doNotOptimizeAway(result);
     });*/
-   
-    Maths::Vec3S g(1, 2, 3), s(4, 5, 6), r;
+
+    Maths::Vec3S Vec3STest;
+    Maths::Vec3S Vec3S1;
+    Maths::Vec3 Vec3Test;
+    Maths::Vec3 Vec31;
+
+    ankerl::nanobench::Bench bench;
+    bench.epochs(2000);
+
+    bench.run("DotVec3", [&] {
+        auto result = Vec3Test.Dot(Vec31);
+        ankerl::nanobench::doNotOptimizeAway(result);
+        });
+
+    bench.run("MatrDotVec3 SIMD", [&] {
+        auto result = Vec3STest.Dot(Vec3S1);
+        ankerl::nanobench::doNotOptimizeAway(result);
+        });
+
+    /*Maths::Vec3S g(1, 2, 3), s(4, 5, 6), r;
     Vec3_Add(&g, &s, &r);
-    std::cout << r.x << r.y << r.z << std::endl;
+    std::cout << r.x << r.y << r.z << std::endl;*/
 }
