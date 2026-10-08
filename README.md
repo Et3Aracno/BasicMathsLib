@@ -1,10 +1,7 @@
 # Technical Benchmark
 
-
-
-
-
 ## Context
+Ce document a été réalisé à la suite du développement d'une bibliothèque mathématique, afin de comparer les performances d'implémentations SIMD et C++ de mêmes fonctions, mais aussi de démontrer l'importance de l'optimisation des fonctions mathématiques.  
 
 
 ## Benchmark  
@@ -101,22 +98,22 @@ Speedup Matrix4x4 * Vec4 : 1.06x
 ### Profiling CPU  
 Nous avons choisi de sélectionner la normalisation de vecteurs pour le profiling CPU, car cette dernière, avec un lot de 250 000 vecteurs distincts, avait montré des performances explicitement différentes, notamment avec la fonction SIMD, qui s'exécute 5,48 fois plus rapidement que la fonction C++.  
 
-Configuration : Release
-Architecture : x64
-CPU : Intel Core i5-14600KF
-Traitement : normalisation de Vec4
-Nombre de vecteurs : 250 000
-Implémentation comparée : C++ / SSE
-Allocations : effectuées avant la mesure
-Profiler : Visual Studio CPU Usage
-Warmup : 10
-Nombre d'epochs : 100  
-
+Configuration : Release  
+Architecture : x64  
+CPU : Intel Core i5-14600KF  
+Traitement : normalisation de Vec4  
+Nombre de vecteurs : 250 000  
+Implémentation comparée : C++ / SSE  
+Allocations : effectuées avant la mesure  
+Profiler : Visual Studio CPU Usage  
+Warmup : 10  
+Nombre d'epochs : 100      
+  
 <img width="1557" height="720" alt="image" src="https://github.com/user-attachments/assets/16f7e94e-dc0e-4e44-8b32-6ad0607d5a06" />  
-
+  
 Le nom des deux fonctions est masqué par les lambdas. Cependant, grâce aux résultats du benchmark, on peut facilement distinguer laquelle correspond à l'implémentation C++ et laquelle correspond à l'implémentation SIMD. On peux observer une différence importante entre les temps processeur consacrés aux deux implémentations. Cette différence est cohérente avec les résultats obtenus lors du benchmark, dans lequel le SIMD s'exécute 5,48 fois plus rapidement que le C++ pour un lot de 250 000 vecteurs.
 
-Cette différence de performance viens avant tout du fait qu'en C++ , les opération doivent être tout effectuer individuellement avant d'être exploité contrairement au SMID qui bien qu'il suit le même chemin de calcul peux effectuer les calcul simultanément grace à la linéarité des __m128 qui sont la raison meme pour laquelle le gain et si important , n'ayant pas à traiter les donner séparément grace au registre __m128 le processeur effectue les calculs beaucoups plus rapidement . 
+Cette différence de performance vient avant tout du fait qu'en C++, les opérations doivent toutes être effectuées individuellement avant d'être exploitées, contrairement au SIMD qui, bien qu'il suive le même chemin de calcul, peut effectuer les calculs simultanément grâce à la linéarité des __m128. Ces derniers sont la raison même pour laquelle le gain est si important. N'ayant pas à traiter les données séparément grâce au registre __m128, le processeur effectue les calculs beaucoup plus rapidement. C'est dans ce genre de situation, où les éléments peuvent être traités simultanément, que le SIMD présente un gros avantage face au C++.
 
 de plus , même en retirant les vérification présente dans l'implémentation C++ de Normalize on remarque toujours cette différence aussi importante :   
   
