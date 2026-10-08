@@ -168,5 +168,6 @@ Epochs : 20
 |               37.15 |       26,917,102.23 |    2.8% |      0.02 | ```Normalize Vec4<float> `
 |                8.89 |      112,546,450.55 |    4.3% |      0.02 | ```Normalize Vec4 SIMD`
   
+## Analysis
 
 
