@@ -10,6 +10,8 @@
 #include "External Lib/nanobench.h"
 
 
+extern "C" void Vec3_Add(const Maths::Vec3S* a, const Maths::Vec3S* b, Maths::Vec3S* out);
+
 int main(const int _argc, char** _argv)
 {
     using Maths::Vec3S;
@@ -73,7 +75,7 @@ int main(const int _argc, char** _argv)
 
 
 
-    Maths::Matrix3x3SIMD Matrix3x3SIMD;
+    /*Maths::Matrix3x3SIMD Matrix3x3SIMD;
     Maths::Matrix3x3SIMD Matrix3x3SIMDTest;
     Maths::Matrix3x3 Matrix3x3;
     Maths::Matrix3x3 Matrix3x3Test;
@@ -93,7 +95,10 @@ int main(const int _argc, char** _argv)
         Matrix3x3SIMD.operator*(Matrix3x3SIMDTest);
         ankerl::nanobench::doNotOptimizeAway(Matrix3x3SIMD.Inverse());
         });
-    
+    */
 
-
+   
+    Maths::Vec3S g(1, 2, 3), s(4, 5, 6), r;
+    Vec3_Add(&g, &s, &r);
+    std::cout << r.x << r.y << r.z << std::endl;
 }

@@ -37,6 +37,9 @@
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
   <Import Project="$(VCTargetsPath)/Microsoft.Cpp.props" />
   <PropertyGroup>
     <OutDir>$(MSBuildProjectDirectory)/../bin/$(Platform)/$(Configuration)/</OutDir>
@@ -82,5 +85,11 @@
     <ClInclude Include="..\Platform\CpuFeatures.h" />
     <ClInclude Include="..\Benchmark\Benchmark.h" />
   </ItemGroup>
+  <ItemGroup>
+    <MASM Include="Vec3.asm" />
+  </ItemGroup>
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
   <Import Project="$(VCTargetsPath)/Microsoft.Cpp.targets" />
 </Project>
