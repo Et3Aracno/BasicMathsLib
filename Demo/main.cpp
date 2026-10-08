@@ -8,33 +8,41 @@
 #include <vector>
 #define ANKERL_NANOBENCH_IMPLEMENT
 #include "External Lib/nanobench.h"
+Maths::Vec4 Vct4A;
+Maths::Vec4 Vct4B;
+Maths::Vec4S Vct4ASIMD{ 1,2,3,4 };
+Maths::Vec4S Vct4BSIMD{ 5,6,7,8 };
 
-Maths::Matrix3x3<float> Matrix3x3A({
-1.0f, 2.0f, 3.0f,
-4.0f, 5.0f, 6.0f,
-7.0f, 8.0f, 10.0f
-    });
+std::vector<Maths::Vec4<float>> Vec4vctA(10);
+std::vector<Maths::Vec4<float>> Vec4vctB(10);
+std::vector<Maths::Vec4<float>> outputCpp(10);
+std::vector<Maths::Vec4S> outputSIMD(10);
 
-Maths::Matrix3x3<float> Matrix3x3B({
-    2.0f, 4.0f, 1.0f,
-    3.0f, 1.0f, 5.0f,
-    6.0f, 2.0f, 4.0f
-    });
 
-Maths::Matrix3x3SIMD Matrix3x3SIMDA({
-    1.0f, 2.0f, 3.0f,
-    4.0f, 5.0f, 6.0f,
-    7.0f, 8.0f, 10.0f
-    });
+float DotSIMD(const std::vector<Maths::Vec4S>& A, const std::vector<Maths::Vec4S>& B) {
+    
+        float result = 0.0f;
 
-Maths::Matrix3x3SIMD Matrix3x3SIMDB({
-    2.0f, 4.0f, 1.0f,
-    3.0f, 1.0f, 5.0f,
-    6.0f, 2.0f, 4.0f
-    });
+        for (std::size_t i = 0; i < A.size(); ++i)
+        {
+            result += A[i].Dot(B[i]);
+        }
+        return result;
+    
+}
 
-float scalarValue = 2.5f;
+float DotCpp(const std::vector<Maths::Vec4<float>>& A, const std::vector<Maths::Vec4<float>>& B) {
+    
+        float result = 0.0f;
 
+        for (std::size_t i = 0; i < A.size(); ++i)
+        {
+            result += A[i].Dot(B[i]);
+        }
+
+        return result;
+    
+}
 
 int main(const int _argc, char** _argv)
 {
@@ -58,6 +66,8 @@ int main(const int _argc, char** _argv)
               << "FMA usable: " << cpu.CanUse(Platform::CpuFeature::FMA) << '\n';
 #else
     std::cout << "CPU detection demo is MSVC/Windows-only.\n";
+
+
 #endif
 
     // Runtime inputs. Optional integer seed allows reproducing a run.
@@ -66,20 +76,33 @@ int main(const int _argc, char** _argv)
     std::mt19937 engine(seed);
     std::uniform_real_distribution<float> distribution(-10.0f, 10.0f);
     const std::size_t count = 250000;
-    std::vector<Vec4<>> left(count);
-    std::vector<Vec4<>> right(count);
-    std::vector<Vec4<>> output(count);
+    std::vector<Vec4<>> Vec4CppA(count);
+    std::vector<Vec4<>> Vec4CppB(count);
+    std::vector<Vec4<>> outputCpp(count);
+    std::vector<Maths::Vec4S> Vec4SIMDA(count);
+    std::vector<Maths::Vec4S> Vec4SIMDB(count);
+    std::vector<Maths::Vec4S> outputSIMD(count);
+    std::vector<Maths::Matrix4x4SIMD> Matrix4x4SIMD(count);
+
     for (std::size_t i = 0; i < count; ++i)
     {
-        left[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
-        right[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
+        Vec4CppA[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
+        Vec4CppB[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
+        Vec4SIMDA[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
+        Vec4SIMDB[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
+        Matrix4x4SIMD[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
     }
+
+
+
+
 
     const auto result = Benchmark::Run([&]
     {
         for (std::size_t i = 0; i < count; ++i)
         {
-            output[i] = left[i] + right[i];
+            //là ou on va mettre les fonctions 
+
         }
         // Included in the measured time. Simple and observable, not a magic barrier.
         double checksum = 0;
@@ -91,33 +114,31 @@ int main(const int _argc, char** _argv)
     });
 
     std::cout << std::fixed << std::setprecision(3)
-              << "Seed: " << seed << ", vectors per batch: " << count << '\n'
-              << "Batch incl. checksum: min " << result.minimumMs
-              << " ms, median " << result.medianMs
-              << " ms, max " << result.maximumMs << " ms\n"
-              << "Observable checksum: " << result.checksum << '\n';
-
-
-
-    Maths::Matrix3x3SIMD Matrix3x3SIMD;
-    Maths::Matrix3x3SIMD Matrix3x3SIMDTest;
-    Maths::Matrix3x3 Matrix3x3;
-    Maths::Matrix3x3 Matrix3x3Test;
-   
+        << "Seed: " << seed << ", vectors per batch: " << count << '\n'
+        << "Batch incl. checksum: min " << result.minimumMs
+        << " ms, median " << result.medianMs
+        << " ms, max " << result.maximumMs << " ms\n"
+        << "Observable checksum: " << result.checksum << '\n'
+        << "Build: " << "Release x64" << result.checksum << '\n'
+        << "Batch Size: " << "1000000" << result.checksum << '\n'
+        << "Warmup Size: " << "10" << result.checksum << '\n'
+        << "Epochs Size: "<< "100" << result.checksum << '\n';
 
     ankerl::nanobench::Bench bench;
-    bench.epochs(2000);
+    bench.epochs(1000);
+    bench.warmup(10);
 
+   
 
-    bench.run("Matrix4x4 ", [&] {
-        auto result = Matrix3x3A + Matrix3x3B;
-        ankerl::nanobench::doNotOptimizeAway(result);
-        });
+    //bench.run("Dot Vec4 C++", [&] {
+    //    const auto result = DotCpp(Vec4vctA, Vec4vctB);
+    //    ankerl::nanobench::doNotOptimizeAway(result);
+    //    });
 
-    bench.run("Matrix3x3 SIMD Add", [&] {
-        auto result = Matrix3x3SIMDA + Matrix3x3SIMDB;
-        ankerl::nanobench::doNotOptimizeAway(result);
-        });
+    //bench.run("Dot Vec4 SIMD", [&] {
+    //    const auto result = DotSIMD(Vec4SIMDA, Vec4SIMDB);
+    //    ankerl::nanobench::doNotOptimizeAway(result);
+    //    });
 
 }
 
