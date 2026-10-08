@@ -5,3 +5,4 @@
 #include "Vec3.h"
 #include "Vec3S.h"
 #include "Vec4.h"
+#include "SOA_AOS.h"
