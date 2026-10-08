@@ -141,6 +141,11 @@ Pour conclure sur Dot(), nous avons constaté que notre implémentation SIMD peu
 
 
 
-### Matrix
+### Matrix4x4*Vec4  
+Comme on l'observe dans le benchmark, avec nos 250 000 vecteurs, l'implémentation SIMD de Matrix4x4 * Vec4 est 1,13× plus rapide que l'implémentation C++. Contrairement à Dot, ici, la linéarité des __m128 confère un avantage à l'implémentation SIMD. Pour la multiplication de matrices, le nombre de calculs est important et, par conséquent, le nombre d'opérateurs et d'étapes nécessaires en C++ augmente, ce qui ralentit le processus, car ces derniers doivent être effectués séparément, contrairement au SIMD qui, lui, peut les effectuer simultanément.
 
+Cependant, l'implémentation C++ bénéficie quand même des optimisations du compilateur. De plus, cette dernière possède un ratio d'erreur bien moins élevé que l'implémentation SIMD, ce qui peut être beaucoup plus intéressant au vu du moteur physique.
 
+Dans notre implémentation SIMD, les quatre composantes du vecteur sont regroupées dans un registre __m128, puis _mm_mul_ps permet d'effectuer les quatre multiplications simultanément pour chaque ligne de la matrice. Cependant, nous perdons des performances à cause du fait qu'après chaque multiplication, le résultat contenu dans le registre __m128 est stocké dans un tableau à l'aide de _mm_store_ps. Les quatre valeurs sont ensuite récupérées depuis ce tableau afin d'effectuer les additions de manière scalaire. Tout cela provoque une augmentation des calculs et, par conséquent, la perte du gain de performance que nous avions réalisé grâce au SIMD. On le remarque justement à cette légère augmentation de 1,13×.
+
+Pour conclure, il est indéniable que nous avons gagné en performances par rapport à l'implémentation C++. Cependant, notre gain reste limité et n'est pas exploité à son paroxysme. Une voie d'amélioration permettant de dépasser les limites actuelles de notre implémentation SIMD serait de modifier la manière dont nous effectuons le produit scalaire, afin de privilégier le calcul et de limiter les stockages temporaires ainsi que les transformations intermédiaires.
