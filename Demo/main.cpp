@@ -8,15 +8,6 @@
 #include <vector>
 #define ANKERL_NANOBENCH_IMPLEMENT
 #include "External Lib/nanobench.h"
-Maths::Vec4 Vct4A;
-Maths::Vec4 Vct4B;
-Maths::Vec4S Vct4ASIMD{ 1,2,3,4 };
-Maths::Vec4S Vct4BSIMD{ 5,6,7,8 };
-
-std::vector<Maths::Vec4<float>> Vec4vctA(10);
-std::vector<Maths::Vec4<float>> Vec4vctB(10);
-std::vector<Maths::Vec4<float>> outputCpp(10);
-std::vector<Maths::Vec4S> outputSIMD(10);
 
 
 float DotSIMD(const std::vector<Maths::Vec4S>& A, const std::vector<Maths::Vec4S>& B) {
@@ -83,135 +74,178 @@ int main(const int _argc, char** _argv)
     std::vector<Maths::Vec4S> Vec4SIMDB(count);
     std::vector<Maths::Vec4S> outputSIMD(count);
     std::vector<Maths::Matrix4x4SIMD> Matrix4x4SIMD(count);
+    std::vector<Maths::Matrix4x4<float>> Matrix4x4Cpp(count);
 
     for (std::size_t i = 0; i < count; ++i)
     {
-        Vec4CppA[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
-        Vec4CppB[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
-        Vec4SIMDA[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
-        Vec4SIMDB[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
-        Matrix4x4SIMD[i] = {distribution(engine), distribution(engine), distribution(engine), distribution(engine)};
+        const float ax = distribution(engine);
+        const float ay = distribution(engine);
+        const float az = distribution(engine);
+        const float aw = distribution(engine);
+
+        const float bx = distribution(engine);
+        const float by = distribution(engine);
+        const float bz = distribution(engine);
+        const float bw = distribution(engine);
+
+        Vec4CppA[i] = { ax, ay, az, aw };
+        Vec4SIMDA[i] = { ax, ay, az, aw };
+
+        Vec4CppB[i] = { bx, by, bz, bw };
+        Vec4SIMDB[i] = { bx, by, bz, bw };
+
+
+        const std::array<float, 16> matrix4x4Array =
+        {
+            distribution(engine), distribution(engine), distribution(engine), distribution(engine),
+            distribution(engine), distribution(engine), distribution(engine), distribution(engine),
+            distribution(engine), distribution(engine), distribution(engine), distribution(engine),
+            distribution(engine), distribution(engine), distribution(engine), distribution(engine)
+        };
+
+        Matrix4x4Cpp[i] = Maths::Matrix4x4<float>(matrix4x4Array);
+        Matrix4x4SIMD[i] = Maths::Matrix4x4SIMD(matrix4x4Array);
+
     }
-
-
-
 
 
     const auto result = Benchmark::Run([&]
     {
         for (std::size_t i = 0; i < count; ++i)
         {
-            //là ou on va mettre les fonctions 
-
+            //Endroit ou mettre les fonctions a benchmarker si besoin des cout pour tester certaine value sur les fonctions
         }
         // Included in the measured time. Simple and observable, not a magic barrier.
         double checksum = 0;
-        for (const auto& v : output)
+        for (const auto& v : outputCpp)
         {
             checksum += static_cast<double>(v.x) + v.y + v.z + v.w;
         }
         return checksum;
+        
+		
     });
 
+
+
+
+
     std::cout << std::fixed << std::setprecision(3)
-        << "Seed: " << seed << ", vectors per batch: " << count << '\n'
+        << "Seed: " << seed <<'\n'
         << "Batch incl. checksum: min " << result.minimumMs
         << " ms, median " << result.medianMs
         << " ms, max " << result.maximumMs << " ms\n"
         << "Observable checksum: " << result.checksum << '\n'
-        << "Build: " << "Release x64" << result.checksum << '\n'
-        << "Batch Size: " << "1000000" << result.checksum << '\n'
-        << "Warmup Size: " << "10" << result.checksum << '\n'
-        << "Epochs Size: "<< "100" << result.checksum << '\n';
+        << "Build: " << "Release x64" << '\n'
+        << "Batch Size: " << count  << '\n'
+        << "Warmup Size: " << "10"  << '\n'
+        << "Epochs Size: " << "100"<< '\n';
+
+
+
 
     ankerl::nanobench::Bench bench;
-    bench.epochs(1000);
+    bench.epochs(100);
     bench.warmup(10);
+
+
+    bench.run("Normalize C++", [&]
+        {
+            double checksum = 0.0;
+
+            for (std::size_t i = 0; i < count; ++i)
+            {
+                outputCpp[i] = Vec4CppA[i].Normalize();
+
+                checksum += static_cast<double>(outputCpp[i].x)
+                    + outputCpp[i].y
+                    + outputCpp[i].z
+                    + outputCpp[i].w;
+            }
+			
+            ankerl::nanobench::doNotOptimizeAway(checksum);
+        });
+
+    bench.run("Normalize SIMD", [&]
+        {
+            double checksum = 0.0;
+
+            for (std::size_t i = 0; i < count; ++i)
+            {
+                outputSIMD[i] = Vec4SIMDA[i].Normalize();
+
+                checksum += static_cast<double>(outputSIMD[i].x)
+                    + outputSIMD[i].y
+                    + outputSIMD[i].z
+                    + outputSIMD[i].w;
+            }
+
+            ankerl::nanobench::doNotOptimizeAway(checksum);
+        });
+
+
+    //bench.run("Dot C++", [&]
+    //    {
+    //        double checksum = 0.0;
+
+    //        for (std::size_t i = 0; i < count; ++i)
+    //        {
+    //            const float result = Vec4CppA[i].Dot(Vec4CppB[i]);
+
+    //            checksum += static_cast<double>(result);
+    //        }
+
+    //        ankerl::nanobench::doNotOptimizeAway(checksum);
+    //    });
+
+
+    //bench.run("Dot SIMD", [&]
+    //    {
+    //        double checksum = 0.0;
+
+    //        for (std::size_t i = 0; i < count; ++i)
+    //        {
+    //            const float result = Vec4SIMDA[i].Dot(Vec4SIMDB[i]);
+
+    //            checksum += static_cast<double>(result);
+    //        }
+
+    //        ankerl::nanobench::doNotOptimizeAway(checksum);
+    //    });
 
    
 
-    //bench.run("Dot Vec4 C++", [&] {
-    //    const auto result = DotCpp(Vec4vctA, Vec4vctB);
-    //    ankerl::nanobench::doNotOptimizeAway(result);
+    //bench.run("Matrix4x4 * Vec4 C++", [&]
+    //    {
+    //        double checksum = 0.0;
+
+    //        for (std::size_t i = 0; i < count; ++i)
+    //        {
+    //            outputCpp[i] = Matrix4x4Cpp[i].operator*(Vec4CppA[i]);
+
+    //            checksum += static_cast<double>(outputCpp[i].x)
+    //                + outputCpp[i].y
+    //                + outputCpp[i].z
+    //                + outputCpp[i].w;
+    //        }
+
+    //        ankerl::nanobench::doNotOptimizeAway(checksum);
     //    });
 
-    //bench.run("Dot Vec4 SIMD", [&] {
-    //    const auto result = DotSIMD(Vec4SIMDA, Vec4SIMDB);
-    //    ankerl::nanobench::doNotOptimizeAway(result);
-    //    });
+    //bench.run("Matrix4x4 * Vec4 SIMD", [&]
+    //    {
+    //        double checksum = 0.0;
 
+    //        for (std::size_t i = 0; i < count; ++i)
+    //        {
+    //            outputSIMD[i] = Matrix4x4SIMD[i].operator*(Vec4SIMDA[i]);
+
+    //            checksum += static_cast<double>(outputSIMD[i].x)
+    //                + outputSIMD[i].y
+    //                + outputSIMD[i].z
+    //                + outputSIMD[i].w;
+    //        }
+
+    //        ankerl::nanobench::doNotOptimizeAway(checksum);
+    //    });
 }
-
-/*
-bench.run("Matrix3x3 Add", [&] {
-    auto result = Matrix3x3A + Matrix3x3B;
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-bench.run("Matrix3x3 SIMD Add", [&] {
-    auto result = Matrix3x3SIMDA + Matrix3x3SIMDB;
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-
-bench.run("Matrix3x3 Subtract", [&] {
-    auto result = Matrix3x3A - Matrix3x3B;
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-bench.run("Matrix3x3 SIMD Subtract", [&] {
-    auto result = Matrix3x3SIMDA - Matrix3x3SIMDB;
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-
-bench.run("Matrix3x3 Multiply", [&] {
-    auto result = Matrix3x3A * Matrix3x3B;
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-bench.run("Matrix3x3 SIMD Multiply", [&] {
-    auto result = Matrix3x3SIMDA * Matrix3x3SIMDB;
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-bench.run("Matrix3x3 Scalar Multiply", [&] {
-    auto result = Matrix3x3A * scalarValue;
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-bench.run("Matrix3x3 SIMD Scalar Multiply", [&] {
-    auto result = Matrix3x3SIMDA * scalarValue;
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-bench.run("Matrix3x3 Transpose", [&] {
-    auto result = Matrix3x3A.Transpose();
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-bench.run("Matrix3x3 SIMD Transpose", [&] {
-    auto result = Matrix3x3SIMDA.Transpose();
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-bench.run("Matrix3x3 Determinant", [&] {
-    auto result = Matrix3x3A.Determinant();
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-bench.run("Matrix3x3 SIMD Determinant", [&] {
-    auto result = Matrix3x3SIMDA.Determinant();
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-
-bench.run("Matrix3x3 Inverse", [&] {
-    auto result = Matrix3x3A.Inverse();
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
-
-bench.run("Matrix3x3 SIMD Inverse", [&] {
-    auto result = Matrix3x3SIMDA.Inverse();
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });*/

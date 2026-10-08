@@ -151,17 +151,17 @@ T Maths::Vec4<T>::Magnitude() const
 template <std::floating_point T>
 Maths::Vec4<T> Maths::Vec4<T>::Normalize() const
 {
-    if (!std::isfinite(x) || !std::isfinite(y) || !std::isfinite(z) || !std::isfinite(w))
-    {
-        throw std::domain_error("Cannot normalize non-finite components");
-    }
+    //if (!std::isfinite(x) || !std::isfinite(y) || !std::isfinite(z) || !std::isfinite(w))
+    //{
+    //    throw std::domain_error("Cannot normalize non-finite components");
+    //}
 
     // Scaling avoids overflowing/underflowing the squared magnitude.
     const T scale = std::max({ std::abs(x), std::abs(y), std::abs(z), std::abs(w) });
-    if (scale == T{ 0 })
-    {
-        throw std::domain_error("Cannot normalize the zero vector");
-    }
+    //if (scale == T{ 0 })
+    //{
+    //    throw std::domain_error("Cannot normalize the zero vector");
+    //}
 
     const Maths::Vec4 scaled = *this / scale;
     return scaled / scaled.Magnitude();
