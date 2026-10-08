@@ -116,7 +116,8 @@ Nombre d'epochs : 100
 
 Le nom des deux fonctions est masqué par les lambdas. Cependant, grâce aux résultats du benchmark, on peut facilement distinguer laquelle correspond à l'implémentation C++ et laquelle correspond à l'implémentation SIMD. On peux observer une différence importante entre les temps processeur consacrés aux deux implémentations. Cette différence est cohérente avec les résultats obtenus lors du benchmark, dans lequel le SIMD s'exécute 5,48 fois plus rapidement que le C++ pour un lot de 250 000 vecteurs.
 
-.......Pk SIMD est plus rapide que CPP , expliquer le fonctionnement des fonctions Normalize c++ et SIMD , et la raison de leur rapidité .....  
+Cette différence de performance viens avant tout du fait qu'en C++ , les opération doivent être tout effectuer individuellement avant d'être exploité contrairement au SMID qui bien qu'il suit le même chemin de calcul peux effectuer les calcul simultanément grace à la linéarité des __m128 qui sont la raison meme pour laquelle le gain et si important , n'ayant pas à traiter les donner séparément grace au registre __m128 le processeur effectue les calculs beaucoups plus rapidement . 
+
 de plus , même en retirant les vérification présente dans l'implémentation C++ de Normalize on remarque toujours cette différence aussi importante :   
   
 |               ns/op |                op/s |    err% |     total | benchmark
