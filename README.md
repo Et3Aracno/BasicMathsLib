@@ -19,7 +19,11 @@
 CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF  
 SSE usable: true  
 AVX2 usable: true  
-FMA usable: true  
+FMA usable: true 
+Compiler : Visual Studio 2022
+Configuration : Release x64
+Architecture : x64
+Instruction set : SSE
 Batch incl. checksum: min 0.574 ms, median 0.599 ms, max 0.659 ms  
 Observable checksum: -37821.203  
 Epochs : 20  
@@ -49,6 +53,10 @@ CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
 SSE usable: true
 AVX2 usable: true
 FMA usable: true
+Compiler : Visual Studio 2022
+Configuration : Release x64
+Architecture : x64
+Instruction set : SSE
 Seed: 4105796076, vectors per batch: 250000
 Batch incl. checksum: min 0.580 ms, median 0.596 ms, max 0.821 ms
 Observable checksum: -6347.378
@@ -109,6 +117,10 @@ CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
 SSE usable: true  
 AVX2 usable: true  
 FMA usable: true  
+Compiler : Visual Studio 2022
+Configuration : Release x64
+Architecture : x64
+Instruction set : SSE
 Seed: 3528253797, vectors per batch: 250000  
 Batch incl. checksum: min 0.572 ms, median 0.603 ms, max 0.632 ms  
 Observable checksum: -70450.920  
@@ -140,7 +152,10 @@ CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
 SSE usable: true
 AVX2 usable: true
 FMA usable: true
-
+Compiler : Visual Studio 2022
+Configuration : Release x64
+Architecture : x64
+Instruction set : SSE
 
 Seed: 345291603, vectors per batch: 250000
 Batch incl. checksum: min 0.665 ms, median 0.713 ms, max 1.040 ms
