@@ -83,6 +83,7 @@
     <ClCompile Include="..\Tests\Vec4Tests.cpp" />
     <ClCompile Include="..\Platform\CpuFeatures.cpp" />
     <ClCompile Include="CpuFeaturesTests.cpp" />
+    <ClCompile Include="Matrix4x4SIMDTests.cpp" />
     <ClCompile Include="Vec2SIMDTests.cpp" />
     <ClCompile Include="Vec3SIMDTests.cpp" />
     <ClCompile Include="Vec4SIMDTests.cpp" />

@@ -78,6 +78,14 @@ namespace TestHelpers
             }
         }
     }
+    template <typename T>
+    void VectorNearSIMD(const Maths::Vec4S& expected, const Maths::Vec4S& actual)
+    {
+        Near(expected.x, actual.x, L"x");
+        Near(expected.y, actual.y, L"y");
+        Near(expected.z, actual.z, L"z");
+        Near(expected.w, actual.w, L"w");
+    }
 }
 
 
