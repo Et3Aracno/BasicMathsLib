@@ -109,7 +109,7 @@ int main(const int _argc, char** _argv)
         << "Batch incl. checksum: min " << result.minimumMs
         << " ms, median " << result.medianMs
         << " ms, max " << result.maximumMs << " ms\n"
-        << "Observable checksum: " << result.checksum << '\n'
+        //<< "Observable checksum: " << result.checksum << '\n'
         << "Build: " << "Release x64" << '\n'
         << "Batch Size: " << count  << '\n'
         << "Warmup Size: " << "10"  << '\n'
