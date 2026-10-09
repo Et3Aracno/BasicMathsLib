@@ -1,4 +1,5 @@
 #pragma once
+#include <xmmintrin.h>
 
 namespace Maths
 {
