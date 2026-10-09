@@ -1,4 +1,5 @@
 #pragma once
+#include <xmmintrin.h>
 
 inline __m128 Maths::Vec3S::Load(const Maths::Vec3S& v)
 {

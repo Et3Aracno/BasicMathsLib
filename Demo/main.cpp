@@ -67,37 +67,83 @@ int main(const int _argc, char** _argv)
     std::mt19937 engine(seed);
     std::uniform_real_distribution<float> distribution(-10.0f, 10.0f);
     const std::size_t count = 250000;
+    std::vector<Vec4<>> Vec4CppA(count);
+    std::vector<Vec4<>> Vec4CppB(count);
+    std::vector<Vec3S> Vec3SIMDA(count);
+    std::vector<Vec3S> Vec3SIMDB(count);
+    std::vector<Vec4<>> outputCpp(count);
+    std::vector<float> outputFloatVec3(count);
+    std::vector<Maths::Vec4S> Vec4SIMDA(count);
+    std::vector<Maths::Vec4S> Vec4SIMDB(count);
+    std::vector<Maths::Vec4S> outputSIMD(count);
+    std::vector<Maths::Vec3S> outputV3SIMD(count);
+    std::vector<Maths::Matrix4x4SIMD> Matrix4x4SIMD(count);
+    std::vector<Maths::Matrix4x4<float>> Matrix4x4Cpp(count);
+
     std::vector<Vec4<>> left(count);
     std::vector<Vec4<>> right(count);
     std::vector<Vec4<>> output(count);
     for (std::size_t i = 0; i < count; ++i)
     {
-        left[i] = { distribution(engine), distribution(engine), distribution(engine), distribution(engine) };
-        right[i] = { distribution(engine), distribution(engine), distribution(engine), distribution(engine) };
+        const float ax = distribution(engine);
+        const float ay = distribution(engine);
+        const float az = distribution(engine);
+        const float aw = distribution(engine);
+
+        const float bx = distribution(engine);
+        const float by = distribution(engine);
+        const float bz = distribution(engine);
+        const float bw = distribution(engine);
+
+        Vec4CppA[i] = { ax, ay, az, aw };
+        Vec4SIMDA[i] = { ax, ay, az, aw };
+        Vec3SIMDA[i] = { ax, ay, az};
+
+        Vec4CppB[i] = { bx, by, bz, bw };
+        Vec4SIMDB[i] = { bx, by, bz, bw };
+        Vec3SIMDB[i] = { bx, by, bz};
+
+
+        const std::array<float, 16> matrix4x4Array =
+        {
+            distribution(engine), distribution(engine), distribution(engine), distribution(engine),
+            distribution(engine), distribution(engine), distribution(engine), distribution(engine),
+            distribution(engine), distribution(engine), distribution(engine), distribution(engine),
+            distribution(engine), distribution(engine), distribution(engine), distribution(engine)
+        };
+
+        Matrix4x4Cpp[i] = Maths::Matrix4x4<float>(matrix4x4Array);
+        Matrix4x4SIMD[i] = Maths::Matrix4x4SIMD(matrix4x4Array);
     }
 
     const auto result = Benchmark::Run([&]
         {
-            for (std::size_t i = 0; i < count; ++i)
             {
-                output[i] = left[i] + right[i];
+                //Endroit ou mettre les fonctions a benchmarker si besoin des cout pour tester certaine value sur les fonctions
             }
             // Included in the measured time. Simple and observable, not a magic barrier.
             double checksum = 0;
-            for (const auto& v : output)
+            for (const auto& v : outputCpp)
             {
                 checksum += static_cast<double>(v.x) + v.y + v.z + v.w;
             }
             return checksum;
         });
 
+
+
+
+
     std::cout << std::fixed << std::setprecision(3)
-        << "Seed: " << seed << ", vectors per batch: " << count << '\n'
+        << "Seed: " << seed << '\n'
         << "Batch incl. checksum: min " << result.minimumMs
         << " ms, median " << result.medianMs
         << " ms, max " << result.maximumMs << " ms\n"
-        << "Observable checksum: " << result.checksum << '\n';
-
+        //<< "Observable checksum: " << result.checksum << '\n'
+        << "Build: " << "Release x64" << '\n'
+        << "Batch Size: " << count << '\n'
+        << "Warmup Size: " << "10" << '\n'
+        << "Epochs Size: " << "100" << '\n';
 
 
     /*Maths::Matrix3x3SIMD Matrix3x3SIMD;
@@ -109,10 +155,13 @@ int main(const int _argc, char** _argv)
     ankerl::nanobench::Bench bench;
     bench.epochs(2000);
 
+                checksum += static_cast<double>(outputCpp[i].x)
+                    + outputCpp[i].y
+                    + outputCpp[i].z
+                    + outputCpp[i].w;
+            }
 
-    bench.run("Matrix4x4 ", [&] {
-        auto result = Matrix3x3A + Matrix3x3B;
-        ankerl::nanobench::doNotOptimizeAway(result);
+            ankerl::nanobench::doNotOptimizeAway(checksum);
         });
 
     bench.run("Matrix3x3 SIMD Add", [&] {
@@ -134,10 +183,28 @@ bench.run("Matrix3x3 SIMD Add", [&] {
     });
 
 
-bench.run("Matrix3x3 Subtract", [&] {
-    auto result = Matrix3x3A - Matrix3x3B;
-    ankerl::nanobench::doNotOptimizeAway(result);
-    });
+
+    bench.run("Distance Vec3 SIMD", [&]
+        {
+            double checksum = 0.0;
+
+            for (std::size_t i = 0; i < count; ++i)
+            {
+                outputFloatVec3[i] = Vec3SIMDA[i].Distance(Vec3SIMDB[i]);
+
+                checksum += static_cast<double>(outputV3SIMD[i].x)
+                    + outputV3SIMD[i].y
+                    + outputV3SIMD[i].z;
+            }
+
+            ankerl::nanobench::doNotOptimizeAway(checksum);
+
+        });
+
+ 
+    //bench.run("Dot C++", [&]
+    //    {
+    //        double checksum = 0.0;
 
 bench.run("Matrix3x3 SIMD Subtract", [&] {
     auto result = Matrix3x3SIMDA - Matrix3x3SIMDB;
@@ -216,5 +283,5 @@ bench.run("Matrix3x3 SIMD Inverse", [&] {
 
     /*Maths::Vec3S g(1, 2, 3), s(4, 5, 6), r;
     Vec3_Add(&g, &s, &r);
-    std::cout << r.x << r.y << r.z << std::endl;*/
+    std::cout << r.x << r.y << r.z << std::endl;
 }
