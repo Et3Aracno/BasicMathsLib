@@ -147,6 +147,7 @@
     <ClInclude Include="Matrix4x4-SIMD.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="Quaternions.h" />
+    <ClInclude Include="SOA_AOS.h" />
     <ClInclude Include="Vec2dS.h" />
     <ClInclude Include="Vec2S.h" />
     <ClInclude Include="Vec3.h" />

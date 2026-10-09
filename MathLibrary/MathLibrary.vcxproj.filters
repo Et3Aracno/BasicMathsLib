@@ -116,6 +116,9 @@
     <ClInclude Include="Matrix4x4-SIMD.h">
       <Filter>Fichiers d%27en-tête\Headers\SIMD\Matrix</Filter>
     </ClInclude>
+    <ClInclude Include="SOA_AOS.h">
+      <Filter>Fichiers d%27en-tête\Headers\SIMD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Matrix3x3.inl">

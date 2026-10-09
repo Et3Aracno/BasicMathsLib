@@ -16,11 +16,11 @@ int main(const int _argc, char** _argv)
     using Maths::Vec3S;
     using Maths::Vec4;
     using Maths::Matrix4x4;
-    Vec3S a{1.f,2.f,3.f};
-    Vec3S b{4.f,5.f,6.f};
+    Vec3S a{ 1.f,2.f,3.f };
+    Vec3S b{ 4.f,5.f,6.f };
     Vec3S c = a * 2.f;
     std::cout << "idk: " << a.y << '\n';
-    const auto matrix = Matrix4x4<>::Translation({10,20,30}) * Matrix4x4<>::Scale({2,3,4});
+    const auto matrix = Matrix4x4<>::Translation({ 10,20,30 }) * Matrix4x4<>::Scale({ 2,3,4 });
     //const auto point = matrix.TransformPoint(a);
     //std::cout << "Point: " << point.x << ", " << point.y << ", " << point.z << '\n';
 
@@ -28,9 +28,9 @@ int main(const int _argc, char** _argv)
     const auto cpu = Platform::CpuFeatures::Detect();
     std::cout << "CPU: " << cpu.Vendor() << " / " << cpu.Brand() << '\n';
     std::cout << std::boolalpha
-              << "SSE usable: " << cpu.CanUse(Platform::CpuFeature::SSE) << '\n'
-              << "AVX2 usable: " << cpu.CanUse(Platform::CpuFeature::AVX2) << '\n'
-              << "FMA usable: " << cpu.CanUse(Platform::CpuFeature::FMA) << '\n';
+        << "SSE usable: " << cpu.CanUse(Platform::CpuFeature::SSE) << '\n'
+        << "AVX2 usable: " << cpu.CanUse(Platform::CpuFeature::AVX2) << '\n'
+        << "FMA usable: " << cpu.CanUse(Platform::CpuFeature::FMA) << '\n';
 #else
     std::cout << "CPU detection demo is MSVC/Windows-only.\n";
 
@@ -39,7 +39,7 @@ int main(const int _argc, char** _argv)
 
     // Runtime inputs. Optional integer seed allows reproducing a run.
     const auto seed = _argc > 1 ? static_cast<unsigned int>(std::strtoul(_argv[1], nullptr, 10))
-                              : std::random_device{}();
+        : std::random_device{}();
     std::mt19937 engine(seed);
     std::uniform_real_distribution<float> distribution(-10.0f, 10.0f);
     const std::size_t count = 250000;
@@ -81,13 +81,10 @@ int main(const int _argc, char** _argv)
 
         Matrix4x4Cpp[i] = Maths::Matrix4x4<float>(matrix4x4Array);
         Matrix4x4SIMD[i] = Maths::Matrix4x4SIMD(matrix4x4Array);
-
     }
 
 
     const auto result = Benchmark::Run([&]
-    {
-        for (std::size_t i = 0; i < count; ++i)
         {
             //Endroit ou mettre les fonctions a benchmarker si besoin des cout pour tester certaine value sur les fonctions
         }
@@ -104,8 +101,6 @@ int main(const int _argc, char** _argv)
 
 
 
-
-
     std::cout << std::fixed << std::setprecision(3)
         << "Seed: " << seed <<'\n'
         << "Batch incl. checksum: min " << result.minimumMs
@@ -116,10 +111,6 @@ int main(const int _argc, char** _argv)
         << "Batch Size: " << count  << '\n'
         << "Warmup Size: " << "10"  << '\n'
         << "Epochs Size: " << "100"<< '\n';
-
-
-
-
 
     ankerl::nanobench::Bench bench;
     bench.epochs(100);
@@ -190,7 +181,6 @@ int main(const int _argc, char** _argv)
 
     //        ankerl::nanobench::doNotOptimizeAway(checksum);
     //    });
-
    
 
     //bench.run("Matrix4x4 * Vec4 C++", [&]
@@ -229,5 +219,5 @@ int main(const int _argc, char** _argv)
 
     Maths::Vec3S g(1, 2, 3), s(4, 5, 6), r;
     Vec3_Add(&g, &s, &r);
-    std::cout << r.x << r.y << r.z << std::endl;
+    std::cout << r.x << r.y << r.z << std::endl;*/
 }
