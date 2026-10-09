@@ -9,6 +9,8 @@
 #define ANKERL_NANOBENCH_IMPLEMENT
 #include "External Lib/nanobench.h"
 
+extern "C" void Vec3_Add(const Maths::Vec3S* a, const Maths::Vec3S* b, Maths::Vec3S* out);
+
 int main(const int _argc, char** _argv)
 {
     using Maths::Vec3S;
@@ -156,6 +158,7 @@ int main(const int _argc, char** _argv)
             }
 
             ankerl::nanobench::doNotOptimizeAway(checksum);
+
         });
 
 
@@ -223,4 +226,8 @@ int main(const int _argc, char** _argv)
 
     //        ankerl::nanobench::doNotOptimizeAway(checksum);
     //    });
+
+    Maths::Vec3S g(1, 2, 3), s(4, 5, 6), r;
+    Vec3_Add(&g, &s, &r);
+    std::cout << r.x << r.y << r.z << std::endl;
 }
