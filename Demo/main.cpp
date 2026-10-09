@@ -196,45 +196,7 @@ bench.run("Matrix3x3 SIMD Inverse", [&] {
     ankerl::nanobench::doNotOptimizeAway(result);
     });*/
 
-	Maths::Vec3SOA vec3SOA1;
-	Maths::Vec3SOA vec3SOA1Test;
-	Maths::Vec3AOS vec3AOS1;
-	Maths::Vec3AOS vec3AOS1Test;
-
-    std::vector<float> outSOA(Maths::Vec3SOA::Count), outAOS(1024);
-
-    // remplir vec3SOA1, vec3SOA1Test avec les memes valeurs variees que l'AOS
-
-    ankerl::nanobench::Bench bench;
-    bench.epochs(2000).batch(1024);
-
-    std::vector<Maths::Vec3AOS> aosA(1024), aosB(1024);
-    std::vector<float> aosOut(1024);
-
-
-    for (int i = 0; i < 1024; ++i)
-    {
-        float f = static_cast<float>(i % 97) * 0.1f + 1.0f;
-        aosA[i] = { f, f + 1.0f, f + 2.0f };
-        aosB[i] = { f + 3.0f, f + 4.0f, f + 5.0f };
-    }
-
-    bench.run("DotSOA SIMD 1024", [&] {
-        vec3SOA1.DotSIMD(vec3SOA1Test, outSOA.data());
-        ankerl::nanobench::doNotOptimizeAway(outSOA);
-        });
-
-    bench.run("DotAOS SIMD 1024", [&] {
-        for (int i = 0; i < 1024; ++i)
-            outAOS[i] = aosA[i].DotSIMD(aosB[i]);
-        ankerl::nanobench::doNotOptimizeAway(outAOS);
-        });
-
-    bench.run("DotAOS scalaire 1024", [&] {
-        for (int i = 0; i < 1024; ++i)
-            outAOS[i] = aosA[i].Dot(aosB[i]);
-        ankerl::nanobench::doNotOptimizeAway(outAOS);
-        });
+	
 
     /*Maths::Vec3S g(1, 2, 3), s(4, 5, 6), r;
     Vec3_Add(&g, &s, &r);
