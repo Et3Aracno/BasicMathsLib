@@ -86,6 +86,7 @@ int main(const int _argc, char** _argv)
 
     const auto result = Benchmark::Run([&]
         {
+        {
             //Endroit ou mettre les fonctions a benchmarker si besoin des cout pour tester certaine value sur les fonctions
         }
         // Included in the measured time. Simple and observable, not a magic barrier.
@@ -219,5 +220,5 @@ int main(const int _argc, char** _argv)
 
     Maths::Vec3S g(1, 2, 3), s(4, 5, 6), r;
     Vec3_Add(&g, &s, &r);
-    std::cout << r.x << r.y << r.z << std::endl;*/
+    std::cout << r.x << r.y << r.z << std::endl;
 }

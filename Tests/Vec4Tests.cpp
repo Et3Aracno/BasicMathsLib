@@ -398,12 +398,12 @@ namespace MathStarterTests
             NormalizeReturnsNewUnitVector<double>();
         }
 
-        TEST_METHOD(NormalizeRejectsZeroAndNonFinite_float)
+        TEST_METHOD(NormalizeRejectsZeroAndNonFinite_float) //faux car les test sont en commentaires
         {
             NormalizeRejectsZeroAndNonFinite<float>();
         }
 
-        TEST_METHOD(NormalizeRejectsZeroAndNonFinite_double)
+        TEST_METHOD(NormalizeRejectsZeroAndNonFinite_double)//faux car les test sont en commentaires
         {
             NormalizeRejectsZeroAndNonFinite<double>();
         }

@@ -1,3 +1,7 @@
+#pragma once
+#include "Matrix4x4-SIMD.h"
+
+
 namespace Maths
 {
     inline Matrix4x4SIMD::Matrix4x4SIMD()
@@ -13,7 +17,7 @@ namespace Maths
     {
         values[0] = _mm_set_ps
         (
-            0.0f,
+            elements[3],
             elements[2],
             elements[1],
             elements[0]
@@ -21,25 +25,25 @@ namespace Maths
 
         values[1] = _mm_set_ps
         (
-            0.0f,
+            elements[7],
+            elements[6],
             elements[5],
-            elements[4],
-            elements[3]
+            elements[4]
         );
 
         values[2] = _mm_set_ps
         (
-            0.0f,
-            elements[8],
-            elements[7],
-            elements[6]
+            elements[11],
+            elements[10],
+            elements[9],
+            elements[8]
         );
         values[3] = _mm_set_ps
         (
-            0.0f,
-            elements[11],
-            elements[10],
-            elements[9]
+            elements[15],
+            elements[14],
+            elements[13],
+            elements[12]
         );
 
     }
@@ -231,9 +235,9 @@ namespace Maths
     inline bool Maths::Matrix4x4SIMD::operator!=(const Maths::Matrix4x4SIMD& rhs) const
     {
 
-        return _mm_movemask_ps(_mm_cmpeq_ps(values[0], rhs.values[0])) != 0xF &&
-            _mm_movemask_ps(_mm_cmpeq_ps(values[1], rhs.values[1])) != 0xF &&
-            _mm_movemask_ps(_mm_cmpeq_ps(values[2], rhs.values[2])) != 0xF &&
+        return _mm_movemask_ps(_mm_cmpeq_ps(values[0], rhs.values[0])) != 0xF ||
+            _mm_movemask_ps(_mm_cmpeq_ps(values[1], rhs.values[1])) != 0xF ||
+            _mm_movemask_ps(_mm_cmpeq_ps(values[2], rhs.values[2])) != 0xF ||
             _mm_movemask_ps(_mm_cmpeq_ps(values[3], rhs.values[3])) != 0xF;
 
     }
@@ -241,20 +245,25 @@ namespace Maths
     inline Maths::Matrix4x4SIMD Maths::Matrix4x4SIMD::Transpose() const
     {
 
-        Maths::Matrix4x4SIMD result = Zero();
+        __m128 l0 = _mm_shuffle_ps(values[0], values[1], _MM_SHUFFLE(1, 0, 1, 0));
 
-        __m128 l0 = _mm_shuffle_ps(values[0], values[1], _MM_SHUFFLE(0, 3, 0, 3));
-        __m128 resultL0 = _mm_shuffle_ps(l0, values[2], _MM_SHUFFLE(3, 0, 2, 0));
+        __m128 l1 = _mm_shuffle_ps(values[2], values[3], _MM_SHUFFLE(1, 0, 1, 0));
 
-        __m128 l1 = _mm_shuffle_ps(values[0], values[1], _MM_SHUFFLE(0, 1, 0, 1));
-        __m128 resultL1 = _mm_shuffle_ps(l1, values[2], _MM_SHUFFLE(3, 1, 0, 2));
+        __m128 l2 = _mm_shuffle_ps(values[0], values[1], _MM_SHUFFLE(3, 2, 3, 2));
 
-        __m128 l2 = _mm_shuffle_ps(values[0], values[1], _MM_SHUFFLE(0, 2, 0, 2));
-        __m128 resultL2 = _mm_shuffle_ps(l2, values[2], _MM_SHUFFLE(3, 2, 0, 2));
+        __m128 l3 = _mm_shuffle_ps(values[2], values[3], _MM_SHUFFLE(3, 2, 3, 2));
 
 
-        return Maths::Matrix4x4SIMD(resultL0, resultL1, resultL2, values[3]);
+        __m128 resultL0 = _mm_shuffle_ps(l0, l1, _MM_SHUFFLE(2, 0, 2, 0));
 
+        __m128 resultL1 = _mm_shuffle_ps(l0, l1, _MM_SHUFFLE(3, 1, 3, 1));
+
+        __m128 resultL2 = _mm_shuffle_ps(l2, l3, _MM_SHUFFLE(2, 0, 2, 0));
+
+        __m128 resultL3 = _mm_shuffle_ps(l2, l3, _MM_SHUFFLE(3, 1, 3, 1));
+
+
+        return Maths::Matrix4x4SIMD(resultL0, resultL1, resultL2, resultL3);
     }
 
     //inline float Matrix4x4SIMD::Determinant() const
@@ -267,7 +276,7 @@ namespace Maths
     //}
 
 
-    inline Maths::Matrix4x4SIMD Maths::Matrix4x4SIMD::Scale(const Maths::Vec4S& scale)
+    inline Maths::Matrix4x4SIMD Maths::Matrix4x4SIMD::Scale(const Maths::Vec3S& scale)
     {
         return Matrix4x4SIMD(
             _mm_set_ps(0.0f, 0.0f, 0.0f, scale.x),
@@ -283,10 +292,10 @@ namespace Maths
         const float sine = std::sin(radians);
 
         return Maths::Matrix4x4SIMD(
-            _mm_set_ps(0.0f, 1.0f, 0.0f, 0.0f),
-            _mm_set_ps(0.0f, 0.0f, -sine, cosine),
-            _mm_set_ps(0.0f, 0.0f, cosine, sine),
-            _mm_set_ps(0.0f, 0.0f, 0.0f, 1.0f)
+            _mm_set_ps(0.0f, 0.0f, 0.0f, 1.0f),
+            _mm_set_ps(0.0f, -sine, cosine, 0.0f),
+            _mm_set_ps(0.0f, cosine, sine, 0.0f),
+            _mm_set_ps(1.0f, 0.0f, 0.0f, 0.0f)
         );
     }
 
@@ -315,4 +324,74 @@ namespace Maths
             _mm_set_ps(1.0f, 0.0f, 0.0f, 0.0f)
         );
     }
+
+
+    inline Maths::Matrix4x4SIMD Maths::Matrix4x4SIMD::Translation(const Vec3S& offset)
+    {
+        return Matrix4x4SIMD(
+            _mm_setr_ps(1.0f, 0.0f, 0.0f, offset.x),
+            _mm_setr_ps(0.0f, 1.0f, 0.0f, offset.y),
+            _mm_setr_ps(0.0f, 0.0f, 1.0f, offset.z),
+            _mm_setr_ps(0.0f, 0.0f, 0.0f, 1.0f)
+        );
+    }
+
+    inline Maths::Vec3S Maths::Matrix4x4SIMD::TransformPoint(const Vec3S& point) const
+    {
+        const __m128 expectedLastRow = _mm_setr_ps(0.0f, 0.0f, 0.0f, 1.0f);
+
+        if (_mm_movemask_ps(_mm_cmpeq_ps(values[3], expectedLastRow)) != 0xF)
+            throw std::domain_error("Transform requires an affine matrix");
+
+        const __m128 vector = _mm_setr_ps(point.x, point.y, point.z, 1.0f);
+
+        const __m128 row0 = _mm_mul_ps(values[0], vector);
+        const __m128 row1 = _mm_mul_ps(values[1], vector);
+        const __m128 row2 = _mm_mul_ps(values[2], vector);
+
+        
+        const __m128 sum0 = _mm_add_ps(row0, _mm_shuffle_ps(row0, row0, _MM_SHUFFLE(3, 2, 3, 2)));
+        const __m128 sum1 = _mm_add_ps(row1, _mm_shuffle_ps(row1, row1, _MM_SHUFFLE(3, 2, 3, 2)));
+        const __m128 sum2 = _mm_add_ps(row2, _mm_shuffle_ps(row2, row2, _MM_SHUFFLE(3, 2, 3, 2)));
+
+        
+        const __m128 dot0 = _mm_add_ss(sum0, _mm_shuffle_ps(sum0, sum0, _MM_SHUFFLE(1, 1, 1, 1)));
+        const __m128 dot1 = _mm_add_ss(sum1, _mm_shuffle_ps(sum1, sum1, _MM_SHUFFLE(1, 1, 1, 1)));
+        const __m128 dot2 = _mm_add_ss(sum2, _mm_shuffle_ps(sum2, sum2, _MM_SHUFFLE(1, 1, 1, 1)));
+
+        return {
+            _mm_cvtss_f32(dot0),
+            _mm_cvtss_f32(dot1),
+            _mm_cvtss_f32(dot2)
+        };
+    }
+
+    inline Maths::Vec3S Maths::Matrix4x4SIMD::TransformDirection(const Vec3S& direction) const
+    {
+        const __m128 expectedLastRow = _mm_setr_ps(0.0f, 0.0f, 0.0f, 1.0f);
+
+        if (_mm_movemask_ps(_mm_cmpeq_ps(values[3], expectedLastRow)) != 0xF)
+            throw std::domain_error("Transform requires an affine matrix");
+
+        const __m128 vector = _mm_setr_ps(direction.x, direction.y, direction.z, 0.0f);
+
+        const __m128 row0 = _mm_mul_ps(values[0], vector);
+        const __m128 row1 = _mm_mul_ps(values[1], vector);
+        const __m128 row2 = _mm_mul_ps(values[2], vector);
+
+        const __m128 sum0 = _mm_add_ps(row0, _mm_shuffle_ps(row0, row0, _MM_SHUFFLE(3, 2, 3, 2)));
+        const __m128 sum1 = _mm_add_ps(row1, _mm_shuffle_ps(row1, row1, _MM_SHUFFLE(3, 2, 3, 2)));
+        const __m128 sum2 = _mm_add_ps(row2, _mm_shuffle_ps(row2, row2, _MM_SHUFFLE(3, 2, 3, 2)));
+
+        const __m128 dot0 = _mm_add_ss(sum0, _mm_shuffle_ps(sum0, sum0, _MM_SHUFFLE(1, 1, 1, 1)));
+        const __m128 dot1 = _mm_add_ss(sum1, _mm_shuffle_ps(sum1, sum1, _MM_SHUFFLE(1, 1, 1, 1)));
+        const __m128 dot2 = _mm_add_ss(sum2, _mm_shuffle_ps(sum2, sum2, _MM_SHUFFLE(1, 1, 1, 1)));
+
+        return {
+            _mm_cvtss_f32(dot0),
+            _mm_cvtss_f32(dot1),
+            _mm_cvtss_f32(dot2)
+        };
+    }
+
 }

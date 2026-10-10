@@ -4,6 +4,7 @@
 #include <limits>
 #include <utility>
 #include "Vec4S.h"
+#include "Vec3S.h"
 
 namespace Maths
 {
@@ -38,10 +39,13 @@ namespace Maths
         float Determinant() const;
         //Gauss-Jordan with scaled partial pivoting. Rejects singular/ill-conditioned input.
         Matrix4x4SIMD Inverse(float relativeTolerance = 64.0f * std::numeric_limits<float>::epsilon()) const;
-        static Matrix4x4SIMD Scale(const Maths::Vec4S& scale);
+        static Matrix4x4SIMD Scale(const Maths::Vec3S& scale);
         static Matrix4x4SIMD RotationX(float radians);
         static Matrix4x4SIMD RotationY(float radians);
         static Matrix4x4SIMD RotationZ(float radians);
+        static Matrix4x4SIMD Translation(const Vec3S& offset);
+        Vec3S TransformPoint(const Vec3S& point) const; // Affine only, w = 1.
+        Vec3S TransformDirection(const Vec3S& direction) const; // Affine only, w = 0.
     };
 }
 
