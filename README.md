@@ -10,7 +10,6 @@ Ce document a été réalisé à la suite du développement d'une bibliothèque 
 
 ### Lot : 250 000
 
-- idk: 2
 - CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
 - SSE usable: true
 - AVX2 usable: true
@@ -39,7 +38,6 @@ Ce document a été réalisé à la suite du développement d'une bibliothèque 
 
 ### Lot : 2000
 
-- idk: 2
 - CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
 - SSE usable: true
 - AVX2 usable: true
@@ -68,7 +66,6 @@ Ce document a été réalisé à la suite du développement d'une bibliothèque 
 
 ### Lot : 20
 
-- idk: 2
 - CPU: GenuineIntel / Intel(R) Core(TM) i5-14600KF
 - SSE usable: true
 - AVX2 usable: true
@@ -152,7 +149,7 @@ Dans notre implémentation SIMD, les quatre composantes du vecteur sont regroup�
 Pour conclure, il est indéniable que nous avons gagné en performances par rapport à l'implémentation C++. Cependant, notre gain reste limité et n'est pas exploité à son paroxysme. Une voie d'amélioration permettant de dépasser les limites actuelles de notre implémentation SIMD serait de modifier la manière dont nous effectuons le produit scalaire, afin de privilégier le calcul et de limiter les stockages temporaires ainsi que les transformations intermédiaires.
 
 ## Désassemblage :
-Pour cet exemple j'ai décidé de prendre l'opérateur ==
+In this exemple I am going to use : operator==() 
 ## Référence optimisée:
 
 ```asm
@@ -246,3 +243,83 @@ pop  rdi
 pop  rbp
 ret                   			; return the value
 ```
+
+## SOA vs AOS
+## Structures
+
+We are going to compare these two models to see which one is faster and in which conditions.
+For this comparison we are going to use the Dot function.
+
+AOS is the basic way of storing data. For a vector3 you are going to have this :
+
+```cpp
+float x, y, z, w;
+```
+With that you will have : `[ x | y | z | w ]`, in memory. Here, the w is for allignement purposes. 
+
+On the other hand, SOA is going to be like this:
+
+```cpp
+static constexpr int Count = 1024; // better adaptability
+alignas(16) float x[Count];
+alignas(16) float y[Count];
+alignas(16) float z[Count];
+```
+And here the egisters are going to look more like this:
+```
+[ x | x | x | x ]
+[ y | y | y | y ] 
+[ z | z | z | z ]
+```
+
+Test results for AOS scalar, AOS SIMD and SOA SIMD:
+
+CPU: GenuineIntel / Intel(R) Core(TM) i7-9800X CPU @ 3.80GHz
+SSE usable: true
+AVX2 usable: true
+FMA usable: true
+Batch Size: 1024
+epochs: 2000
+
+|               ns/op |                op/s |    err% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------:|:----------
+|                4.59 |      217,974,945.84 |    0.3% |      2.12 | `DotSOA SIMD 1024`
+|               19.72 |       50,703,750.53 |    0.3% |      1.95 | `DotAOS SIMD 1024`
+|               16.30 |       61,340,686.51 |    0.3% |      2.08 | `DotAOS scalaire 1024`
+
+The SOA model is going to be faster because you have only vertical operations with `_mm_add_ps` and `_mm_mul_ps`.
+Whereas the AOS model has horizontal operations: they need `_MM_SHUFFLE` or to get the values independently. (which are heavy calculations)
+
+The Structures of arrays will also allow you to calculate 4 vectors at the same time because you are iterating by steps of 4
+(one register holds 4 values of a component).
+
+
+## Conversion
+
+To be able to convert properly you need your AOS to be padded and aligned, in the way that best fits your needs.
+Then you only need to transpose (`_MM_TRANSPOSE4_PS()`) your 4 AOS vectors which will give you this:
+```
+  r0=[x0 y0 z0 w0]    to    r0=[x0 x1 x2 x3]
+  r1=[x1 y1 z1 w1]       	r1=[y0 y1 y2 y3]
+  r2=[x2 y2 z2 w2]       	r2=[z0 z1 z2 z3]
+  r3=[x3 y3 z3 w3]       	r3=[w0 w1 w2 w3]
+```
+
+Results of the tests for the conversions and the computations with and without conversions:
+
+CPU: GenuineIntel / Intel(R) Core(TM) i7-9800X CPU @ 3.80GHz
+SSE usable: true
+AVX2 usable: true
+FMA usable: true
+Batch Size: 1024
+epochs: 2000
+
+|               ns/op |                op/s |    err% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------:|:----------
+|                3.15 |      317,000,000.00 |    0.6% |      2.16 | `Conversion AoS->SoA`
+|                3.22 |      310,925,370.05 |    0.5% |      2.18 | `Conversion SoA->Aos`
+|               19.81 |       50,466,938.42 |    1.2% |      2.21 | `DotAOS SIMD 1024`
+|               14.25 |       70,157,008.28 |    0.4% |      2.20 | `Conversion AoS->SoA, calcul, Conversion SoA->Aos`
+
+For a single calculation, even if here it doesn't show, AOS might be faster because the conversion can cancel out your gains, so it is better to do all your processing in SOA and convert back at the end
+or to have your class already in SOA which removes the conversions.
