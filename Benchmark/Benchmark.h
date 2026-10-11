@@ -69,6 +69,4 @@ namespace Benchmark
         }
         return result;
     }
-
- 
 }

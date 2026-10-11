@@ -220,5 +220,7 @@ int main(const int _argc, char** _argv)
 
     Maths::Vec3S g(1, 2, 3), s(4, 5, 6), r;
     Vec3_Add(&g, &s, &r);
-    std::cout << r.x << r.y << r.z << std::endl;
+    std::cout << "Result of the ASM Add code:" << std::endl;
+	std::cout << "G(" << g.x << ", " << g.y << ", " << g.z << ") "<< "+ " << "S(" << s.x << ", " << s.y << ", " << s.z << ")" << std::endl;
+    std::cout << "= R(" << r.x << ", " << r.y << ", " << r.z << ")" << std::endl;
 }
