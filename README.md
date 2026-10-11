@@ -215,13 +215,13 @@ movaps xmmword ptr [vrhs],xmm0  	; result was in xmm0 and is copied in the varia
 xorps  xmm0,xmm0                ; xmm0 = 0 
 mov    rax,qword ptr [this]     ; read this
 movss  xmm1,dword ptr [rax+8]   ; xmm1 = z
-mov    rax,qword ptr [this]	; read this
+mov    rax,qword ptr [this]		; read this
 movss  xmm2,dword ptr [rax+4]   ; xmm2 = y
-mov    rax,qword ptr [this]	; read this
+mov    rax,qword ptr [this]		; read this
 movss  xmm3,dword ptr [rax]     ; xmm3 = x
 unpcklps xmm1,xmm0              ; xmm1 = (0, 0, z ,0)
 unpcklps xmm3,xmm2              ; xmm3 = (x, y, 0, 0)
-movaps xmm0,xmm3		; xmm0 = (x, y, 0, 0)
+movaps xmm0,xmm3				; xmm0 = (x, y, 0, 0)
 movlhps xmm0,xmm1               ; xmm0 = (x, y, z, 0); final register
 movaps xmmword ptr [rbp+130h],xmm0  ; put the final register tremporary on the stack 
 movaps xmm0,xmmword ptr [rbp+130h]  ; read the temporary register on the stack and put it in xmm0
@@ -244,5 +244,5 @@ movzx  eax,byte ptr [rbp+174h]  ; read the return value(booleen)
 lea  rsp,[rbp+188h]   
 pop  rdi
 pop  rbp
-ret                   		; return the value
+ret                   			; return the value
 ```
