@@ -218,6 +218,46 @@ int main(const int _argc, char** _argv)
     //        ankerl::nanobench::doNotOptimizeAway(checksum);
     //    });
 
+//Maths::Vec3SOA vec3SOA1;
+//Maths::Vec3SOA vec3SOA1Test;
+//Maths::Vec3AOS vec3AOS1;
+//Maths::Vec3AOS vec3AOS1Test;
+//
+//std::vector<float> outSOA(Maths::Vec3SOA::Count), outAOS(1024);
+//
+//auto* soaA = new Maths::Vec3SOA();      // sur le tas : 12 Ko chacun
+//auto* soaB = new Maths::Vec3SOA();
+//
+//ankerl::nanobench::Bench bench;
+//bench.epochs(2000).batch(1024);
+//
+//std::vector<Maths::Vec3AOS> aosA(1024), aosB(1024);
+//
+//bench.run("Conversion AoS->SoA", [&] {
+//    Maths::Vec3SOA::AosToSoa(aosA.data(), *soaA);
+//    ankerl::nanobench::doNotOptimizeAway(*soaA);
+//    });
+//
+//bench.run("Conversion SoA->Aos", [&] {
+//    Maths::Vec3SOA::SoaToAos(*soaA, aosA.data());
+//    ankerl::nanobench::doNotOptimizeAway(*soaA);
+//    });
+//
+//bench.run("DotAOS SIMD 1024", [&] {
+//    for (int i = 0; i < 1024; ++i)
+//        outAOS[i] = aosA[i].DotSIMD(aosB[i]);
+//    ankerl::nanobench::doNotOptimizeAway(outAOS);
+//    });
+//
+//
+//bench.run("Conversion AoS->SoA, calcul, Conversion SoA->Aos", [&] {
+//    Maths::Vec3SOA::AosToSoa(aosA.data(), *soaA);
+//    Maths::Vec3SOA::AosToSoa(aosB.data(), *soaB);
+//    soaA->DotSIMD(*soaB);
+//    Maths::Vec3SOA::SoaToAos(*soaA, aosA.data());
+//    ankerl::nanobench::doNotOptimizeAway(soaA->DotSIMD(*soaB));
+//    });
+
     Maths::Vec3S g(1, 2, 3), s(4, 5, 6), r;
     Vec3_Add(&g, &s, &r);
     std::cout << "Result of the ASM Add code:" << std::endl;

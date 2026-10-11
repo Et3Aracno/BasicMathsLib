@@ -32,9 +32,9 @@ namespace Maths
 	public:
 
 		static constexpr int Count = 1024; // better adaptability
-		alignas(32) float x[Count];
-		alignas(32) float y[Count];
-		alignas(32) float z[Count];
+		alignas(16) float x[Count];
+		alignas(16) float y[Count];
+		alignas(16) float z[Count];
 
 		Vec3SOA() {
 			for (int i = 0; i < 1024; ++i) {
@@ -49,8 +49,10 @@ namespace Maths
 			return x[index] * rhs.x[index] + y[index] * rhs.y[index] + z[index] * rhs.z[index];
 		}
 
-		void DotSIMD(const Vec3SOA& rhs, float* out) const
+		inline float DotSIMD(const Vec3SOA& rhs) const
 		{
+			__m128 sum = _mm_setzero_ps();
+
 			for (int i = 0; i < Count; i += 4)
 			{
 				__m128 ax = _mm_load_ps(&x[i]);
@@ -61,11 +63,17 @@ namespace Maths
 				__m128 bz = _mm_load_ps(&rhs.z[i]);
 
 				__m128 r = _mm_add_ps(_mm_add_ps(_mm_mul_ps(ax, bx), _mm_mul_ps(ay, by)), _mm_mul_ps(az, bz));
-				_mm_storeu_ps(&out[i], r);
+				sum = _mm_add_ps(sum, r);        
 			}
+
+			__m128 shuf = _mm_movehdup_ps(sum);    
+			__m128 sums = _mm_add_ps(sum, shuf);  
+			shuf = _mm_movehl_ps(shuf, sums);      
+			sums = _mm_add_ss(sums, shuf);        
+			return _mm_cvtss_f32(sums);
 		}
 
-		inline void AosToSoa(const Vec3AOS* src, Vec3SOA& dst)
+		static void AosToSoa(const Vec3AOS* src, Vec3SOA& dst)
 		{
 			for (int i = 0; i < Vec3SOA::Count; i += 4)
 			{
@@ -82,7 +90,7 @@ namespace Maths
 			}
 		}
 
-		inline void SoaToAos(const Vec3SOA& src, Vec3AOS* dst) // usable to return values
+		static void SoaToAos(const Vec3SOA& src, Vec3AOS* dst) // usable to return values
 		{
 			for (int i = 0; i < Vec3SOA::Count; i += 4)
 			{
