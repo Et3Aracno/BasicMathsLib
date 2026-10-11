@@ -150,3 +150,99 @@ Cependant, l'implémentation C++ bénéficie quand même des optimisations du co
 Dans notre implémentation SIMD, les quatre composantes du vecteur sont regroupées dans un registre `__m128`, puis `_mm_mul_ps` permet d'effectuer les quatre multiplications simultanément pour chaque ligne de la matrice. Cependant, nous perdons des performances à cause du fait qu'après chaque multiplication, le résultat contenu dans le registre `__m128` est stocké dans un tableau à l'aide de `_mm_store_ps`. Les quatre valeurs sont ensuite récupérées depuis ce tableau afin d'effectuer les additions de manière scalaire. Tout cela provoque une augmentation des calculs et, par conséquent, la perte du gain de performance que nous avions réalisé grâce au SIMD. On le remarque justement à cette légère augmentation de 1,13×.
 
 Pour conclure, il est indéniable que nous avons gagné en performances par rapport à l'implémentation C++. Cependant, notre gain reste limité et n'est pas exploité à son paroxysme. Une voie d'amélioration permettant de dépasser les limites actuelles de notre implémentation SIMD serait de modifier la manière dont nous effectuons le produit scalaire, afin de privilégier le calcul et de limiter les stockages temporaires ainsi que les transformations intermédiaires.
+
+## Désassemblage :
+Pour cet exemple j'ai décidé de prendre l'opérateur ==
+## Référence optimisée:
+
+```asm
+
+mov  qword ptr [rsp+10h],rdx   	  ; save &rhs 
+mov  qword ptr [rsp+8],rcx     	  ; save this
+push rbp
+push rdi                       	
+sub rsp,0F8h                  	  ; reserve 248 oct
+lea rbp,[rsp+20h]            	
+lea rcx,[__CFA4424A_Vec3@inl] 	  ; Debug related
+call __CheckForDebuggerJustMyCode ; Debug related
+nop
+
+	return x == rhs.x && y == rhs.y && z == rhs.z;
+
+mov  rax,qword ptr [this]     	; read this on stack
+mov  rcx,qword ptr [rhs]      	; read rhs on stack
+movss xmm0,dword ptr [rax]     	; xmm0 = this.x
+ucomiss xmm0,dword ptr [rcx]    ; compare with rhs.x, put a flag coresponding to the result
+jp Maths::Vec3<float>::operator==+80h (07FF7130407B0h) 	; conditional jump
+jne Maths::Vec3<float>::operator==+80h (07FF7130407B0h) ; conditional jump
+
+Do the same thing for y and z, rax become rax+4 and rax+8
+
+mov dword ptr [rbp+0C0h],1    	; if everything equal, put a temporary value of 1
+jmp Maths::Vec3<float>::operator==+8Ah (07FF7130407B0h) ; conditional jump end
+mov dword ptr [rbp+0C0h],0    	; if all bit are not equal, put a temporary value of  0
+movzx eax,byte ptr [rbp+0C0h]   ; read the temporary value, which will become the return value (booleen)
+}
+lea rsp,[rbp+0D8h]
+pop rdi
+pop rbp
+ret                             ; return the value
+```
+
+## SIMD explicite:
+
+```asm
+
+mov   qword ptr [rsp+10h],rdx   	; save &rhs
+mov   qword ptr [rsp+8],rcx     	; save this  
+push  rbp                       
+push  rdi
+sub   rsp,1A8h                  	; reserve 424 oct
+lea   rbp,[rsp+20h]             
+lea   rcx,[__E23A1142_Vec3S@inl] 	; Debug related
+call  __CheckForDebuggerJustMyCode 	; Debug related
+nop
+
+	__m128 vrhs = Load(rhs);
+
+mov   rcx,qword ptr [rhs]       	; read rhs on the stack
+call  Maths::Vec3S::Load        	; call the functon Load() which is not inline because of Debug
+movaps xmmword ptr [vrhs],xmm0  	; result was in xmm0 and is copied in the variable vrhs
+
+
+	__m128 vp = _mm_setr_ps(x, y, z, 0);
+
+xorps  xmm0,xmm0                ; xmm0 = 0 
+mov    rax,qword ptr [this]     ; read this
+movss  xmm1,dword ptr [rax+8]   ; xmm1 = z
+mov    rax,qword ptr [this]	; read this
+movss  xmm2,dword ptr [rax+4]   ; xmm2 = y
+mov    rax,qword ptr [this]	; read this
+movss  xmm3,dword ptr [rax]     ; xmm3 = x
+unpcklps xmm1,xmm0              ; xmm1 = (0, 0, z ,0)
+unpcklps xmm3,xmm2              ; xmm3 = (x, y, 0, 0)
+movaps xmm0,xmm3		; xmm0 = (x, y, 0, 0)
+movlhps xmm0,xmm1               ; xmm0 = (x, y, z, 0); final register
+movaps xmmword ptr [rbp+130h],xmm0  ; put the final register tremporary on the stack 
+movaps xmm0,xmmword ptr [rbp+130h]  ; read the temporary register on the stack and put it in xmm0
+movaps xmmword ptr [vp],xmm0        ; vp = xmm0
+
+	return _mm_movemask_ps(_mm_cmpeq_ps(vrhs, vp)) == 0xF;
+
+movaps xmm0,xmmword ptr [vrhs]	; xmm0 = vrhs
+cmpeqps xmm0,xmmword ptr [vp]   ; compare the lanes with 0xFFFFFFFF to see it it's equal
+movaps [rbp+160h],xmm0          
+movaps xmm0,[rbp+160h]
+movmskps eax,xmm0               ; extracting the sign bit of every lane
+cmp    eax,0Fh                  ; compare all the signs 
+jne    Maths::Vec3S::operator==+0AEh (07FF713040AEEh) ; conditional jump if it's false
+mov    dword ptr [rbp+174h],1   ; return 1; it's true
+jmp    Maths::Vec3S::operator==+0AEh (07FF713040AEEh) ; conditional jump end
+mov    dword ptr [rbp+174h],0   ; return 1; it's flse
+movzx  eax,byte ptr [rbp+174h]  ; read the return value(booleen)
+
+lea  rsp,[rbp+188h]   
+pop  rdi
+pop  rbp
+ret                   		; return the value
+```
