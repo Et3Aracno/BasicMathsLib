@@ -274,12 +274,12 @@ And here the egisters are going to look more like this:
 
 Test results for AOS scalar, AOS SIMD and SOA SIMD:
 
-CPU: GenuineIntel / Intel(R) Core(TM) i7-9800X CPU @ 3.80GHz
-SSE usable: true
-AVX2 usable: true
-FMA usable: true
-Batch Size: 1024
-epochs: 2000
+- CPU: GenuineIntel / Intel(R) Core(TM) i7-9800X CPU @ 3.80GHz
+- SSE usable: true
+- AVX2 usable: true
+- FMA usable: true
+- Batch Size: 1024
+- epochs: 2000
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
@@ -307,12 +307,12 @@ Then you only need to transpose (`_MM_TRANSPOSE4_PS()`) your 4 AOS vectors which
 
 Results of the tests for the conversions and the computations with and without conversions:
 
-CPU: GenuineIntel / Intel(R) Core(TM) i7-9800X CPU @ 3.80GHz
-SSE usable: true
-AVX2 usable: true
-FMA usable: true
-Batch Size: 1024
-epochs: 2000
+- CPU: GenuineIntel / Intel(R) Core(TM) i7-9800X CPU @ 3.80GHz
+- SSE usable: true
+- AVX2 usable: true
+- FMA usable: true
+- Batch Size: 1024
+- epochs: 2000
 
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
